@@ -14,6 +14,9 @@ export default defineConfig({
   },
 
   integrations: [react(), sitemap()],
+  redirects: {
+    '/services': '/projects',
+  },
   image: {
     domains: ['youssef.tn', 'dhibi.tn'],
   },

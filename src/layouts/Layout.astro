@@ -8,8 +8,8 @@ interface Props {
 }
 
 const {
-    title = "Youssef Dhibi | Software Services",
-    description = "Premium software development services. Apps, APIs, platforms, automation, and AI tools. Built by an indie developer with 100% satisfaction.",
+    title = "Youssef Dhibi | Full Stack Web & Mobile Developer",
+    description = "Full-stack developer building mobile and web apps from Tunisia. 17 projects, 5-star reviews, reliable and collaborative. I deliver clean, efficient code.",
     image = "/og-img.png",
 } = Astro.props;
 
@@ -61,7 +61,7 @@ const siteUrl = "https://dhibi.tn";
         />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
-        <meta property="og:site_name" content="Youssef Dhibi Services" />
+        <meta property="og:site_name" content="Youssef Dhibi" />
         <meta property="og:image" content={new URL(image, siteUrl).href} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -81,7 +81,7 @@ const siteUrl = "https://dhibi.tn";
                 "@graph": [
                     {
                         "@type": "WebSite",
-                        name: "Youssef Dhibi Services",
+                        name: "Youssef Dhibi",
                         url: siteUrl,
                         description: description,
                         image: new URL(image, siteUrl).href,

@@ -1,16 +1,16 @@
 /**
- * Services Data - Single source of truth for all services
- * Used by both the homepage preview and the full services page
+ * Projects Data - Single source of truth for all projects
+ * Used by both the homepage preview and the full projects page
  */
 import type { ImageMetadata } from 'astro';
 
-// Import service images for Astro optimization
+// Import project images for Astro optimization
 import invoxImage from '../assets/services/invox.png';
 import pdfImage from '../assets/services/pdf.png';
 import speedInsightImage from '../assets/services/speed-insight.png';
 import planGptImage from '../assets/services/plan-gpt.png';
 
-export interface Service {
+export interface Project {
     title: string;
     description: string;
     category: string;
@@ -19,7 +19,7 @@ export interface Service {
     slug?: string;
 }
 
-export const services: Service[] = [
+export const projects: Project[] = [
     {
         title: "Invox",
         description:
@@ -62,5 +62,5 @@ export const services: Service[] = [
     */
 ];
 
-// Maximum services to show on homepage
-export const MAX_HOMEPAGE_SERVICES = 6;
+// Maximum projects to show on homepage
+export const MAX_HOMEPAGE_PROJECTS = 6;

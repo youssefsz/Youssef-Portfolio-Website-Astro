@@ -1,16 +1,16 @@
 ---
 import ServiceCard from "../ServiceCard.astro";
-import { services, MAX_HOMEPAGE_SERVICES } from "../../data/services";
+import { projects, MAX_HOMEPAGE_PROJECTS } from "../../data/projects";
 import BlurText from "../animations/BlurText";
 import BlurFade from "../animations/BlurFade";
 
-// Show only up to MAX_HOMEPAGE_SERVICES on homepage
-const displayedServices = services.slice(0, MAX_HOMEPAGE_SERVICES);
-const hasMoreServices = services.length > MAX_HOMEPAGE_SERVICES;
-const remainingCount = services.length - MAX_HOMEPAGE_SERVICES;
+// Show only up to MAX_HOMEPAGE_PROJECTS on homepage
+const displayedProjects = projects.slice(0, MAX_HOMEPAGE_PROJECTS);
+const hasMoreProjects = projects.length > MAX_HOMEPAGE_PROJECTS;
+const remainingCount = projects.length - MAX_HOMEPAGE_PROJECTS;
 ---
 
-<section class="py-32 relative" id="services">
+<section class="py-32 relative" id="projects">
     <!-- Section Background -->
     <div class="absolute inset-0 grid-bg opacity-30"></div>
 
@@ -25,9 +25,9 @@ const remainingCount = services.length - MAX_HOMEPAGE_SERVICES;
                 <BlurFade client:load delay={200} yOffset={20}>
                     <span class="block">My</span>
                     <span class="text-outline-hover">
-                        <span class="outline-text">Services</span>
+                        <span class="outline-text">Projects</span>
                         <span class="filled-text" aria-hidden="true"
-                            >Services</span
+                            >Projects</span
                         >
                     </span>
                 </BlurFade>
@@ -35,39 +35,39 @@ const remainingCount = services.length - MAX_HOMEPAGE_SERVICES;
 
             <BlurFade client:load delay={400} yOffset={20}>
                 <p class="text-muted text-lg max-w-2xl mx-auto">
-                    Premium software solutions ready to scale your business.
-                    Click any service to learn more.
+                    A collection of mobile and web applications built for impact.
+                    Click any project to learn more.
                 </p>
             </BlurFade>
         </div>
 
-        <!-- Services Grid - Modern Adaptive Layout -->
+        <!-- Projects Grid - Modern Adaptive Layout -->
         <noscript>
             <div class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8">
-                {displayedServices.map((service) => (
+                {displayedProjects.map((project) => (
                     <div class="p-6 border rounded-lg">
-                        <h3 class="text-xl font-bold mb-2"><a href={service.link}>{service.title}</a></h3>
-                        <p class="mb-4">{service.description}</p>
-                        <span class="text-sm text-gray-500">{service.category}</span>
+                        <h3 class="text-xl font-bold mb-2"><a href={project.link}>{project.title}</a></h3>
+                        <p class="mb-4">{project.description}</p>
+                        <span class="text-sm text-gray-500">{project.category}</span>
                     </div>
                 ))}
             </div>
         </noscript>
-        <div class="services-grid">
+        <div class="projects-grid">
             {
-                displayedServices.map((service, index) => (
+                displayedProjects.map((project, index) => (
                     <BlurFade
                         client:load
                         delay={index * 0.1 + 0.2}
                         yOffset={20}
-                        className="service-card-wrapper"
+                        className="project-card-wrapper"
                     >
                         <ServiceCard
-                            title={service.title}
-                            description={service.description}
-                            category={service.category}
-                            image={service.image}
-                            link={service.link}
+                            title={project.title}
+                            description={project.description}
+                            category={project.category}
+                            image={project.image}
+                            link={project.link}
                             index={index}
                         />
                     </BlurFade>
@@ -75,14 +75,14 @@ const remainingCount = services.length - MAX_HOMEPAGE_SERVICES;
             }
         </div>
 
-        <!-- Show All Services Button (only if more than 6 services) -->
+        <!-- Show All Projects Button (only if more than 6 projects) -->
         {
-            hasMoreServices && (
+            hasMoreProjects && (
                 <div class="mt-12 text-center flex justify-center">
                     <BlurFade client:load delay={600} yOffset={20}>
-                        <a href="/services" class="btn-secondary group">
+                        <a href="/projects" class="btn-secondary group">
                             <span>
-                                Show All Services
+                                Show All Projects
                                 <span class="text-accent ml-1">
                                     (+{remainingCount} more)
                                 </span>
@@ -109,10 +109,10 @@ const remainingCount = services.length - MAX_HOMEPAGE_SERVICES;
 
 <style>
     /* 
-     * Services Grid - Flexbox for better centering with few items
+     * Projects Grid - Flexbox for better centering with few items
      * Centers cards when there are 1-2, wraps to multiple rows for more
      */
-    .services-grid {
+    .projects-grid {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
@@ -120,21 +120,21 @@ const remainingCount = services.length - MAX_HOMEPAGE_SERVICES;
     }
 
     /* Each card has a max-width and grows flexibly */
-    .services-grid :global(.service-card-wrapper) {
+    .projects-grid :global(.project-card-wrapper) {
         flex: 0 1 400px;
         max-width: 450px;
         min-width: min(100%, 320px);
     }
 
     /* Ensure the card inside fills the wrapper */
-    .services-grid :global(.service-card-wrapper > article) {
+    .projects-grid :global(.project-card-wrapper > article) {
         height: 100%;
         width: 100%;
     }
 
     /* On mobile, full width */
     @media (max-width: 640px) {
-        .services-grid :global(.service-card-wrapper) {
+        .projects-grid :global(.project-card-wrapper) {
             flex: 1 1 100%;
             max-width: 100%;
         }

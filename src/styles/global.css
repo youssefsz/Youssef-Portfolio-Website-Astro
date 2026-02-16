@@ -95,7 +95,7 @@
   --font-body: 'Inter Variable', system-ui, sans-serif;
 
   /* Grid line color */
-  --grid-line: rgba(255, 255, 255, 0.03);
+  --grid-line: rgba(255, 255, 255, 0.05);
 }
 
 /* Force dark mode always */
@@ -157,8 +157,8 @@ html {
     max-width: 1400px;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 
   @media (min-width: 768px) {
@@ -171,11 +171,13 @@ html {
   /* Display Headline - Massive */
   .display-xl {
     font-family: var(--font-display);
-    font-size: clamp(4rem, 15vw, 10rem);
+    font-size: clamp(3.5rem, 18vw, 10rem);
     font-weight: 700;
     line-height: 0.9;
     letter-spacing: -0.03em;
     text-transform: uppercase;
+    overflow-wrap: normal;
+    word-break: normal;
   }
 
   .display-lg {
@@ -261,7 +263,15 @@ html {
   .btn-primary:hover {
     background-color: var(--accent);
     color: var(--accent-foreground);
-    transform: translateY(-2px);
+    transform: translateY(-2px) skewX(-12deg);
+  }
+
+  .btn-primary > * {
+    transition: transform 0.2s ease;
+  }
+
+  .btn-primary:hover > * {
+    transform: skewX(12deg);
   }
 
   .btn-primary::before {
@@ -293,15 +303,87 @@ html {
     font-size: 0.875rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     cursor: pointer;
     transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
   }
 
   .btn-secondary:hover {
     border-color: var(--accent);
     color: var(--accent);
     box-shadow: inset 0 0 20px rgba(59, 130, 246, 0.1);
+    transform: skewX(-12deg);
+  }
+
+  .btn-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .btn-secondary:hover::before {
+    left: 100%;
+  }
+
+  .btn-secondary > * {
+    transition: transform 0.2s ease;
+  }
+
+  .btn-secondary:hover > * {
+    transform: skewX(12deg);
+  }
+
+  /* Icon Button */
+  .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    background-color: transparent;
+    color: var(--foreground);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-icon:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: inset 0 0 20px rgba(59, 130, 246, 0.1);
+    transform: skewX(-12deg);
+  }
+
+  .btn-icon::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .btn-icon:hover::before {
+    left: 100%;
+  }
+
+  .btn-icon > * {
+    transition: transform 0.2s ease;
+  }
+
+  .btn-icon:hover > * {
+    transform: skewX(12deg);
   }
 
   /* Service Card */

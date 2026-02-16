@@ -3,6 +3,7 @@
 import { Image } from "astro:assets";
 import BlurText from "../animations/BlurText";
 import BlurFade from "../animations/BlurFade";
+import ResumeButton from "../ResumeButton";
 const profileImage = "https://youssef.tn/ysf.webp";
 ---
 
@@ -28,25 +29,25 @@ const profileImage = "https://youssef.tn/ysf.webp";
                     >
                         <span class="w-2 h-2 bg-accent animate-pulse"></span>
                         <span
-                            class="text-xs uppercase tracking-[0.2em] text-muted"
-                            >Premium Software Solutions</span
+                            class="text-sm uppercase tracking-[0.2em] text-muted"
+                            >Hello, I'm</span
                         >
                     </div>
                 </BlurFade>
 
                 <!-- Main Headline -->
                 <noscript>
-                    <h1 class="display-xl mb-6">Software Solutions</h1>
+                    <h1 class="display-xl mb-6">Youssef Dhibi</h1>
                     <p class="text-xl md:text-2xl text-muted max-w-xl mb-12 leading-relaxed">
-                        Ready-to-use applications, APIs, and AI-powered tools. Built to scale your business.
+                        Full Stack Web & Mobile Developer (iOS & Android) Based in Tunisia.
                     </p>
                 </noscript>
                 <h1
-                    class="display-xl mb-6 flex flex-col items-center lg:items-start"
+                    class="display-xl mb-6 flex flex-col items-center lg:items-start whitespace-nowrap"
                 >
                     <BlurText
                         client:load
-                        text="Software"
+                        text="Youssef"
                         className="block"
                         delay={100}
                         animateBy="letters"
@@ -60,9 +61,9 @@ const profileImage = "https://youssef.tn/ysf.webp";
                         className="inline-block relative"
                     >
                         <span class="text-outline-hover">
-                            <span class="outline-text">Solutions</span>
+                            <span class="outline-text">Dhibi</span>
                             <span class="filled-text" aria-hidden="true"
-                                >Solutions</span
+                                >Dhibi</span
                             >
                         </span>
                     </BlurFade>
@@ -70,12 +71,11 @@ const profileImage = "https://youssef.tn/ysf.webp";
 
                 <BlurFade
                     client:load
-                    delay={600}
+                    delay={700}
                     yOffset={20}
                     className="text-xl md:text-2xl text-muted max-w-xl mb-12 leading-relaxed mx-auto lg:mx-0 lg:justify-start justify-center text-center lg:text-left"
                 >
-                    Ready-to-use applications, APIs, and AI-powered tools. Built
-                    to scale your business.
+                    Full-stack developer building mobile and web apps from Tunisia. 17 projects, 5-star reviews, reliable and collaborative. I deliver clean, efficient code.
                 </BlurFade>
 
                 <!-- CTA Button -->
@@ -84,11 +84,11 @@ const profileImage = "https://youssef.tn/ysf.webp";
                         class="flex flex-wrap gap-4 justify-center lg:justify-start"
                     >
                         <a
-                            href="#services"
+                            href="#projects"
                             class="btn-primary"
                             id="hero-cta-primary"
                         >
-                            <span>Explore Solutions</span>
+                            <span>View My Work</span>
                             <svg
                                 class="w-4 h-4"
                                 fill="none"
@@ -102,6 +102,7 @@ const profileImage = "https://youssef.tn/ysf.webp";
                                     d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </a>
+                        <ResumeButton client:load />
                     </div>
                 </BlurFade>
             </div>
