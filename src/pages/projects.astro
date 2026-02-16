@@ -82,23 +82,34 @@ import BlurFade from "../components/animations/BlurFade";
                 <!-- Projects Grid - Adaptive layout -->
                 <div class="projects-grid-full">
                     {
-                        projects.map((project, index) => (
-                            <BlurFade
-                                client:load
-                                delay={index * 100 + 400}
-                                yOffset={20}
-                                className="project-card-wrapper"
-                            >
-                                <ServiceCard
-                                    title={project.title}
-                                    description={project.description}
-                                    category={project.category}
-                                    image={project.image}
-                                    link={project.link}
-                                    index={index}
-                                />
-                            </BlurFade>
-                        ))
+                        projects.map((project, index) => {
+                            // Optimize delay for scrolling:
+                            // First 6 items (likely above fold) get progressive stagger
+                            // Subsequent items get minimal stagger based on column position
+                            const isAboveFold = index < 6;
+                            // Reduce base delay to 200ms for snappier feel
+                            const delay = isAboveFold 
+                                ? index * 100 + 200 
+                                : (index % 3) * 100; 
+
+                            return (
+                                <BlurFade
+                                    client:load
+                                    delay={delay}
+                                    yOffset={20}
+                                    className="project-card-wrapper"
+                                >
+                                    <ServiceCard
+                                        title={project.title}
+                                        description={project.description}
+                                        category={project.category}
+                                        image={project.image}
+                                        link={project.link}
+                                        index={index}
+                                    />
+                                </BlurFade>
+                            );
+                        })
                     }
                 </div>
             </div>
