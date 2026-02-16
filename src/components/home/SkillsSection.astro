@@ -1,0 +1,156 @@
+---
+import BlurFade from "../animations/BlurFade";
+
+const skills = [
+  {
+    category: "Programming Languages",
+    items: [
+      { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", url: "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+      { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg", url: "https://www.typescriptlang.org/" },
+      { name: "Dart", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dart/dart-original.svg", url: "https://dart.dev/" },
+      { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", url: "https://www.python.org/" },
+      { name: "PHP", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg", url: "https://www.php.net/" },
+      { name: "SQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg", url: "https://www.mysql.com/" }, // Using MySQL as proxy for SQL or I'll swap if I find better
+    ],
+  },
+  {
+    category: "Frontend Frameworks & Libraries",
+    items: [
+      { name: "Flutter", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg", url: "https://flutter.dev/" },
+      { name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg", className: "invert", url: "https://nextjs.org/" }, // Invert for dark mode
+      { name: "Tailwind CSS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg", url: "https://tailwindcss.com/" },
+      { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", url: "https://react.dev/" },
+    ],
+  },
+  {
+    category: "Backend Frameworks & Libraries",
+    items: [
+      { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg", url: "https://nodejs.org/" },
+      { name: "Bun", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bun/bun-original.svg", url: "https://bun.sh/" },
+      { name: "Express.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg", className: "invert", url: "https://expressjs.com/" }, // Invert for dark mode
+      { name: "FastAPI", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg", url: "https://fastapi.tiangolo.com/" },
+    ],
+  },
+  {
+    category: "Databases",
+    items: [
+      { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg", url: "https://www.mysql.com/" },
+      { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg", url: "https://www.postgresql.org/" },
+      { name: "MongoDB", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg", url: "https://www.mongodb.com/" },
+    ],
+  },
+  {
+    category: "Dev Tools & Platforms",
+    items: [
+      { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg", url: "https://git-scm.com/" },
+      { name: "GitHub", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg", className: "invert", url: "https://github.com/" }, // Invert for dark mode
+      { name: "Linux", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg", url: "https://www.linux.org/" },
+      { name: "pnpm", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pnpm/pnpm-original.svg", url: "https://pnpm.io/" }, // Trying devicon latest
+      { name: "Vite", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg", url: "https://vitejs.dev/" },
+    ],
+  },
+  {
+    category: "Hardware & IoT",
+    items: [
+      { name: "Raspberry Pi", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/raspberrypi/raspberrypi-original.svg", url: "https://www.raspberrypi.org/" },
+    ],
+  },
+];
+---
+
+<section class="py-32 relative" id="skills">
+  <!-- Section Background -->
+  <div class="absolute inset-0 grid-bg opacity-30"></div>
+
+  <div class="container-main relative z-10">
+    <!-- Section Header - Centered -->
+    <div class="text-center mb-20 flex flex-col items-center">
+      <BlurFade client:load delay={0} yOffset={20}>
+        <div class="number-display mb-4">// 02</div>
+      </BlurFade>
+
+      <h2 class="display-lg mb-6">
+        <BlurFade client:load delay={200} yOffset={20}>
+          <span class="block">My</span>
+          <span class="text-outline-hover">
+            <span class="outline-text">Skills</span>
+            <span class="filled-text" aria-hidden="true">Skills</span>
+          </span>
+        </BlurFade>
+      </h2>
+
+      <BlurFade client:load delay={400} yOffset={20}>
+        <p class="text-muted text-lg max-w-2xl mx-auto">
+          A comprehensive toolkit I use to build high-quality software solutions.
+        </p>
+      </BlurFade>
+    </div>
+
+    <!-- Skills Grid - Service Card Style -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {
+        skills.map((category, catIndex) => (
+          <BlurFade client:load delay={catIndex * 0.1 + 0.2} yOffset={20} className="h-full">
+            <div class="service-card group h-full p-8 flex flex-col relative bg-black border border-white/10 overflow-hidden transition-colors duration-300 hover:border-white/25">
+              <!-- Background Gradient -->
+              <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0 -z-10 transition-opacity duration-300 group-hover:opacity-100"></div>
+              
+              <!-- Category Title -->
+              <h3 class="text-xl font-bold mb-8 text-white tracking-tight">
+                {category.category}
+              </h3>
+              
+              <!-- Skills List -->
+              <div class="grid grid-cols-2 gap-y-8 gap-x-4">
+                {category.items.map((skill) => (
+                  <a 
+                    href={skill.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="flex items-center gap-3 group/skill cursor-pointer"
+                    aria-label={`Visit ${skill.name} website`}
+                  >
+                    <div class="relative w-10 h-10 flex-shrink-0 flex items-center justify-center transition-transform duration-300 group-hover/skill:scale-110">
+                      <img 
+                        src={skill.icon} 
+                        alt={`${skill.name} logo`} 
+                        class={`w-8 h-8 object-contain ${skill.className || ''}`}
+                        loading="lazy"
+                      />
+                    </div>
+                    <span class="text-sm font-medium text-muted group-hover/skill:text-white transition-colors">
+                      {skill.name}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </BlurFade>
+        ))
+      }
+    </div>
+
+    <style>
+      .service-card {
+        isolation: isolate;
+      }
+      /* Hover Gradient Effect */
+      .service-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.06) 0%,
+            rgba(255, 255, 255, 0.03) 100%
+        );
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      .service-card:hover::after {
+        opacity: 1;
+      }
+    </style>
+  </div>
+</section>
