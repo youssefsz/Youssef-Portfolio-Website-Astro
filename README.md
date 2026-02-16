@@ -1,8 +1,8 @@
 <div align="center">
 
-# Youssef Services Website Astro
+# Youssef Dhibi - Portfolio
 
-A premium portfolio and services hub for custom software development, specializing in web applications, mobile apps, APIs, and AI tools. This project is built with performance and modern design principles in mind, utilizing the latest web technologies to ensure a seamless user experience.
+A premium portfolio showcasing my work as a Full Stack Web & Mobile Developer. This project highlights my expertise in building high-performance web applications, mobile apps, and AI tools. Built with modern web technologies, it demonstrates a commitment to clean code, performance, and seamless user experience.
 
 ![Project Preview](public/og-img.png)
 
@@ -10,7 +10,7 @@ A premium portfolio and services hub for custom software development, specializi
 
 ## Overview
 
-This repository contains the source code for the Youssef Services Website Astro. The platform serves as a central hub to showcase and offer professional software development capabilities. It is designed to be fast, responsive, and visually engaging, reflecting the high quality of services provided.
+This repository contains the source code for my personal portfolio website, available at [dhibi.tn](https://dhibi.tn). It serves as a central hub to showcase my professional projects, skills, and experience. The site is designed to be fast, responsive, and visually engaging, reflecting the quality of work I deliver.
 
 ## Technologies Used
 
@@ -25,6 +25,7 @@ This project leverages a modern tech stack to achieve high performance and maint
 
 ## Features
 
+- **Project Showcase**: A dedicated section to display mobile apps and web platforms with detailed descriptions and links.
 - **Responsive Design**: Fully optimized for all device sizes, from mobile phones to high-resolution desktops.
 - **High Performance**: Built with Astro to deliver minimal JavaScript and fast load times.
 - **Interactive UI**: Engaging user interface elements powered by React and Framer Motion.
