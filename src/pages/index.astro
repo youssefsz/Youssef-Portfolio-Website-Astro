@@ -1,0 +1,56 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/layout/Navbar.astro";
+import HeroSection from "../components/home/HeroSection.astro";
+import ServicesSection from "../components/home/ServicesSection.astro";
+import ContactSection from "../components/home/ContactSection.astro";
+import Footer from "../components/layout/Footer.astro";
+
+const pageTitle = "Youssef Dhibi | Premium Software Services";
+const pageDescription =
+	"Custom software development services. Web apps, mobile apps, APIs, AI tools, and automation solutions. Built by an indie developer with proven results.";
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+	<Navbar />
+
+	<main>
+		<HeroSection />
+
+		<!-- Section Divider -->
+		<div class="section-divider"></div>
+
+		<ServicesSection />
+
+		<!-- Section Divider -->
+		<div class="section-divider"></div>
+
+		<ContactSection />
+	</main>
+
+	<Footer />
+</Layout>
+
+<style is:global>
+	/* Smooth scroll behavior */
+	html {
+		scroll-behavior: smooth;
+	}
+
+	/* Hide scrollbar but keep functionality */
+	::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: #000;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: rgba(255, 255, 255, 0.1);
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background: rgba(255, 255, 255, 0.2);
+	}
+</style>

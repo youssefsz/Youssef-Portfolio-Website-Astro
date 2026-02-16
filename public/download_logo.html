@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Logo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+        body {
+            background-color: #111;
+            color: white;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            gap: 2rem;
+        }
+
+        .preview-container {
+            border: 1px solid #333;
+            padding: 4rem;
+            background: black;
+            border-radius: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 0.5rem;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            background: #222;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        input[type="checkbox"] {
+            width: 1.2rem;
+            height: 1.2rem;
+            accent-color: #3B82F6;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Logo Export</h1>
+
+    <div class="controls">
+        <label>
+            <input type="checkbox" id="hover-toggle" onchange="toggleHover(this.checked)">
+            Preview Hover/Filled State
+        </label>
+    </div>
+
+    <div class="preview-container" id="preview-box">
+        <!-- SVG with inline styles for portability -->
+        <svg id="logo-svg" width="500" height="500" viewBox="-5 -5 110 110" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <style>
+                text {
+                    font-family: 'Space Grotesk', sans-serif;
+                }
+            </style>
+
+            <!-- Rotating Corners Group - Diamond Shape -->
+            <g class="corners">
+                <!-- Top -->
+                <path d="M 35 15 L 50 0 L 65 15" stroke="white" stroke-width="3" fill="none" stroke-linecap="square">
+                </path>
+                <!-- Right -->
+                <path d="M 85 35 L 100 50 L 85 65" stroke="white" stroke-width="3" fill="none" stroke-linecap="square">
+                </path>
+                <!-- Bottom -->
+                <path d="M 65 85 L 50 100 L 35 85" stroke="white" stroke-width="3" fill="none" stroke-linecap="square">
+                </path>
+                <!-- Left -->
+                <path d="M 15 65 L 0 50 L 15 35" stroke="white" stroke-width="3" fill="none" stroke-linecap="square">
+                </path>
+            </g>
+
+            <!-- Text Group -->
+            <g>
+                <text id="text-y" x="36" y="62" text-anchor="middle" font-weight="700" font-size="40" fill="transparent"
+                    stroke="white" stroke-width="1.5" style="letter-spacing: -0.05em;">Y</text>
+                <text id="text-d" x="64" y="62" text-anchor="middle" font-weight="700" font-size="40" fill="white"
+                    style="letter-spacing: -0.05em;">D</text>
+            </g>
+        </svg>
+    </div>
+
+    <div style="display: flex; gap: 1rem;">
+        <button onclick="downloadPNG(false)">Download PNG (Transparent)</button>
+        <button onclick="downloadPNG(true)">Download PNG (Black Background)</button>
+        <button onclick="downloadSVG()">Download SVG</button>
+    </div>
+
+    <script>
+        const accentColor = "#3B82F6";
+
+        function toggleHover(isHovered) {
+            const cornersGroup = document.querySelector('.corners');
+            const cornersPaths = document.querySelectorAll('.corners path');
+            const textY = document.getElementById('text-y');
+            const textD = document.getElementById('text-d');
+            const previewBox = document.getElementById('preview-box');
+
+            if (isHovered) {
+                // Apply Hover State
+                cornersGroup.setAttribute('transform', 'rotate(180 50 50)');
+                cornersPaths.forEach(path => path.setAttribute('stroke', accentColor));
+
+                textY.setAttribute('fill', accentColor);
+                textY.setAttribute('stroke', accentColor);
+
+                textD.setAttribute('fill', 'rgba(255, 255, 255, 0.9)');
+            } else {
+                // Apply Default State
+                cornersGroup.setAttribute('transform', 'rotate(0 50 50)');
+                cornersPaths.forEach(path => path.setAttribute('stroke', 'white'));
+
+                textY.setAttribute('fill', 'transparent');
+                textY.setAttribute('stroke', 'white');
+
+                textD.setAttribute('fill', 'white');
+            }
+        }
+
+        function downloadSVG() {
+            const svg = document.getElementById('logo-svg');
+            const serializer = new XMLSerializer();
+            let source = serializer.serializeToString(svg);
+
+            // Add xml declaration
+            source = '<?xml version="1.0" standalone="no"?>\r\n' + source;
+
+            const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
+
+            const isHovered = document.getElementById('hover-toggle').checked;
+            const filename = isHovered ? "YD-Logo-Filled.svg" : "YD-Logo.svg";
+
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function downloadPNG(withBackground) {
+            const svg = document.getElementById('logo-svg');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Set specific resolution
+            const width = 1024; // Increased resolution for better quality
+            const height = 1024;
+
+            canvas.width = width;
+            canvas.height = height;
+
+            if (withBackground) {
+                ctx.fillStyle = "#000000";
+                ctx.fillRect(0, 0, width, height);
+            }
+
+            const data = (new XMLSerializer()).serializeToString(svg);
+            const domURL = window.URL || window.webkitURL || window;
+            const img = new Image();
+
+            // Convert SVG string to Blob
+            const svgBlob = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
+            const url = domURL.createObjectURL(svgBlob);
+
+            const isHovered = document.getElementById('hover-toggle').checked;
+            const stateSuffix = isHovered ? '-Filled' : '';
+            const bgSuffix = withBackground ? '-Black' : '-Transparent';
+            const filename = `YD-Logo${stateSuffix}${bgSuffix}.png`;
+
+            img.onload = function () {
+                // Draw image scaled
+                ctx.drawImage(img, 0, 0, width, height);
+                domURL.revokeObjectURL(url);
+
+                const imgURI = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+
+                const link = document.createElement('a');
+                link.href = imgURI;
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+
+            img.src = url;
+        }
+
+        // Initialize state on load
+        window.onload = function () {
+            toggleHover(document.getElementById('hover-toggle').checked);
+        };
+    </script>
+</body>
+
+</html>

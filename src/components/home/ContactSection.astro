@@ -1,0 +1,224 @@
+---
+// Contact Section - Simple CTA buttons
+import BlurText from "../animations/BlurText";
+import BlurFade from "../animations/BlurFade";
+const email = "dhibi.ywsf@gmail.com";
+const phone = "+216 27 084 318";
+const portfolioUrl = "https://youssef.tn";
+---
+
+<section class="py-32 relative" id="contact">
+    <div class="container-main relative z-10">
+        <!-- Section Header - Centered -->
+        <div class="text-center mb-16 flex flex-col items-center">
+            <BlurFade client:load delay={0} yOffset={20}>
+                <div class="number-display mb-4">// 02</div>
+            </BlurFade>
+
+            <h2 class="display-lg mb-6">
+                <BlurFade client:load delay={200} yOffset={20}>
+                    <span class="block">Get In</span>
+                    <span class="text-outline-hover">
+                        <span class="outline-text">Touch</span>
+                        <span class="filled-text" aria-hidden="true">Touch</span
+                        >
+                    </span>
+                </BlurFade>
+            </h2>
+
+            <BlurFade client:load delay={400} yOffset={20}>
+                <p class="text-muted text-lg max-w-xl mx-auto">
+                    Ready to get started? Reach out through any of these
+                    channels.
+                </p>
+            </BlurFade>
+        </div>
+
+        <!-- Contact CTAs -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+            <!-- Email CTA -->
+            <BlurFade client:load delay={0.3} yOffset={20} className="h-full">
+                <a
+                    href={`mailto:${email}`}
+                    class="contact-card group h-full"
+                    id="contact-email"
+                >
+                    <div class="contact-icon">
+                        <svg
+                            class="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="square"
+                                stroke-linejoin="miter"
+                                stroke-width="1.5"
+                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                            ></path>
+                        </svg>
+                    </div>
+                    <div
+                        class="text-xs uppercase tracking-wider text-muted mb-2"
+                    >
+                        Email
+                    </div>
+                    <div
+                        class="text-white font-medium group-hover:text-accent transition-colors break-all"
+                    >
+                        {email}
+                    </div>
+                </a>
+            </BlurFade>
+
+            <!-- Phone CTA -->
+            <BlurFade client:load delay={0.4} yOffset={20} className="h-full">
+                <a
+                    href={`tel:${phone.replace(/\s/g, "")}`}
+                    class="contact-card group h-full"
+                    id="contact-phone"
+                >
+                    <div class="contact-icon">
+                        <svg
+                            class="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="square"
+                                stroke-linejoin="miter"
+                                stroke-width="1.5"
+                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                            ></path>
+                        </svg>
+                    </div>
+                    <div
+                        class="text-xs uppercase tracking-wider text-muted mb-2"
+                    >
+                        Phone
+                    </div>
+                    <div
+                        class="text-white font-medium group-hover:text-accent transition-colors"
+                    >
+                        {phone}
+                    </div>
+                </a>
+            </BlurFade>
+
+            <!-- Portfolio CTA -->
+            <BlurFade
+                client:load
+                delay={0.5}
+                yOffset={20}
+                className="h-full col-span-2 md:col-span-1 flex justify-center"
+            >
+                <a
+                    href={portfolioUrl}
+                    target="_blank"
+                    rel="noopener"
+                    class="contact-card group h-full w-full md:w-full max-md:max-w-[calc(50%-0.5rem)]"
+                    id="contact-portfolio"
+                >
+                    <div class="contact-icon">
+                        <svg
+                            class="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="square"
+                                stroke-linejoin="miter"
+                                stroke-width="1.5"
+                                d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
+                            ></path>
+                        </svg>
+                    </div>
+                    <div
+                        class="text-xs uppercase tracking-wider text-muted mb-2"
+                    >
+                        Portfolio
+                    </div>
+                    <div
+                        class="text-white font-medium group-hover:text-accent transition-colors flex items-center gap-2"
+                    >
+                        Visit Website
+                        <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="square"
+                                stroke-linejoin="miter"
+                                stroke-width="2"
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                            ></path>
+                        </svg>
+                    </div>
+                </a>
+            </BlurFade>
+        </div>
+    </div>
+
+    <!-- Background Decoration -->
+    <div
+        class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
+    >
+    </div>
+</section>
+
+<style>
+    .contact-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 2.5rem 2rem;
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(255, 255, 255, 0.04) 100%
+        );
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        transition: all 0.3s ease;
+    }
+
+    @media (max-width: 640px) {
+        .contact-card {
+            padding: 2rem 1rem;
+        }
+    }
+
+    .contact-card:hover {
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.12) 0%,
+            rgba(255, 255, 255, 0.06) 100%
+        );
+        border-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .contact-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 1.5rem;
+        color: var(--muted-foreground);
+        transition: all 0.3s ease;
+    }
+
+    .contact-card:hover .contact-icon {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    .text-accent {
+        color: var(--accent);
+    }
+</style>

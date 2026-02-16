@@ -1,0 +1,50 @@
+services:
+  landing-blue:
+    build: .
+    container_name: landing-page-blue
+    restart: always
+    networks:
+      - traefik
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:80" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.landing-blue.rule=Host(`youssef.run.place`) || Host(`dhibi.tn`)"
+      - "traefik.http.routers.landing-blue.entrypoints=websecure"
+      - "traefik.http.routers.landing-blue.tls.certresolver=myresolver"
+      - "traefik.http.services.landing-blue.loadbalancer.server.port=80"
+
+  landing-green:
+    build: .
+    container_name: landing-page-green
+    restart: always
+    networks:
+      - traefik
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 256M
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:80" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.landing-green.rule=Host(`youssef.run.place`) || Host(`dhibi.tn`)"
+      - "traefik.http.routers.landing-green.entrypoints=websecure"
+      - "traefik.http.routers.landing-green.tls.certresolver=myresolver"
+      - "traefik.http.services.landing-green.loadbalancer.server.port=80"
+
+networks:
+  traefik:
+    external: true

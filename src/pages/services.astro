@@ -1,0 +1,144 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Footer from "../components/layout/Footer.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import { services } from "../data/services";
+import BlurFade from "../components/animations/BlurFade";
+---
+
+<Layout
+    title="All Services | Youssef Dhibi"
+    description="Explore all premium software development services - Web Applications, Mobile Apps, API Development, AI Integration, and more."
+>
+    <main class="min-h-screen">
+        <!-- Page Header -->
+        <section class="pt-24 pb-16 relative">
+            <div class="absolute inset-0 grid-bg opacity-20"></div>
+
+            <div class="container-main relative z-10">
+                <!-- Back Link - Top Left, Visible -->
+                <BlurFade client:load delay={0} yOffset={20}>
+                    <a
+                        href="/"
+                        class="inline-flex items-center gap-2 text-muted text-sm hover:text-accent transition-colors mb-12 group"
+                    >
+                        <svg
+                            class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="square"
+                                stroke-width="2"
+                                d="M15 19l-7-7 7-7"></path>
+                        </svg>
+                        <span>Back to Home</span>
+                    </a>
+                </BlurFade>
+
+                <!-- Centered Header Content - Bold & Impactful -->
+                <div class="text-center">
+                    <BlurFade client:load delay={100} yOffset={20}>
+                        <div class="number-display mb-4">
+                            // {services.length} Services Available
+                        </div>
+                    </BlurFade>
+                    <h1 class="display-lg mb-6">
+                        <BlurFade client:load delay={200} yOffset={20}>
+                            <span class="block">All</span>
+                            <span class="text-outline-hover">
+                                <span class="outline-text">Services</span>
+                                <span class="filled-text" aria-hidden="true"
+                                    >Services</span
+                                >
+                            </span>
+                        </BlurFade>
+                    </h1>
+                    <BlurFade client:load delay={300} yOffset={20}>
+                        <p class="text-muted text-lg max-w-2xl mx-auto">
+                            Premium software solutions ready to scale your
+                            business. Browse our complete catalog and find the
+                            perfect fit.
+                        </p>
+                    </BlurFade>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Grid Section - No divider needed, cleaner look -->
+        <section class="py-20 relative">
+            <div class="container-main relative z-10">
+                <noscript>
+                    <div class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                        {services.map((service) => (
+                            <div class="p-6 border rounded-lg">
+                                <h2 class="text-xl font-bold mb-2"><a href={service.link}>{service.title}</a></h2>
+                                <p class="mb-4">{service.description}</p>
+                                <span class="text-sm text-gray-500">{service.category}</span>
+                            </div>
+                        ))}
+                    </div>
+                </noscript>
+                <!-- Services Grid - Adaptive layout -->
+                <div class="services-grid-full">
+                    {
+                        services.map((service, index) => (
+                            <BlurFade
+                                client:load
+                                delay={index * 100 + 400}
+                                yOffset={20}
+                                className="service-card-wrapper"
+                            >
+                                <ServiceCard
+                                    title={service.title}
+                                    description={service.description}
+                                    category={service.category}
+                                    image={service.image}
+                                    link={service.link}
+                                    index={index}
+                                />
+                            </BlurFade>
+                        ))
+                    }
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <Footer />
+</Layout>
+
+<style>
+    /* Services grid - Flexbox for proper centering with any number of items */
+    .services-grid-full {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+
+    /* Each card has a max-width and grows flexibly */
+    .services-grid-full :global(.service-card-wrapper) {
+        flex: 0 1 400px;
+        max-width: 450px;
+        min-width: min(100%, 320px);
+    }
+
+    .services-grid-full :global(.service-card-wrapper > article) {
+        height: 100%;
+        width: 100%;
+    }
+
+    /* On mobile, full width */
+    @media (max-width: 640px) {
+        .services-grid-full :global(.service-card-wrapper) {
+            flex: 1 1 100%;
+            max-width: 100%;
+        }
+    }
+
+    .font-display {
+        font-family: var(--font-display);
+    }
+</style>

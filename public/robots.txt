@@ -1,0 +1,6 @@
+# Allow all crawlers, including AI and LLM agents (GPTBot, CCBot, Google-Extended, etc.)
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://dhibi.tn/sitemap-index.xml

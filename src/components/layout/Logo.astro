@@ -1,0 +1,87 @@
+---
+interface Props {
+    class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div
+    class:list={[
+        "logo-container group relative inline-flex items-center justify-center",
+        className,
+    ]}
+>
+    <svg
+        width="100"
+        height="100"
+        viewBox="0 0 100 100"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="relative z-10 w-14 h-14 overflow-visible"
+    >
+        <!-- Rotating Corners Group - Diamond Shape -->
+        <!-- pivot point is 50,50 -->
+        <g
+            class="origin-[50px_50px] transition-transform duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:rotate-180"
+        >
+            <!-- Top Corner (Pointing Up) -->
+            <path
+                d="M 35 15 L 50 0 L 65 15"
+                class="stroke-white stroke-[3] fill-none transition-colors duration-300 group-hover:stroke-accent"
+                stroke-linecap="square"></path>
+
+            <!-- Right Corner (Pointing Right) -->
+            <path
+                d="M 85 35 L 100 50 L 85 65"
+                class="stroke-white stroke-[3] fill-none transition-colors duration-300 group-hover:stroke-accent"
+                stroke-linecap="square"></path>
+
+            <!-- Bottom Corner (Pointing Down) -->
+            <path
+                d="M 65 85 L 50 100 L 35 85"
+                class="stroke-white stroke-[3] fill-none transition-colors duration-300 group-hover:stroke-accent"
+                stroke-linecap="square"></path>
+
+            <!-- Left Corner (Pointing Left) -->
+            <path
+                d="M 15 65 L 0 50 L 15 35"
+                class="stroke-white stroke-[3] fill-none transition-colors duration-300 group-hover:stroke-accent"
+                stroke-linecap="square"></path>
+        </g>
+
+        <!-- Text Group - Centered -->
+        <g class="transition-colors duration-500">
+            <!-- Letter Y -->
+            <text
+                x="36"
+                y="62"
+                text-anchor="middle"
+                font-family="var(--font-display)"
+                font-weight="700"
+                font-size="40"
+                class="fill-transparent stroke-white stroke-[1.5] transition-all duration-500 group-hover:fill-accent group-hover:stroke-accent"
+                style="letter-spacing: -0.05em;">Y</text
+            >
+
+            <!-- Letter D -->
+            <text
+                x="64"
+                y="62"
+                text-anchor="middle"
+                font-family="var(--font-display)"
+                font-weight="700"
+                font-size="40"
+                class="fill-white transition-all duration-500 group-hover:fill-white/90"
+                style="letter-spacing: -0.05em;">D</text
+            >
+        </g>
+    </svg>
+</div>
+
+<style>
+    /* Ensure font loads */
+    text {
+        font-family: "Space Grotesk Variable", sans-serif;
+    }
+</style>

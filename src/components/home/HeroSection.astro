@@ -1,0 +1,217 @@
+---
+// Hero Section - Bold futuristic hero with image
+import { Image } from "astro:assets";
+import BlurText from "../animations/BlurText";
+import BlurFade from "../animations/BlurFade";
+const profileImage = "https://youssef.tn/ysf.webp";
+---
+
+<section
+    class="relative lg:min-h-screen flex items-center pt-32 pb-20 lg:py-20 overflow-hidden"
+    id="hero"
+>
+    <!-- Grid Background -->
+    <div class="absolute inset-0 grid-bg opacity-50"></div>
+
+    <div class="container-main relative z-10">
+        <div
+            class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center"
+        >
+            <!-- Left Column - Content -->
+            <div
+                class="order-1 lg:order-1 text-center lg:text-left flex flex-col items-center lg:items-start"
+            >
+                <!-- Status Badge -->
+                <BlurFade client:load delay={0} yOffset={20} className="mb-8">
+                    <div
+                        class="flex items-center gap-3 justify-center lg:justify-start"
+                    >
+                        <span class="w-2 h-2 bg-accent animate-pulse"></span>
+                        <span
+                            class="text-xs uppercase tracking-[0.2em] text-muted"
+                            >Premium Software Solutions</span
+                        >
+                    </div>
+                </BlurFade>
+
+                <!-- Main Headline -->
+                <noscript>
+                    <h1 class="display-xl mb-6">Software Solutions</h1>
+                    <p class="text-xl md:text-2xl text-muted max-w-xl mb-12 leading-relaxed">
+                        Ready-to-use applications, APIs, and AI-powered tools. Built to scale your business.
+                    </p>
+                </noscript>
+                <h1
+                    class="display-xl mb-6 flex flex-col items-center lg:items-start"
+                >
+                    <BlurText
+                        client:load
+                        text="Software"
+                        className="block"
+                        delay={100}
+                        animateBy="letters"
+                        direction="top"
+                        as="span"
+                    />
+                    <BlurFade
+                        client:load
+                        delay={600}
+                        yOffset={20}
+                        className="inline-block relative"
+                    >
+                        <span class="text-outline-hover">
+                            <span class="outline-text">Solutions</span>
+                            <span class="filled-text" aria-hidden="true"
+                                >Solutions</span
+                            >
+                        </span>
+                    </BlurFade>
+                </h1>
+
+                <BlurFade
+                    client:load
+                    delay={600}
+                    yOffset={20}
+                    className="text-xl md:text-2xl text-muted max-w-xl mb-12 leading-relaxed mx-auto lg:mx-0 lg:justify-start justify-center text-center lg:text-left"
+                >
+                    Ready-to-use applications, APIs, and AI-powered tools. Built
+                    to scale your business.
+                </BlurFade>
+
+                <!-- CTA Button -->
+                <BlurFade client:load delay={800} yOffset={20}>
+                    <div
+                        class="flex flex-wrap gap-4 justify-center lg:justify-start"
+                    >
+                        <a
+                            href="#services"
+                            class="btn-primary"
+                            id="hero-cta-primary"
+                        >
+                            <span>Explore Solutions</span>
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="square"
+                                    stroke-linejoin="miter"
+                                    stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </BlurFade>
+            </div>
+
+            <!-- Right Column - Image -->
+            <div
+                class="relative order-2 lg:order-2 flex justify-center lg:justify-end"
+            >
+                <BlurFade
+                    client:load
+                    delay={600}
+                    duration={0.8}
+                    yOffset={50}
+                    blur="20px"
+                >
+                    <div class="relative">
+                        <!-- Wireframe Background -->
+                        <div
+                            class="absolute -inset-8 wireframe-visual opacity-20"
+                        >
+                        </div>
+
+                        <!-- Geometric Frame -->
+                        <div class="absolute -inset-4 border border-white/10">
+                        </div>
+                        <div class="absolute -inset-8 border border-white/5">
+                        </div>
+
+                        <!-- Blue Accent Corner -->
+                        <div
+                            class="absolute -top-4 -left-4 w-8 h-8 border-t-2 border-l-2 border-accent"
+                        >
+                        </div>
+                        <div
+                            class="absolute -bottom-4 -right-4 w-8 h-8 border-b-2 border-r-2 border-accent"
+                        >
+                        </div>
+
+                        <!-- Image Container -->
+                        <div
+                            class="relative w-72 h-80 md:w-80 md:h-96 lg:w-96 lg:h-[28rem] overflow-hidden"
+                        >
+                            <Image
+                                src={profileImage}
+                                alt="Youssef Dhibi"
+                                width={500}
+                                height={600}
+                                class="w-full h-full object-cover object-top transition-all duration-500"
+                                loading="eager"
+                            />
+                            <!-- Overlay -->
+                            <div
+                                class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
+                            >
+                            </div>
+                        </div>
+
+                        <!-- Name Tag -->
+                        <div
+                            class="absolute -bottom-6 left-0 right-0 flex justify-center"
+                        >
+                            <div
+                                class="px-6 py-3 bg-black border border-white/10"
+                            >
+                                <span
+                                    class="text-xs uppercase tracking-[0.3em] text-muted"
+                                    >Youssef Dhibi</span
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </BlurFade>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator - Hidden on mobile -->
+    <div
+        class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 scroll-indicator"
+    >
+        <span class="text-xs uppercase tracking-widest text-muted">Scroll</span>
+        <svg
+            class="w-4 h-4 text-muted"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path
+                stroke-linecap="square"
+                stroke-linejoin="miter"
+                stroke-width="2"
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+    </div>
+
+    <!-- Decorative Lines -->
+    <div class="absolute left-8 top-1/3 hidden lg:block">
+        <div
+            class="w-px h-32 bg-gradient-to-b from-transparent via-white/20 to-transparent"
+        >
+        </div>
+    </div>
+</section>
+
+<style>
+    .font-display {
+        font-family: var(--font-display);
+    }
+
+    .border-accent {
+        border-color: var(--accent);
+    }
+</style>
