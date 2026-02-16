@@ -82,6 +82,9 @@ export default function ResumeButton() {
                                                         alt="United Kingdom Flag" 
                                                         className="w-12 h-8 object-cover rounded border border-white/10 shadow-sm"
                                                         loading="lazy"
+                                                        width={48}
+                                                        height={32}
+                                                        decoding="async"
                                                     />
                                                 </div>
                                                 <div className="flex-1">
@@ -104,6 +107,9 @@ export default function ResumeButton() {
                                                         alt="France Flag" 
                                                         className="w-12 h-8 object-cover rounded border border-white/10 shadow-sm"
                                                         loading="lazy"
+                                                        width={48}
+                                                        height={32}
+                                                        decoding="async"
                                                     />
                                                 </div>
                                                 <div className="flex-1">

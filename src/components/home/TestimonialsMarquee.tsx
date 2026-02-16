@@ -23,23 +23,26 @@ const ReviewCard = ({
     >
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-blue-400/5 to-transparent -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       
-      <div className="flex flex-row items-center gap-3">
+      <figcaption className="flex flex-row items-center gap-3">
         <img 
           className="h-10 w-10 rounded-full object-cover bg-gray-800 border border-white/10" 
           alt={name} 
           src={typeof img === 'string' ? img : img.src} 
+          width={40}
+          height={40}
+          loading="lazy"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff`;
           }}
         />
         <div className="flex flex-col">
-          <figcaption className="text-base font-bold text-white tracking-tight">
+          <span className="text-base font-bold text-white tracking-tight">
             {name}
-          </figcaption>
+          </span>
           <p className="text-xs font-medium text-white/50">{project}</p>
         </div>
-      </div>
+      </figcaption>
       <div className="mt-3 flex items-center gap-1">
         {[...Array(5)].map((_, i) => (
             <svg
