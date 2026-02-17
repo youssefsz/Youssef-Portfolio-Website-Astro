@@ -64,34 +64,54 @@ const ReviewCard = ({
 
 export function TestimonialsMarquee() {
   return (
-    <div className="relative flex h-[500px] w-full flex-row items-center justify-center gap-4 overflow-hidden">
-      <div className="flex flex-row items-center gap-4">
-        <Marquee pauseOnHover vertical className="[--duration:20s]">
+    <>
+      {/* Desktop View - Vertical Marquees */}
+      <div className="relative hidden h-[500px] w-full flex-row items-center justify-center gap-4 overflow-hidden md:flex">
+        <div className="flex flex-row items-center gap-4">
+          <Marquee pauseOnHover vertical className="[--duration:20s]">
+            {firstRow.map((review) => (
+              <ReviewCard key={review.name} {...review} />
+            ))}
+          </Marquee>
+          <Marquee reverse pauseOnHover className="[--duration:20s]" vertical>
+            {secondRow.map((review) => (
+              <ReviewCard key={review.name} {...review} />
+            ))}
+          </Marquee>
+          <Marquee reverse pauseOnHover className="[--duration:20s]" vertical>
+            {thirdRow.map((review) => (
+              <ReviewCard key={review.name} {...review} />
+            ))}
+          </Marquee>
+          <Marquee pauseOnHover className="[--duration:20s]" vertical>
+            {fourthRow.map((review) => (
+              <ReviewCard key={review.name} {...review} />
+            ))}
+          </Marquee>
+        </div>
+
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background"></div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background"></div>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
+      </div>
+
+      {/* Mobile View - Horizontal Marquees */}
+      <div className="relative flex w-full flex-col items-center justify-center gap-4 overflow-hidden md:hidden py-10">
+        <Marquee pauseOnHover className="[--duration:20s]">
           {firstRow.map((review) => (
             <ReviewCard key={review.name} {...review} />
           ))}
         </Marquee>
-        <Marquee reverse pauseOnHover className="[--duration:20s]" vertical>
+        <Marquee reverse pauseOnHover className="[--duration:20s]">
           {secondRow.map((review) => (
             <ReviewCard key={review.name} {...review} />
           ))}
         </Marquee>
-        <Marquee reverse pauseOnHover className="[--duration:20s]" vertical>
-          {thirdRow.map((review) => (
-            <ReviewCard key={review.name} {...review} />
-          ))}
-        </Marquee>
-        <Marquee pauseOnHover className="[--duration:20s]" vertical>
-          {fourthRow.map((review) => (
-            <ReviewCard key={review.name} {...review} />
-          ))}
-        </Marquee>
-      </div>
 
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 bg-gradient-to-b from-background"></div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background"></div>
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-background"></div>
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
-    </div>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/6 bg-gradient-to-r from-background"></div>
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/6 bg-gradient-to-l from-background"></div>
+      </div>
+    </>
   );
 }

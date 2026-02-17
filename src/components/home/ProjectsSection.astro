@@ -78,9 +78,9 @@ const remainingCount = projects.length - MAX_HOMEPAGE_PROJECTS;
         <!-- Show All Projects Button (only if more projects available) -->
         {
             hasMoreProjects && (
-                <div class="mt-12 text-center flex justify-center">
-                    <BlurFade client:load delay={600} yOffset={20}>
-                        <a href="/projects" class="btn-secondary group">
+                <div class="mt-12 text-center flex justify-center w-full">
+                    <BlurFade client:load delay={600} yOffset={20} className="w-full sm:w-auto">
+                        <a href="/projects" class="btn-secondary group w-full py-3 px-4 text-xs sm:w-auto sm:py-4 sm:px-8 sm:text-sm">
                             <span>
                                 Show All Projects
                                 <span class="text-accent ml-1">
