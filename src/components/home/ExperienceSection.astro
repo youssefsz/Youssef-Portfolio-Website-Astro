@@ -77,6 +77,32 @@ import { experience, education } from "../../data/experience";
                             </div>
                         </div>
                     )}
+
+                    {item.link && (
+                        <div class="relative z-10 mt-6 pt-4 border-t border-white/5 flex justify-start">
+                            <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-white transition-colors group/link"
+                            >
+                                <span>View Profile</span>
+                                <svg
+                                    class="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        stroke-linecap="square"
+                                        stroke-linejoin="miter"
+                                        stroke-width="1.5"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                    ></path>
+                                </svg>
+                            </a>
+                        </div>
+                    )}
                 </div>
               </div>
             </BlurFade>

@@ -2,9 +2,12 @@
 // Contact Section - Simple CTA buttons
 import BlurText from "../animations/BlurText";
 import BlurFade from "../animations/BlurFade";
+import { Image } from "astro:assets";
+import upworkIcon from "../../assets/icons/upwork.svg";
+
 const email = "dhibi.ywsf@gmail.com";
 const phone = "+216 27 084 318";
-const portfolioUrl = "https://youssef.tn";
+const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
 ---
 
 <section class="py-32 relative" id="contact">
@@ -106,7 +109,7 @@ const portfolioUrl = "https://youssef.tn";
                 </a>
             </BlurFade>
 
-            <!-- Portfolio CTA -->
+            <!-- Upwork CTA -->
             <BlurFade
                 client:load
                 delay={0.5}
@@ -114,36 +117,28 @@ const portfolioUrl = "https://youssef.tn";
                 className="h-full col-span-2 md:col-span-1 flex justify-center"
             >
                 <a
-                    href={portfolioUrl}
+                    href={upworkUrl}
                     target="_blank"
                     rel="noopener"
                     class="contact-card group h-full w-full md:w-full max-md:max-w-[calc(50%-0.5rem)]"
-                    id="contact-portfolio"
+                    id="contact-upwork"
                 >
                     <div class="contact-icon">
-                        <svg
-                            class="w-6 h-6"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="square"
-                                stroke-linejoin="miter"
-                                stroke-width="1.5"
-                                d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
-                            ></path>
-                        </svg>
+                        <Image
+                            src={upworkIcon}
+                            alt="Upwork"
+                            class="w-6 h-6 brightness-0 invert"
+                        />
                     </div>
                     <div
                         class="text-xs uppercase tracking-wider text-muted mb-2"
                     >
-                        Portfolio
+                        Upwork
                     </div>
                     <div
                         class="text-white font-medium group-hover:text-accent transition-colors flex items-center gap-2"
                     >
-                        Visit Website
+                        Visit Profile
                         <svg
                             class="w-4 h-4"
                             fill="none"
@@ -209,7 +204,7 @@ const portfolioUrl = "https://youssef.tn";
         justify-content: center;
         border: 1px solid rgba(255, 255, 255, 0.1);
         margin-bottom: 1.5rem;
-        color: var(--muted-foreground);
+        color: white;
         transition: all 0.3s ease;
     }
 

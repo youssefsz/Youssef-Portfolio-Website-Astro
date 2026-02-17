@@ -9,6 +9,7 @@ export interface ExperienceItem {
   company: string;
   description: string;
   stats?: StatItem[];
+  link?: string;
 }
 
 export interface EducationItem {
@@ -25,6 +26,7 @@ export const experience: ExperienceItem[] = [
     title: "Upwork Freelancer",
     company: "Web, AI & Software Engineering",
     description: "Delivered full-stack and AI-powered solutions with a focus on clean code, performance, and client results.",
+    link: "https://www.upwork.com/freelancers/youssefsz",
     stats: [
       { value: "17", label: "Jobs Completed" },
       { value: "100%", label: "Job Success" },
