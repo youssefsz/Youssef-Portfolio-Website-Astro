@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Footer from "../components/layout/Footer.astro";
-import ServiceCard from "../components/ServiceCard.astro";
+import ProjectCard from "../components/ProjectCard.astro";
 import { projects } from "../data/projects";
 import BlurFade from "../components/animations/BlurFade";
 ---
@@ -99,7 +99,7 @@ import BlurFade from "../components/animations/BlurFade";
                                     yOffset={20}
                                     className="project-card-wrapper"
                                 >
-                                    <ServiceCard
+                                    <ProjectCard
                                         title={project.title}
                                         description={project.description}
                                         category={project.category}

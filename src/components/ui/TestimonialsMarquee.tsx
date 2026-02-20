@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/ui/marquee";
+import { TestimonialCarousel } from "@/components/ui/TestimonialCarousel";
 import { testimonials, type Testimonial } from "@/data/testimonials";
 
 const firstRow = testimonials.slice(0, testimonials.length / 2);
@@ -96,21 +97,9 @@ export function TestimonialsMarquee() {
         <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-gradient-to-l from-background"></div>
       </div>
 
-      {/* Mobile View - Horizontal Marquees */}
+      {/* Mobile View - Carousel */}
       <div className="relative flex w-full flex-col items-center justify-center gap-4 overflow-hidden md:hidden py-10">
-        <Marquee pauseOnHover className="[--duration:20s]">
-          {firstRow.map((review) => (
-            <ReviewCard key={review.name} {...review} />
-          ))}
-        </Marquee>
-        <Marquee reverse pauseOnHover className="[--duration:20s]">
-          {secondRow.map((review) => (
-            <ReviewCard key={review.name} {...review} />
-          ))}
-        </Marquee>
-
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-1/6 bg-gradient-to-r from-background"></div>
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-1/6 bg-gradient-to-l from-background"></div>
+        <TestimonialCarousel testimonials={testimonials} />
       </div>
     </>
   );

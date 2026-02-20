@@ -1,13 +1,26 @@
 ---
-import ServiceCard from "../ServiceCard.astro";
+import ProjectCard from "../ProjectCard.astro";
 import { projects, MAX_HOMEPAGE_PROJECTS } from "../../data/projects";
 import BlurText from "../animations/BlurText";
 import BlurFade from "../animations/BlurFade";
+import { ProjectCarousel } from "../ui/ProjectCarousel";
+import { getImage } from "astro:assets";
 
 // Show only up to MAX_HOMEPAGE_PROJECTS on homepage
 const displayedProjects = projects.slice(0, MAX_HOMEPAGE_PROJECTS);
 const hasMoreProjects = projects.length > MAX_HOMEPAGE_PROJECTS;
 const remainingCount = projects.length - MAX_HOMEPAGE_PROJECTS;
+
+// Prepare data for the React Carousel component
+const carouselProjects = await Promise.all(
+  displayedProjects.map(async (project) => {
+    const optimizedImage = await getImage({ src: project.image, format: 'webp' });
+    return {
+      ...project,
+      image: optimizedImage.src,
+    };
+  })
+);
 ---
 
 <section class="py-32 relative" id="projects">
@@ -41,7 +54,14 @@ const remainingCount = projects.length - MAX_HOMEPAGE_PROJECTS;
             </BlurFade>
         </div>
 
-        <!-- Projects Grid - Modern Adaptive Layout -->
+        <!-- Mobile Carousel - Visible only on small screens -->
+        <div class="block md:hidden mb-8">
+            <BlurFade client:load delay={0.2} yOffset={20}>
+                <ProjectCarousel client:load projects={carouselProjects} />
+            </BlurFade>
+        </div>
+
+        <!-- Projects Grid - Modern Adaptive Layout (Desktop) -->
         <noscript>
             <div class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8">
                 {displayedProjects.map((project) => (
@@ -53,26 +73,29 @@ const remainingCount = projects.length - MAX_HOMEPAGE_PROJECTS;
                 ))}
             </div>
         </noscript>
-        <div class="projects-grid">
-            {
-                displayedProjects.map((project, index) => (
-                    <BlurFade
-                        client:load
-                        delay={index * 0.1 + 0.2}
-                        yOffset={20}
-                        className="project-card-wrapper"
-                    >
-                        <ServiceCard
-                            title={project.title}
-                            description={project.description}
-                            category={project.category}
-                            image={project.image}
-                            link={project.link}
-                            index={index}
-                        />
-                    </BlurFade>
-                ))
-            }
+        
+        <div class="hidden md:block">
+            <div class="projects-grid">
+                {
+                    displayedProjects.map((project, index) => (
+                        <BlurFade
+                            client:load
+                            delay={index * 0.1 + 0.2}
+                            yOffset={20}
+                            className="project-card-wrapper"
+                        >
+                            <ProjectCard
+                                title={project.title}
+                                description={project.description}
+                                category={project.category}
+                                image={project.image}
+                                link={project.link}
+                                index={index}
+                            />
+                        </BlurFade>
+                    ))
+                }
+            </div>
         </div>
 
         <!-- Show All Projects Button (only if more projects available) -->
