@@ -1,5 +1,4 @@
 ---
-import BlurFade from "../animations/BlurFade";
 import { skills } from "../../data/skills";
 ---
 
@@ -10,32 +9,32 @@ import { skills } from "../../data/skills";
   <div class="container-main relative z-10">
     <!-- Section Header - Centered -->
     <div class="text-center mb-20 flex flex-col items-center">
-      <BlurFade client:load delay={0} yOffset={20}>
+      <div>
         <div class="number-display mb-4">// 02</div>
-      </BlurFade>
+      </div>
 
       <h2 class="display-lg mb-6">
-        <BlurFade client:load delay={200} yOffset={20}>
+        <div>
           <span class="block">My</span>
           <span class="text-outline-hover">
             <span class="outline-text">Skills</span>
             <span class="filled-text" aria-hidden="true">Skills</span>
           </span>
-        </BlurFade>
+        </div>
       </h2>
 
-      <BlurFade client:load delay={400} yOffset={20}>
+      <div>
         <p class="text-muted text-lg max-w-2xl mx-auto">
           A comprehensive toolkit I use to build high-quality software solutions.
         </p>
-      </BlurFade>
+      </div>
     </div>
 
     <!-- Skills Grid - Service Card Style -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {
         skills.map((category, catIndex) => (
-          <BlurFade client:load delay={catIndex * 0.1 + 0.2} yOffset={20} className="h-full">
+          <div class="h-full">
             <div class="service-card group h-full p-8 flex flex-col relative bg-black border border-white/10 overflow-hidden transition-colors duration-300 hover:border-white/25">
               <!-- Background Gradient -->
               <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0 -z-10 transition-opacity duration-300 group-hover:opacity-100"></div>
@@ -73,7 +72,7 @@ import { skills } from "../../data/skills";
                 ))}
               </div>
             </div>
-          </BlurFade>
+          </div>
         ))
       }
     </div>

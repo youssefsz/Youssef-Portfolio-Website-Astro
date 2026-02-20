@@ -1,7 +1,5 @@
 ---
 // Contact Section - Simple CTA buttons
-import BlurText from "../animations/BlurText";
-import BlurFade from "../animations/BlurFade";
 import { Image } from "astro:assets";
 import upworkIcon from "../../assets/icons/upwork.svg";
 
@@ -14,33 +12,33 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
     <div class="container-main relative z-10">
         <!-- Section Header - Centered -->
         <div class="text-center mb-16 flex flex-col items-center">
-            <BlurFade client:load delay={0} yOffset={20}>
+            <div>
                 <div class="number-display mb-4">// 05</div>
-            </BlurFade>
+            </div>
 
             <h2 class="display-lg mb-6">
-                <BlurFade client:load delay={200} yOffset={20}>
+                <div>
                     <span class="block">Get In</span>
                     <span class="text-outline-hover">
                         <span class="outline-text">Touch</span>
                         <span class="filled-text" aria-hidden="true">Touch</span
                         >
                     </span>
-                </BlurFade>
+                </div>
             </h2>
 
-            <BlurFade client:load delay={400} yOffset={20}>
+            <div>
                 <p class="text-muted text-lg max-w-xl mx-auto">
                     Ready to get started? Reach out through any of these
                     channels.
                 </p>
-            </BlurFade>
+            </div>
         </div>
 
         <!-- Contact CTAs -->
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
             <!-- Email CTA -->
-            <BlurFade client:load delay={0.3} yOffset={20} className="h-full">
+            <div class="h-full">
                 <a
                     href={`mailto:${email}`}
                     class="contact-card group h-full"
@@ -72,10 +70,10 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
                         {email}
                     </div>
                 </a>
-            </BlurFade>
+            </div>
 
             <!-- Phone CTA -->
-            <BlurFade client:load delay={0.4} yOffset={20} className="h-full">
+            <div class="h-full">
                 <a
                     href={`tel:${phone.replace(/\s/g, "")}`}
                     class="contact-card group h-full"
@@ -107,14 +105,11 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
                         {phone}
                     </div>
                 </a>
-            </BlurFade>
+            </div>
 
             <!-- Upwork CTA -->
-            <BlurFade
-                client:load
-                delay={0.5}
-                yOffset={20}
-                className="h-full col-span-2 md:col-span-1 flex justify-center"
+            <div
+                class="h-full col-span-2 md:col-span-1 flex justify-center"
             >
                 <a
                     href={upworkUrl}
@@ -154,7 +149,7 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
                         </svg>
                     </div>
                 </a>
-            </BlurFade>
+            </div>
         </div>
     </div>
 

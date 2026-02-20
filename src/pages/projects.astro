@@ -3,7 +3,6 @@ import Layout from "../layouts/Layout.astro";
 import Footer from "../components/layout/Footer.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import { projects } from "../data/projects";
-import BlurFade from "../components/animations/BlurFade";
 ---
 
 <Layout
@@ -17,7 +16,7 @@ import BlurFade from "../components/animations/BlurFade";
 
             <div class="container-main relative z-10">
                 <!-- Back Link - Top Left, Visible -->
-                <BlurFade client:load delay={0} yOffset={20}>
+                <div>
                     <a
                         href="/"
                         class="inline-flex items-center gap-2 text-muted text-sm hover:text-accent transition-colors mb-12 group"
@@ -35,17 +34,17 @@ import BlurFade from "../components/animations/BlurFade";
                         </svg>
                         <span>Back to Home</span>
                     </a>
-                </BlurFade>
+                </div>
 
                 <!-- Centered Header Content - Bold & Impactful -->
                 <div class="text-center">
-                    <BlurFade client:load delay={100} yOffset={20}>
+                    <div>
                         <div class="number-display mb-4">
                             // {projects.length} Projects Available
                         </div>
-                    </BlurFade>
+                    </div>
                     <h1 class="display-lg mb-6">
-                        <BlurFade client:load delay={200} yOffset={20}>
+                        <div>
                             <span class="block">All</span>
                             <span class="text-outline-hover">
                                 <span class="outline-text">Projects</span>
@@ -53,14 +52,14 @@ import BlurFade from "../components/animations/BlurFade";
                                     >Projects</span
                                 >
                             </span>
-                        </BlurFade>
+                        </div>
                     </h1>
-                    <BlurFade client:load delay={300} yOffset={20}>
+                    <div>
                         <p class="text-muted text-lg max-w-2xl mx-auto">
                             A showcase of my work in mobile and web development.
                             Browse the complete catalog.
                         </p>
-                    </BlurFade>
+                    </div>
                 </div>
             </div>
         </section>
@@ -93,11 +92,8 @@ import BlurFade from "../components/animations/BlurFade";
                                 : (index % 3) * 100; 
 
                             return (
-                                <BlurFade
-                                    client:load
-                                    delay={delay}
-                                    yOffset={20}
-                                    className="project-card-wrapper"
+                                <div
+                                    class="project-card-wrapper"
                                 >
                                     <ProjectCard
                                         title={project.title}
@@ -107,7 +103,7 @@ import BlurFade from "../components/animations/BlurFade";
                                         link={project.link}
                                         index={index}
                                     />
-                                </BlurFade>
+                                </div>
                             );
                         })
                     }

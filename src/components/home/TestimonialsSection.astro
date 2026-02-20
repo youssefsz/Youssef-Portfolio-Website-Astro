@@ -1,5 +1,4 @@
 ---
-import BlurFade from "../animations/BlurFade";
 import { TestimonialsMarquee } from "../ui/TestimonialsMarquee";
 ---
 
@@ -10,29 +9,29 @@ import { TestimonialsMarquee } from "../ui/TestimonialsMarquee";
   <div class="container-main relative z-10">
     <!-- Section Header - Centered -->
     <div class="text-center mb-20 flex flex-col items-center">
-      <BlurFade client:visible delay={0} yOffset={20}>
+      <div>
         <div class="number-display mb-4">// 04</div>
-      </BlurFade>
+      </div>
 
       <h2 class="display-lg mb-6">
-        <BlurFade client:visible delay={200} yOffset={20}>
+        <div>
           <span class="block">Client</span>
           <span class="text-outline-hover">
             <span class="outline-text">Testimonials</span>
             <span class="filled-text" aria-hidden="true">Testimonials</span>
           </span>
-        </BlurFade>
+        </div>
       </h2>
 
-      <BlurFade client:visible delay={400} yOffset={20}>
+      <div>
         <p class="text-muted text-lg max-w-2xl mx-auto">
           What my clients say about working with me.
         </p>
-      </BlurFade>
+      </div>
     </div>
 
-    <BlurFade client:visible delay={600} yOffset={20}>
+    <div>
       <TestimonialsMarquee client:visible />
-    </BlurFade>
+    </div>
   </div>
 </section>

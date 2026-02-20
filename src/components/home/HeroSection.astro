@@ -1,8 +1,6 @@
 ---
 // Hero Section - Bold futuristic hero with image
 import { Image } from "astro:assets";
-import BlurText from "../animations/BlurText";
-import BlurFade from "../animations/BlurFade";
 import ResumeButton from "../ResumeButton";
 const profileImage = "https://youssef.tn/ysf.webp";
 ---
@@ -23,7 +21,7 @@ const profileImage = "https://youssef.tn/ysf.webp";
                 class="order-1 lg:order-1 text-center lg:text-left flex flex-col items-center lg:items-start"
             >
                 <!-- Status Badge -->
-                <BlurFade client:load delay={0} yOffset={20} className="mb-8">
+                <div class="mb-8">
                     <div
                         class="flex items-center gap-3 justify-center lg:justify-start"
                     >
@@ -33,7 +31,7 @@ const profileImage = "https://youssef.tn/ysf.webp";
                             >Hello, I'm</span
                         >
                     </div>
-                </BlurFade>
+                </div>
 
                 <!-- Main Headline -->
                 <noscript>
@@ -45,41 +43,23 @@ const profileImage = "https://youssef.tn/ysf.webp";
                 <h1
                     class="display-xl mb-6 flex flex-col items-center lg:items-start whitespace-nowrap"
                 >
-                    <BlurText
-                        client:load
-                        text="Youssef"
-                        className="block"
-                        delay={100}
-                        animateBy="letters"
-                        direction="top"
-                        as="span"
-                    />
-                    <BlurFade
-                        client:load
-                        delay={600}
-                        yOffset={20}
-                        className="inline-block relative"
-                    >
+                    <span class="block">Youssef</span>
+                    <div class="inline-block relative">
                         <span class="text-outline-hover">
                             <span class="outline-text">Dhibi</span>
                             <span class="filled-text" aria-hidden="true"
                                 >Dhibi</span
                             >
                         </span>
-                    </BlurFade>
+                    </div>
                 </h1>
 
-                <BlurFade
-                    client:load
-                    delay={700}
-                    yOffset={20}
-                    className="text-xl md:text-2xl text-muted max-w-xl mb-12 leading-relaxed mx-auto lg:mx-0 lg:justify-start justify-center text-center lg:text-left"
-                >
+                <div class="text-xl md:text-2xl text-muted max-w-xl mb-12 leading-relaxed mx-auto lg:mx-0 lg:justify-start justify-center text-center lg:text-left">
                     Full-stack developer building mobile and web apps from Tunisia. 17 projects, 5-star reviews.
-                </BlurFade>
+                </div>
 
                 <!-- CTA Button -->
-                <BlurFade client:load delay={800} yOffset={20}>
+                <div>
                     <div
                         class="flex flex-wrap gap-4 justify-center lg:justify-start"
                     >
@@ -104,20 +84,14 @@ const profileImage = "https://youssef.tn/ysf.webp";
                         </a>
                         <ResumeButton client:load />
                     </div>
-                </BlurFade>
+                </div>
             </div>
 
             <!-- Right Column - Image -->
             <div
                 class="relative order-2 lg:order-2 flex justify-center lg:justify-end"
             >
-                <BlurFade
-                    client:load
-                    delay={600}
-                    duration={0.8}
-                    yOffset={50}
-                    blur="20px"
-                >
+                <div>
                     <div class="relative">
                         <!-- Wireframe Background -->
                         <div
@@ -174,7 +148,7 @@ const profileImage = "https://youssef.tn/ysf.webp";
                             </div>
                         </div>
                     </div>
-                </BlurFade>
+                </div>
             </div>
         </div>
     </div>

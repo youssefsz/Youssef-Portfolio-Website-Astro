@@ -1,8 +1,6 @@
 ---
 import ProjectCard from "../ProjectCard.astro";
 import { projects, MAX_HOMEPAGE_PROJECTS } from "../../data/projects";
-import BlurText from "../animations/BlurText";
-import BlurFade from "../animations/BlurFade";
 import { ProjectCarousel } from "../ui/ProjectCarousel";
 import { getImage } from "astro:assets";
 
@@ -30,12 +28,12 @@ const carouselProjects = await Promise.all(
     <div class="container-main relative z-10">
         <!-- Section Header - Centered -->
         <div class="text-center mb-20 flex flex-col items-center">
-            <BlurFade client:load delay={0} yOffset={20}>
+            <div>
                 <div class="number-display mb-4">// 01</div>
-            </BlurFade>
+            </div>
 
             <h2 class="display-lg mb-6">
-                <BlurFade client:load delay={200} yOffset={20}>
+                <div>
                     <span class="block">My</span>
                     <span class="text-outline-hover">
                         <span class="outline-text">Projects</span>
@@ -43,22 +41,22 @@ const carouselProjects = await Promise.all(
                             >Projects</span
                         >
                     </span>
-                </BlurFade>
+                </div>
             </h2>
 
-            <BlurFade client:load delay={400} yOffset={20}>
+            <div>
                 <p class="text-muted text-lg max-w-2xl mx-auto">
                     A collection of mobile and web applications built for impact.
                     Click any project to learn more.
                 </p>
-            </BlurFade>
+            </div>
         </div>
 
         <!-- Mobile Carousel - Visible only on small screens -->
         <div class="block md:hidden mb-8">
-            <BlurFade client:load delay={0.2} yOffset={20}>
+            <div>
                 <ProjectCarousel client:load projects={carouselProjects} />
-            </BlurFade>
+            </div>
         </div>
 
         <!-- Projects Grid - Modern Adaptive Layout (Desktop) -->
@@ -78,11 +76,8 @@ const carouselProjects = await Promise.all(
             <div class="projects-grid">
                 {
                     displayedProjects.map((project, index) => (
-                        <BlurFade
-                            client:load
-                            delay={index * 0.1 + 0.2}
-                            yOffset={20}
-                            className="project-card-wrapper"
+                        <div
+                            class="project-card-wrapper"
                         >
                             <ProjectCard
                                 title={project.title}
@@ -92,7 +87,7 @@ const carouselProjects = await Promise.all(
                                 link={project.link}
                                 index={index}
                             />
-                        </BlurFade>
+                        </div>
                     ))
                 }
             </div>
@@ -102,7 +97,7 @@ const carouselProjects = await Promise.all(
         {
             hasMoreProjects && (
                 <div class="mt-12 text-center flex justify-center w-full">
-                    <BlurFade client:load delay={600} yOffset={20} className="w-full sm:w-auto">
+                    <div class="w-full sm:w-auto">
                         <a href="/projects" class="btn-secondary group w-full py-3 px-4 text-xs sm:w-auto sm:py-4 sm:px-8 sm:text-sm">
                             <span>
                                 Show All Projects
@@ -123,7 +118,7 @@ const carouselProjects = await Promise.all(
                                 />
                             </svg>
                         </a>
-                    </BlurFade>
+                    </div>
                 </div>
             )
         }

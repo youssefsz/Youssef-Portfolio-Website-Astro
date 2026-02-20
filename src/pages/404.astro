@@ -1,6 +1,5 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import BlurFade from "../components/animations/BlurFade";
 
 const pageTitle = "404: System Malfunction | Youssef Dhibi";
 const pageDescription = "Error 404: The requested resource could not be found.";
@@ -23,22 +22,22 @@ const pageDescription = "Error 404: The requested resource could not be found.";
 
                 <!-- Glitch Title -->
                 <div class="text-center mb-12 relative">
-                    <BlurFade client:load delay={0} yOffset={20}>
+                    <div>
                         <h1 class="glitch-text display-xl font-bold text-white relative inline-block" data-text="404">
                             404
                         </h1>
-                    </BlurFade>
-                    <BlurFade client:load delay={200} yOffset={20}>
+                    </div>
+                    <div>
                         <div class="mt-4">
                             <p class="text-xl md:text-2xl text-white font-mono">
                                 // LOST_IN_CYBERSPACE
                             </p>
                         </div>
-                    </BlurFade>
+                    </div>
                 </div>
 
                 <!-- Action Buttons -->
-                <BlurFade client:load delay={400} yOffset={20}>
+                <div>
                     <div class="flex flex-wrap gap-4 justify-center">
                         <a href="/" class="btn-primary group">
                             <span class="font-mono">./return_home.sh</span>
@@ -47,7 +46,7 @@ const pageDescription = "Error 404: The requested resource could not be found.";
                             <span class="font-mono">./view_projects.sh</span>
                         </a>
                     </div>
-                </BlurFade>
+                </div>
 
             </div>
         </section>
