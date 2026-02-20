@@ -105,6 +105,86 @@ const siteUrl = "https://dhibi.tn";
         />
     </head>
     <body class="min-h-screen">
+        <!-- Loading Overlay -->
+        <div
+            id="loading-overlay"
+            class="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center gap-4 transition-opacity duration-500"
+        >
+            <div
+                class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-white mb-4"
+            >
+            </div>
+            
+            <div class="font-mono text-white/70 text-sm tracking-wider" id="loading-text">
+                >_ INITIALIZING...
+            </div>
+            
+            <div class="w-48 h-[2px] bg-white/10 rounded-full overflow-hidden relative">
+                <div class="absolute inset-y-0 left-0 bg-white/50 animate-[loading-bar_1.5s_ease-in-out_infinite] w-1/2"></div>
+            </div>
+        </div>
+
         <slot />
+
+        <script is:inline>
+            // Loading text animation
+            const loadingText = document.getElementById("loading-text");
+            const messages = [
+                ">_ INITIALIZING...",
+                ">_ COMPILING ASSETS...",
+                ">_ OPTIMIZING..."
+            ];
+            let messageIndex = 0;
+            
+            const textInterval = setInterval(() => {
+                if (loadingText) {
+                    if (messageIndex < messages.length - 1) {
+                        messageIndex++;
+                        loadingText.innerText = messages[messageIndex];
+                    } else {
+                        clearInterval(textInterval);
+                    }
+                }
+            }, 800);
+
+            // Hide loading overlay when window is fully loaded
+            function hideOverlay() {
+                const overlay = document.getElementById("loading-overlay");
+                if (overlay) {
+                    clearInterval(textInterval);
+                    if (loadingText) loadingText.innerText = ">_ ACCESS GRANTED";
+                    
+                    setTimeout(() => {
+                        overlay.style.opacity = "0";
+                        setTimeout(() => {
+                            overlay.style.display = "none";
+                        }, 500);
+                    }, 500);
+                }
+            }
+
+            if (document.readyState === "complete") {
+                // Add a small delay if page loads instantly to show the effect
+                setTimeout(hideOverlay, 800);
+            } else {
+                window.addEventListener("load", hideOverlay);
+            }
+        </script>
+
+        <style>
+            @keyframes loading-bar {
+                0% { left: -50%; }
+                100% { left: 100%; }
+            }
+        </style>
+
+        <!-- Fallback for no-js -->
+        <noscript>
+            <style>
+                #loading-overlay {
+                    display: none;
+                }
+            </style>
+        </noscript>
     </body>
 </html>
