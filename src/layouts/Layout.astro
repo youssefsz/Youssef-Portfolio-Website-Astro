@@ -104,7 +104,7 @@ const siteUrl = "https://dhibi.tn";
             })}
         />
     </head>
-    <body class="min-h-screen">
+    <body class="min-h-screen" style="overflow: hidden;">
         <!-- Loading Overlay -->
         <div
             id="loading-overlay"
@@ -114,13 +114,21 @@ const siteUrl = "https://dhibi.tn";
                 class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-white mb-4"
             >
             </div>
-            
-            <div class="font-mono text-white/70 text-sm tracking-wider" id="loading-text">
+
+            <div
+                class="font-mono text-white/70 text-sm tracking-wider"
+                id="loading-text"
+            >
                 >_ INITIALIZING...
             </div>
-            
-            <div class="w-48 h-[2px] bg-white/10 rounded-full overflow-hidden relative">
-                <div class="absolute inset-y-0 left-0 bg-white/50 animate-[loading-bar_1.5s_ease-in-out_infinite] w-1/2"></div>
+
+            <div
+                class="w-48 h-[2px] bg-white/10 rounded-full overflow-hidden relative"
+            >
+                <div
+                    class="absolute inset-y-0 left-0 bg-white/50 animate-[loading-bar_1.5s_ease-in-out_infinite] w-1/2"
+                >
+                </div>
             </div>
         </div>
 
@@ -132,10 +140,10 @@ const siteUrl = "https://dhibi.tn";
             const messages = [
                 ">_ INITIALIZING...",
                 ">_ COMPILING ASSETS...",
-                ">_ OPTIMIZING..."
+                ">_ OPTIMIZING...",
             ];
             let messageIndex = 0;
-            
+
             const textInterval = setInterval(() => {
                 if (loadingText) {
                     if (messageIndex < messages.length - 1) {
@@ -152,12 +160,14 @@ const siteUrl = "https://dhibi.tn";
                 const overlay = document.getElementById("loading-overlay");
                 if (overlay) {
                     clearInterval(textInterval);
-                    if (loadingText) loadingText.innerText = ">_ ACCESS GRANTED";
-                    
+                    if (loadingText)
+                        loadingText.innerText = ">_ ACCESS GRANTED";
+
                     setTimeout(() => {
                         overlay.style.opacity = "0";
                         setTimeout(() => {
                             overlay.style.display = "none";
+                            document.body.style.overflow = "";
                         }, 500);
                     }, 500);
                 }
@@ -173,8 +183,12 @@ const siteUrl = "https://dhibi.tn";
 
         <style>
             @keyframes loading-bar {
-                0% { left: -50%; }
-                100% { left: 100%; }
+                0% {
+                    left: -50%;
+                }
+                100% {
+                    left: 100%;
+                }
             }
         </style>
 
@@ -183,6 +197,9 @@ const siteUrl = "https://dhibi.tn";
             <style>
                 #loading-overlay {
                     display: none;
+                }
+                body {
+                    overflow: auto !important;
                 }
             </style>
         </noscript>
