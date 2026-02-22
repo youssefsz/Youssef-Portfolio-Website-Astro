@@ -60,6 +60,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex w-full items-center justify-center gap-2 border border-white/10 bg-white/5 px-4 py-3 text-xs font-medium uppercase tracking-wider text-white transition-colors hover:bg-white/10 sm:w-auto"
+              aria-label={`View Project — ${title}`}
             >
               <span>View Project</span>
               <svg

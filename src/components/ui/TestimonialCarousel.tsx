@@ -50,10 +50,10 @@ export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testim
             className="w-full flex-shrink-0 snap-center px-4 sm:px-0"
           >
             <div className="h-full w-full">
-                <CarouselTestimonialCard
+              <CarouselTestimonialCard
                 {...testimonial}
                 className="h-full w-full"
-                />
+              />
             </div>
           </div>
         ))}
@@ -62,19 +62,23 @@ export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testim
       {/* Controls */}
       <div className="mt-4 flex items-center justify-between px-4">
         {/* Dots */}
-        <div className="flex space-x-2">
+        <div className="flex items-center gap-1">
           {testimonials.map((_, index) => (
             <button
               key={index}
               onClick={() => scrollTo(index)}
-              className={cn(
-                "h-1.5 rounded-full transition-all duration-300",
-                index === activeIndex
-                  ? "w-8 bg-accent"
-                  : "w-1.5 bg-white/20 hover:bg-white/40"
-              )}
-              aria-label={`Go to slide ${index + 1}`}
-            />
+              className="flex min-h-[48px] items-center justify-center px-1"
+              aria-label={`Go to testimonial slide ${index + 1}`}
+            >
+              <span
+                className={cn(
+                  "block h-1.5 rounded-full transition-all duration-300",
+                  index === activeIndex
+                    ? "w-8 bg-accent"
+                    : "w-1.5 bg-white/20 hover:bg-white/40"
+                )}
+              />
+            </button>
           ))}
         </div>
 

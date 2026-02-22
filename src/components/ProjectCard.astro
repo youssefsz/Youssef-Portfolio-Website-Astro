@@ -47,6 +47,7 @@ const { title, description, category, image, link, index = 0 } = Astro.props;
                         target="_blank"
                         rel="noopener noreferrer"
                         class="btn-secondary group w-full py-3 text-xs sm:w-auto sm:py-4 sm:text-sm"
+                        aria-label={`View Project — ${title}`}
                     >
                         <span>View Project</span>
                         <svg
