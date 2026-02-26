@@ -17,6 +17,7 @@ import githubExtractorImage from '../assets/services/github-extractor.png';
 import allerSnapImage from '../assets/services/allersnap.png';
 import quickQuoteImage from '../assets/services/quickquote.png';
 import gitReadImage from '../assets/services/gitread.png';
+import sysMonitorImage from '../assets/services/sys-monitor.png';
 
 export interface Project {
     title: string;
@@ -63,6 +64,15 @@ export const projects: Project[] = [
         image: uptimeImage,
         link: "https://youssef.tn/uptime",
         slug: "uptime",
+    },
+    {
+        title: "sys-monitor",
+        description:
+            "A fast, minimal terminal system monitor built with Rust. Real-time CPU, memory, and process monitoring with a clean, keyboard-driven interface.",
+        category: "CLI Tool",
+        image: sysMonitorImage,
+        link: "https://sys-monitor.youssef.tn/",
+        slug: "sys-monitor",
     },
     {
         title: "HumidScan",
