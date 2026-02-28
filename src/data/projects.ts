@@ -18,6 +18,7 @@ import allerSnapImage from '../assets/services/allersnap.png';
 import quickQuoteImage from '../assets/services/quickquote.png';
 import gitReadImage from '../assets/services/gitread.png';
 import sysMonitorImage from '../assets/services/sys-monitor.png';
+import quranlakeImage from '../assets/services/quranlake.png';
 
 export interface Project {
     title: string;
@@ -64,6 +65,15 @@ export const projects: Project[] = [
         image: uptimeImage,
         link: "https://youssef.tn/uptime",
         slug: "uptime",
+    },
+    {
+        title: "Quran Lake",
+        description:
+            "Discover accurate prayer times and stream Quran recitations with the Quran Lake app.",
+        category: "Mobile App",
+        image: quranlakeImage,
+        link: "https://youssef.tn/quranlake/",
+        slug: "quran-lake",
     },
     {
         title: "sys-monitor",
