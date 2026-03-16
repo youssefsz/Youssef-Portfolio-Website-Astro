@@ -10,6 +10,7 @@ import pdfImage from '../assets/services/pdf.png';
 import speedInsightImage from '../assets/services/speed-insight.png';
 import planGptImage from '../assets/services/plan-gpt.png';
 import apostropheImage from '../assets/services/apostrophe.png';
+import widgetAiImage from '../assets/services/WIdgetAI.webp';
 import chartAiImage from '../assets/services/chart-ai.png';
 import humidscanImage from '../assets/services/humidscan.png';
 import uptimeImage from '../assets/services/uptime.png';
@@ -40,13 +41,13 @@ export const projects: Project[] = [
         slug: "invox",
     },
     {
-        title: "Brasserie Restaurant",
+        title: "WidgetAI",
         description:
-            "Apostrophe Restaurant in Olsene, Belgium offers fine dining with local ingredients.",
+            "AI website widgets made simple. Control your assistant behavior, design, and placement with a single script tag.",
         category: "Web Platform",
-        image: apostropheImage,
-        link: "https://youssef.tn/apostrophe-restaurant",
-        slug: "brasserie-restaurant",
+        image: widgetAiImage,
+        link: "https://widgetai.youssef.tn/",
+        slug: "widget-ai",
     },
     {
         title: "Chart AI",
@@ -56,6 +57,24 @@ export const projects: Project[] = [
         image: chartAiImage,
         link: "https://youssef.tn/ChartAI",
         slug: "chart-ai",
+    },
+    {
+        title: "Brasserie Restaurant",
+        description:
+            "Restaurant website for Apostrophe in Olsene, Belgium, showcasing fine dining, seasonal menus, and local ingredients.",
+        category: "Website",
+        image: apostropheImage,
+        link: "https://youssef.tn/apostrophe-restaurant",
+        slug: "brasserie-restaurant",
+    },
+    {
+        title: "HumidScan",
+        description:
+            "Smart assistant for detecting and preventing humidity. Uses AI to protect your home from mold and water damage.",
+        category: "Mobile App",
+        image: humidscanImage,
+        link: "https://youssef.tn/HumidScan",
+        slug: "humidscan",
     },
     {
         title: "UPTIME",
@@ -74,24 +93,6 @@ export const projects: Project[] = [
         image: quranlakeImage,
         link: "https://youssef.tn/quranlake/",
         slug: "quran-lake",
-    },
-    {
-        title: "sys-monitor",
-        description:
-            "A fast, minimal terminal system monitor built with Rust. Real-time CPU, memory, and process monitoring with a clean, keyboard-driven interface.",
-        category: "CLI Tool",
-        image: sysMonitorImage,
-        link: "https://sys-monitor.youssef.tn/",
-        slug: "sys-monitor",
-    },
-    {
-        title: "HumidScan",
-        description:
-            "Smart assistant for detecting and preventing humidity. Uses AI to protect your home from mold and water damage.",
-        category: "Mobile App",
-        image: humidscanImage,
-        link: "https://youssef.tn/HumidScan",
-        slug: "humidscan",
     },
     {
         title: "SpeedInsight Website",
@@ -156,7 +157,16 @@ export const projects: Project[] = [
         link: "https://youssef.tn/gitread",
         slug: "gitread",
     },
+    {
+        title: "sys-monitor",
+        description:
+            "A fast, minimal terminal system monitor built with Rust. Real-time CPU, memory, and process monitoring with a clean, keyboard-driven interface.",
+        category: "CLI Tool",
+        image: sysMonitorImage,
+        link: "https://sys-monitor.youssef.tn/",
+        slug: "sys-monitor",
+    },
 ];
 
 // Maximum projects to show on homepage
-export const MAX_HOMEPAGE_PROJECTS = 3;
+export const MAX_HOMEPAGE_PROJECTS = 6;
