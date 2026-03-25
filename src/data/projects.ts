@@ -14,6 +14,7 @@ import widgetAiImage from '../assets/services/WIdgetAI.webp';
 import chartAiImage from '../assets/services/chart-ai.png';
 import humidscanImage from '../assets/services/humidscan.png';
 import uptimeImage from '../assets/services/uptime.png';
+import productTrackerImage from '../assets/services/product-tracker.webp';
 import githubExtractorImage from '../assets/services/github-extractor.png';
 import allerSnapImage from '../assets/services/allersnap.png';
 import quickQuoteImage from '../assets/services/quickquote.png';
@@ -41,13 +42,13 @@ export const projects: Project[] = [
         slug: "invox",
     },
     {
-        title: "WidgetAI",
+        title: "Product Tracker",
         description:
-            "AI website widgets made simple. Control your assistant behavior, design, and placement with a single script tag.",
+            "Track products, monitor stock levels, and review sales activity from a clean operational dashboard.",
         category: "Web Platform",
-        image: widgetAiImage,
-        link: "https://widgetai.youssef.tn/",
-        slug: "widget-ai",
+        image: productTrackerImage,
+        link: "https://product-tracker.youssef.tn/",
+        slug: "product-tracker",
     },
     {
         title: "Chart AI",
@@ -59,13 +60,13 @@ export const projects: Project[] = [
         slug: "chart-ai",
     },
     {
-        title: "Brasserie Restaurant",
+        title: "WidgetAI",
         description:
-            "Restaurant website for Apostrophe in Olsene, Belgium, showcasing fine dining, seasonal menus, and local ingredients.",
-        category: "Website",
-        image: apostropheImage,
-        link: "https://youssef.tn/apostrophe-restaurant",
-        slug: "brasserie-restaurant",
+            "AI website widgets made simple. Control your assistant behavior, design, and placement with a single script tag.",
+        category: "Web Platform",
+        image: widgetAiImage,
+        link: "https://widgetai.youssef.tn/",
+        slug: "widget-ai",
     },
     {
         title: "HumidScan",
@@ -77,13 +78,13 @@ export const projects: Project[] = [
         slug: "humidscan",
     },
     {
-        title: "UPTIME",
+        title: "Brasserie Restaurant",
         description:
-            "Uptime Monitor - Real-time server status monitoring",
-        category: "Web Platform",
-        image: uptimeImage,
-        link: "https://youssef.tn/uptime",
-        slug: "uptime",
+            "Restaurant website for Apostrophe in Olsene, Belgium, showcasing fine dining, seasonal menus, and local ingredients.",
+        category: "Website",
+        image: apostropheImage,
+        link: "https://youssef.tn/apostrophe-restaurant",
+        slug: "brasserie-restaurant",
     },
     {
         title: "Quran Lake",
@@ -165,6 +166,15 @@ export const projects: Project[] = [
         image: sysMonitorImage,
         link: "https://sys-monitor.youssef.tn/",
         slug: "sys-monitor",
+    },
+    {
+        title: "UPTIME",
+        description:
+            "Uptime Monitor - Real-time server status monitoring",
+        category: "Web Platform",
+        image: uptimeImage,
+        link: "https://youssef.tn/uptime",
+        slug: "uptime",
     },
 ];
 
