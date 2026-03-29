@@ -28,7 +28,7 @@ export const experience: ExperienceItem[] = [
     description: "Delivered full-stack and AI-powered solutions with a focus on clean code, performance, and client results.",
     link: "https://www.upwork.com/freelancers/youssefsz",
     stats: [
-      { value: "17", label: "Jobs Completed" },
+      { value: "18", label: "Jobs Completed" },
       { value: "100%", label: "Job Success" },
       { value: "5.0★", label: "Client Rating" }
     ]
