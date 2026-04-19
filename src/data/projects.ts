@@ -21,6 +21,7 @@ import quickQuoteImage from '../assets/services/quickquote.png';
 import gitReadImage from '../assets/services/gitread.png';
 import sysMonitorImage from '../assets/services/sys-monitor.png';
 import quranlakeImage from '../assets/services/quranlake.png';
+import docscannerImage from '../assets/services/docscanner.png';
 
 export interface Project {
     title: string;
@@ -85,6 +86,15 @@ export const projects: Project[] = [
         image: apostropheImage,
         link: "https://youssef.tn/apostrophe-restaurant",
         slug: "brasserie-restaurant",
+    },
+    {
+        title: "DocScanner",
+        description:
+            "Scan, enhance, and organize your documents in seconds with a fast and clean mobile scanning experience.",
+        category: "Mobile App",
+        image: docscannerImage,
+        link: "https://youssef.tn/DocScanner/",
+        slug: "docscanner",
     },
     {
         title: "Quran Lake",
