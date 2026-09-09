@@ -2,6 +2,7 @@
 // Hero Section - Bold futuristic hero with image
 import { Image } from "astro:assets";
 import ResumeButton from "../ResumeButton.astro";
+import TopRatedPlus from "../TopRatedPlus.astro";
 const profileImage = "https://youssef.tn/ysf.webp";
 ---
 
@@ -55,7 +56,34 @@ const profileImage = "https://youssef.tn/ysf.webp";
                 </h1>
 
                 <div class="text-xl md:text-2xl text-muted max-w-xl mb-12 leading-relaxed mx-auto lg:mx-0 lg:justify-start justify-center text-center lg:text-left">
-                    I build full-stack applications across web, mobile, desktop, and CLI. Top Rated Plus on Upwork with 100% Job Success.
+                    I build full-stack applications across web, mobile, desktop, and CLI.{" "}
+                    <TopRatedPlus />
+                    {" "}on <a
+                        class="upwork-word"
+                        href="https://www.upwork.com/freelancers/youssefsz"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="View Youssef Dhibi's Upwork profile"
+                    >Upwork</a> with{" "}
+                    <span class="success-mark">
+                        100% Job Success
+                        <svg
+                            class="success-mark__underline"
+                            viewBox="0 0 240 18"
+                            preserveAspectRatio="none"
+                            aria-hidden="true"
+                            focusable="false"
+                        >
+                            <path
+                                class="success-mark__stroke success-mark__stroke--one"
+                                d="M3 5 C42 0 76 9 116 4 S195 1 237 6"
+                            ></path>
+                            <path
+                                class="success-mark__stroke success-mark__stroke--two"
+                                d="M6 13 C47 8 86 16 127 11 S200 9 233 12"
+                            ></path>
+                        </svg>
+                    </span>.
                 </div>
 
                 <!-- CTA Button -->
@@ -189,4 +217,72 @@ const profileImage = "https://youssef.tn/ysf.webp";
     .border-accent {
         border-color: var(--accent);
     }
+
+    .upwork-word {
+        display: inline-block;
+        color: #14a800;
+        font-weight: 600;
+        white-space: nowrap;
+        cursor: pointer;
+        background-image: linear-gradient(
+            96deg,
+            #14a800 0%,
+            #37d55f 48%,
+            #8be66f 68%,
+            #14a800 100%
+        );
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-decoration: none;
+        transition: filter 180ms ease;
+    }
+
+    .upwork-word:hover {
+        filter: brightness(1.2);
+    }
+
+    .upwork-word:focus-visible {
+        outline-color: #8be66f;
+        outline-offset: 4px;
+    }
+
+    .success-mark {
+        position: relative;
+        display: inline-block;
+        padding-bottom: 0.18em;
+        color: inherit;
+        font-weight: 500;
+        white-space: nowrap;
+    }
+
+    .success-mark__underline {
+        position: absolute;
+        left: -0.06em;
+        bottom: -0.03em;
+        width: calc(100% + 0.12em);
+        height: 0.48em;
+        overflow: visible;
+        pointer-events: none;
+    }
+
+    .success-mark__stroke {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+    }
+
+    .success-mark__stroke--one {
+        stroke: #3b82f6;
+        stroke-width: 2.2;
+        opacity: 0.95;
+    }
+
+    .success-mark__stroke--two {
+        stroke: #60a5fa;
+        stroke-width: 1.6;
+        opacity: 0.72;
+    }
+
 </style>
