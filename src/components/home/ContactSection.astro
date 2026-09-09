@@ -36,86 +36,160 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
         </div>
 
         <!-- Contact CTAs -->
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+        <div
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto"
+        >
             <!-- Email CTA -->
-            <div class="h-full">
-                <a
-                    href={`mailto:${email}`}
-                    class="contact-card group h-full"
-                    id="contact-email"
-                >
-                    <div class="contact-icon">
+            <div class="contact-card contact-details-card h-full">
+                <div class="contact-icon">
+                    <svg
+                        class="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="square"
+                            stroke-linejoin="miter"
+                            stroke-width="1.5"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        ></path>
+                    </svg>
+                </div>
+                <div class="text-xs uppercase tracking-wider text-muted mb-2">
+                    Email
+                </div>
+                <div class="contact-value-row">
+                    <a
+                        href={`mailto:${email}`}
+                        class="contact-value group"
+                        id="contact-email"
+                    >
+                        <span
+                            class="text-white font-medium group-hover:text-accent transition-colors break-all"
+                        >
+                            {email}
+                        </span>
+                    </a>
+                    <button
+                        type="button"
+                        class="copy-button"
+                        data-copy-value={email}
+                        data-copy-label="Email address"
+                        aria-label="Copy email address"
+                        title="Copy email address"
+                    >
                         <svg
-                            class="w-6 h-6"
+                            class="copy-icon"
+                            aria-hidden="true"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
                         >
+                            <rect x="8" y="8" width="11" height="11" rx="1"
+                            ></rect>
                             <path
-                                stroke-linecap="square"
-                                stroke-linejoin="miter"
-                                stroke-width="1.5"
-                                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                                d="M16 8V5a1 1 0 00-1-1H5a1 1 0 00-1 1v10a1 1 0 001 1h3"
                             ></path>
                         </svg>
-                    </div>
-                    <div
-                        class="text-xs uppercase tracking-wider text-muted mb-2"
-                    >
-                        Email
-                    </div>
-                    <div
-                        class="text-white font-medium group-hover:text-accent transition-colors break-all"
-                    >
-                        {email}
-                    </div>
-                </a>
+                        <svg
+                            class="check-icon"
+                            aria-hidden="true"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M5 12.5l4 4L19 7"></path>
+                        </svg>
+                        <span
+                            class="sr-only"
+                            data-copy-status
+                            aria-live="polite"></span
+                        >
+                    </button>
+                </div>
             </div>
 
             <!-- Phone CTA -->
-            <div class="h-full">
-                <a
-                    href={`tel:${phone.replace(/\s/g, "")}`}
-                    class="contact-card group h-full"
-                    id="contact-phone"
-                >
-                    <div class="contact-icon">
+            <div class="contact-card contact-details-card h-full">
+                <div class="contact-icon">
+                    <svg
+                        class="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="square"
+                            stroke-linejoin="miter"
+                            stroke-width="1.5"
+                            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        ></path>
+                    </svg>
+                </div>
+                <div class="text-xs uppercase tracking-wider text-muted mb-2">
+                    Phone
+                </div>
+                <div class="contact-value-row">
+                    <a
+                        href={`tel:${phone.replace(/\s/g, "")}`}
+                        class="contact-value group"
+                        id="contact-phone"
+                    >
+                        <span
+                            class="text-white font-medium group-hover:text-accent transition-colors"
+                        >
+                            {phone}
+                        </span>
+                    </a>
+                    <button
+                        type="button"
+                        class="copy-button"
+                        data-copy-value={phone}
+                        data-copy-label="Phone number"
+                        aria-label="Copy phone number"
+                        title="Copy phone number"
+                    >
                         <svg
-                            class="w-6 h-6"
+                            class="copy-icon"
+                            aria-hidden="true"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
                         >
+                            <rect x="8" y="8" width="11" height="11" rx="1"
+                            ></rect>
                             <path
-                                stroke-linecap="square"
-                                stroke-linejoin="miter"
-                                stroke-width="1.5"
-                                d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                                d="M16 8V5a1 1 0 00-1-1H5a1 1 0 00-1 1v10a1 1 0 001 1h3"
                             ></path>
                         </svg>
-                    </div>
-                    <div
-                        class="text-xs uppercase tracking-wider text-muted mb-2"
-                    >
-                        Phone
-                    </div>
-                    <div
-                        class="text-white font-medium group-hover:text-accent transition-colors"
-                    >
-                        {phone}
-                    </div>
-                </a>
+                        <svg
+                            class="check-icon"
+                            aria-hidden="true"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path d="M5 12.5l4 4L19 7"></path>
+                        </svg>
+                        <span
+                            class="sr-only"
+                            data-copy-status
+                            aria-live="polite"></span
+                        >
+                    </button>
+                </div>
             </div>
 
             <!-- Upwork CTA -->
             <div
-                class="h-full col-span-2 md:col-span-1 flex justify-center"
+                class="h-full sm:col-span-2 md:col-span-1 flex justify-center"
             >
                 <a
                     href={upworkUrl}
                     target="_blank"
                     rel="noopener"
-                    class="contact-card group h-full w-full"
+                    class="contact-card contact-link group h-full w-full"
                     id="contact-upwork"
                 >
                     <div class="contact-icon image-skeleton is-loading">
@@ -162,11 +236,7 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
 
 <style>
     .contact-card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 2.5rem 2rem;
+        position: relative;
         background: linear-gradient(
             135deg,
             rgba(255, 255, 255, 0.08) 0%,
@@ -176,10 +246,35 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
         transition: all 0.3s ease;
     }
 
+    .contact-link,
+    .contact-details-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        min-height: 100%;
+        padding: 2.5rem 2rem;
+        text-align: center;
+    }
+
     @media (max-width: 640px) {
-        .contact-card {
+        .contact-link,
+        .contact-details-card {
             padding: 2rem 1rem;
         }
+    }
+
+    .contact-value-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 100%;
+        gap: 0.125rem;
+    }
+
+    .contact-value {
+        min-width: 0;
     }
 
     .contact-card:hover {
@@ -208,7 +303,152 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
         color: var(--accent);
     }
 
+    .copy-button {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        flex: 0 0 auto;
+        width: 2rem;
+        height: 2rem;
+        place-items: center;
+        padding: 0;
+        color: var(--muted-foreground);
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        transition: color 180ms ease;
+    }
+
+    .copy-button:hover {
+        color: white;
+    }
+
+    .copy-button svg {
+        grid-area: 1 / 1;
+        width: 1.375rem;
+        height: 1.375rem;
+        stroke-linecap: square;
+        stroke-linejoin: miter;
+        stroke-width: 1.7;
+        transition:
+            opacity 180ms ease,
+            transform 180ms ease;
+    }
+
+    .check-icon {
+        color: #22c55e;
+        opacity: 0;
+        transform: scale(0.65);
+    }
+
+    .copy-button.is-copied {
+        color: #22c55e;
+    }
+
+    .copy-button.is-copied .copy-icon {
+        opacity: 0;
+        transform: scale(0.65);
+    }
+
+    .copy-button.is-copied .check-icon {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    @media (pointer: coarse) {
+        .copy-button {
+            width: 2.75rem;
+            height: 2.75rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .copy-button,
+        .copy-button svg {
+            transition: none;
+        }
+    }
+
     .text-accent {
         color: var(--accent);
     }
 </style>
+
+<script>
+    const resetTimers = new WeakMap<HTMLButtonElement, number>();
+
+    async function copyText(value: string) {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(value);
+            return;
+        }
+
+        const textArea = document.createElement("textarea");
+        textArea.value = value;
+        textArea.style.position = "fixed";
+        textArea.style.opacity = "0";
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        try {
+            if (!document.execCommand("copy")) {
+                throw new Error("Copy command failed");
+            }
+        } finally {
+            textArea.remove();
+        }
+    }
+
+    function initializeCopyButtons() {
+        document.querySelectorAll<HTMLButtonElement>("[data-copy-value]").forEach(
+            (button) => {
+                if (button.dataset.copyReady === "true") return;
+                button.dataset.copyReady = "true";
+
+                button.addEventListener("click", async () => {
+                    const value = button.dataset.copyValue;
+                    const label = button.dataset.copyLabel ?? "Contact detail";
+                    const status = button.querySelector<HTMLElement>(
+                        "[data-copy-status]",
+                    );
+                    if (!value) return;
+
+                    try {
+                        await copyText(value);
+                        button.classList.add("is-copied");
+                        button.setAttribute("aria-label", `${label} copied`);
+                        button.title = `${label} copied`;
+                        if (status) status.textContent = `${label} copied`;
+
+                        const activeTimer = resetTimers.get(button);
+                        if (activeTimer) window.clearTimeout(activeTimer);
+
+                        resetTimers.set(
+                            button,
+                            window.setTimeout(() => {
+                                button.classList.remove("is-copied");
+                                button.setAttribute(
+                                    "aria-label",
+                                    `Copy ${label.toLowerCase()}`,
+                                );
+                                button.title = `Copy ${label.toLowerCase()}`;
+                                if (status) status.textContent = "";
+                            }, 1800),
+                        );
+                    } catch {
+                        button.setAttribute(
+                            "aria-label",
+                            `Could not copy ${label.toLowerCase()}`,
+                        );
+                        if (status) {
+                            status.textContent = `Could not copy ${label.toLowerCase()}`;
+                        }
+                    }
+                });
+            },
+        );
+    }
+
+    document.addEventListener("astro:page-load", initializeCopyButtons);
+</script>
