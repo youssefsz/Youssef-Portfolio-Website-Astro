@@ -7,6 +7,8 @@ interface Project {
   description: string;
   category: string;
   image: string;
+  srcSet?: string;
+  sizes?: string;
   link?: string;
 }
 
@@ -62,6 +64,8 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
                 description={project.description}
                 category={project.category}
                 image={project.image}
+                srcSet={project.srcSet}
+                sizes={project.sizes}
                 link={project.link}
                 className="h-full w-full"
               />
@@ -78,7 +82,7 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
             <button
               key={index}
               onClick={() => scrollTo(index)}
-              className="flex min-h-[48px] items-center justify-center px-1"
+              className="flex min-h-[48px] min-w-8 items-center justify-center px-1"
               aria-label={`Go to project slide ${index + 1}`}
             >
               <span

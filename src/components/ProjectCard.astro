@@ -8,16 +8,21 @@ interface Props {
     category: string;
     image: ImageMetadata;
     link?: string;
-    index?: number;
 }
 
-const { title, description, category, image, link, index = 0 } = Astro.props;
+const { title, description, category, image, link } = Astro.props;
 ---
 
-<article class="service-card group">
+<article class="project-card content-card group">
     <!-- Image Container -->
-    <div class="image-container">
-        <Image src={image} alt={title} class="service-image" />
+    <div class="image-container image-skeleton is-loading">
+        <Image
+            src={image}
+            alt={title}
+            widths={[320, 480, 640, 800, 960]}
+            sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1023px) calc(50vw - 3rem), 420px"
+            class="project-image"
+        />
         <div class="image-overlay"></div>
     </div>
 
@@ -88,7 +93,7 @@ const { title, description, category, image, link, index = 0 } = Astro.props;
 </article>
 
 <style>
-    .service-card {
+    .project-card {
         position: relative;
         background-color: #000;
         border: 1px solid rgba(255, 255, 255, 0.12);
@@ -101,7 +106,7 @@ const { title, description, category, image, link, index = 0 } = Astro.props;
     }
 
     /* Base Gradient */
-    .service-card::before {
+    .project-card::before {
         content: "";
         position: absolute;
         inset: 0;
@@ -115,7 +120,7 @@ const { title, description, category, image, link, index = 0 } = Astro.props;
     }
 
     /* Hover Gradient */
-    .service-card::after {
+    .project-card::after {
         content: "";
         position: absolute;
         inset: 0;
@@ -129,11 +134,11 @@ const { title, description, category, image, link, index = 0 } = Astro.props;
         transition: opacity 0.4s ease;
     }
 
-    .service-card:hover {
+    .project-card:hover {
         border-color: rgba(255, 255, 255, 0.25);
     }
 
-    .service-card:hover::after {
+    .project-card:hover::after {
         opacity: 1;
     }
 
@@ -150,7 +155,7 @@ const { title, description, category, image, link, index = 0 } = Astro.props;
         );
     }
 
-    .service-image {
+    .project-image {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -158,7 +163,7 @@ const { title, description, category, image, link, index = 0 } = Astro.props;
         transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    .service-card:hover .service-image {
+    .project-card:hover .project-image {
         transform: scale(1.05);
     }
 
@@ -205,7 +210,7 @@ const { title, description, category, image, link, index = 0 } = Astro.props;
         transition: color 0.3s ease;
     }
 
-    .service-card:hover .card-title {
+    .project-card:hover .card-title {
         color: var(--accent);
     }
 

@@ -13,7 +13,7 @@ import Logo from "./Logo.astro";
                 href="/"
                 class="flex items-center gap-2 group"
                 id="nav-logo"
-                aria-label="Home"
+                aria-label="YD — Home"
             >
                 <Logo />
             </a>
@@ -78,6 +78,8 @@ import Logo from "./Logo.astro";
                 class="lg:hidden w-10 h-10 flex items-center justify-center border border-white/10"
                 id="mobile-menu-btn"
                 aria-label="Toggle menu"
+                aria-controls="mobile-menu-drawer"
+                aria-expanded="false"
             >
                 <div class="space-y-1.5">
                     <span
@@ -101,6 +103,7 @@ import Logo from "./Logo.astro";
     <!-- Mobile Menu Drawer -->
     <div
         id="mobile-menu-drawer"
+        aria-hidden="true"
         class="fixed inset-y-0 right-0 w-[85%] max-w-sm bg-black border-l border-white/10 z-[70] transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col h-screen shadow-2xl shadow-black"
     >
         <div
@@ -288,73 +291,118 @@ import Logo from "./Logo.astro";
 </nav>
 
 <script>
-    const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-    const closeMenuBtn = document.getElementById("close-menu-btn");
-    const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
-    const mobileMenuDrawer = document.getElementById("mobile-menu-drawer");
-    const mobileLinks = document.querySelectorAll(".mobile-nav-link");
+    let cleanupNavbar: (() => void) | undefined;
 
-    function openMenu() {
-        mobileMenuOverlay?.classList.remove("hidden");
-        // Small delay to allow display:block to apply before opacity transition
-        setTimeout(() => {
-            mobileMenuOverlay?.classList.remove("opacity-0");
-            mobileMenuDrawer?.classList.remove("translate-x-full");
-        }, 10);
-        document.body.style.overflow = "hidden"; // Prevent scrolling
-    }
+    const initializeNavbar = () => {
+        cleanupNavbar?.();
+        cleanupNavbar = undefined;
 
-    function closeMenu() {
-        mobileMenuOverlay?.classList.add("opacity-0");
-        mobileMenuDrawer?.classList.add("translate-x-full");
-        setTimeout(() => {
-            mobileMenuOverlay?.classList.add("hidden");
-        }, 300); // Match transition duration
-        document.body.style.overflow = ""; // Restore scrolling
-    }
+        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+        const closeMenuBtn = document.getElementById("close-menu-btn");
+        const mobileMenuOverlay = document.getElementById(
+            "mobile-menu-overlay",
+        );
+        const mobileMenuDrawer = document.getElementById(
+            "mobile-menu-drawer",
+        );
 
-    mobileMenuBtn?.addEventListener("click", openMenu);
-    closeMenuBtn?.addEventListener("click", closeMenu);
-    mobileMenuOverlay?.addEventListener("click", closeMenu);
+        if (!mobileMenuBtn || !mobileMenuOverlay || !mobileMenuDrawer) return;
 
-    // Close mobile menu when clicking a link
-    mobileLinks.forEach((link) => {
-        link.addEventListener("click", closeMenu);
-    });
+        const controller = new AbortController();
+        const { signal } = controller;
+        let menuTimer: ReturnType<typeof setTimeout> | undefined;
 
-    // Active Link Highlighting
-    const sections = document.querySelectorAll("section");
-    const navLinks = document.querySelectorAll(".hidden.lg\\:flex a");
+        const clearMenuTimer = () => {
+            if (menuTimer !== undefined) {
+                clearTimeout(menuTimer);
+                menuTimer = undefined;
+            }
+        };
 
-    const observerOptions = {
-        root: null,
-        rootMargin: "-20% 0px -80% 0px", // Trigger when section is near top
-        threshold: 0,
+        const openMenu = () => {
+            clearMenuTimer();
+            mobileMenuBtn.setAttribute("aria-expanded", "true");
+            mobileMenuDrawer.setAttribute("aria-hidden", "false");
+            mobileMenuOverlay.classList.remove("hidden");
+            menuTimer = setTimeout(() => {
+                mobileMenuOverlay.classList.remove("opacity-0");
+                mobileMenuDrawer.classList.remove("translate-x-full");
+                closeMenuBtn?.focus();
+            }, 10);
+            document.body.style.overflow = "hidden";
+        };
+
+        const closeMenu = () => {
+            clearMenuTimer();
+            mobileMenuBtn.setAttribute("aria-expanded", "false");
+            mobileMenuDrawer.setAttribute("aria-hidden", "true");
+            mobileMenuOverlay.classList.add("opacity-0");
+            mobileMenuDrawer.classList.add("translate-x-full");
+            menuTimer = setTimeout(() => {
+                mobileMenuOverlay.classList.add("hidden");
+            }, 300);
+            document.body.style.overflow = "";
+        };
+
+        mobileMenuBtn.addEventListener("click", openMenu, { signal });
+        closeMenuBtn?.addEventListener("click", closeMenu, { signal });
+        mobileMenuOverlay.addEventListener("click", closeMenu, { signal });
+        document.addEventListener(
+            "keydown",
+            (event) => {
+                if (
+                    event.key === "Escape" &&
+                    mobileMenuBtn.getAttribute("aria-expanded") === "true"
+                ) {
+                    closeMenu();
+                    mobileMenuBtn.focus();
+                }
+            },
+            { signal },
+        );
+        document.querySelectorAll(".mobile-nav-link").forEach((link) => {
+            link.addEventListener("click", closeMenu, { signal });
+        });
+
+        const sections = document.querySelectorAll("section[id]");
+        const navLinks = document.querySelectorAll(".hidden.lg\\:flex a");
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+
+                    navLinks.forEach((link) => {
+                        link.classList.remove("link-active");
+                    });
+
+                    const id = entry.target.getAttribute("id");
+                    document
+                        .querySelector(
+                            `.hidden.lg\\:flex a[href="#${id}"]`,
+                        )
+                        ?.classList.add("link-active");
+                });
+            },
+            {
+                root: null,
+                rootMargin: "-20% 0px -80% 0px",
+                threshold: 0,
+            },
+        );
+
+        sections.forEach((section) => observer.observe(section));
+
+        cleanupNavbar = () => {
+            controller.abort();
+            observer.disconnect();
+            clearMenuTimer();
+            mobileMenuBtn.setAttribute("aria-expanded", "false");
+            mobileMenuDrawer.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+        };
     };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                // Remove active class from all links
-                navLinks.forEach((link) => {
-                    link.classList.remove("link-active");
-                });
-
-                // Add active class to corresponding link
-                const id = entry.target.getAttribute("id");
-                const activeLink = document.querySelector(
-                    `.hidden.lg\\:flex a[href="#${id}"]`,
-                );
-                if (activeLink) {
-                    activeLink.classList.add("link-active");
-                }
-            }
-        });
-    }, observerOptions);
-
-    sections.forEach((section) => {
-        observer.observe(section);
-    });
+    document.addEventListener("astro:page-load", initializeNavbar);
 </script>
 
 <style>

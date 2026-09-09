@@ -6,6 +6,8 @@ interface ProjectCardProps {
   description: string;
   category: string;
   image: string;
+  srcSet?: string;
+  sizes?: string;
   link?: string;
   className?: string;
 }
@@ -15,6 +17,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   category,
   image,
+  srcSet,
+  sizes,
   link,
   className,
 }) => {
@@ -30,11 +34,17 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-white/10 to-white/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
       {/* Image Container */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-white/5">
+      <div className="image-skeleton is-loading relative aspect-[16/10] w-full overflow-hidden bg-white/5">
         <img
           src={image}
+          srcSet={srcSet}
+          sizes={sizes}
           alt={title}
           className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+          width={640}
+          height={400}
+          loading="lazy"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
       </div>

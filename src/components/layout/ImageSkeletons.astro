@@ -1,0 +1,195 @@
+<script>
+    let visibilityObserver: IntersectionObserver | undefined;
+    let mutationObserver: MutationObserver | undefined;
+
+    const markLoaded = (image: HTMLImageElement) => {
+        const skeleton = image.closest<HTMLElement>(".image-skeleton");
+        if (!skeleton) return;
+
+        skeleton.classList.remove("is-loading", "has-error");
+        skeleton.classList.add("is-loaded");
+        visibilityObserver?.unobserve(skeleton);
+    };
+
+    const markError = (image: HTMLImageElement) => {
+        const skeleton = image.closest<HTMLElement>(".image-skeleton");
+        if (!skeleton) return;
+
+        skeleton.classList.remove("is-loading");
+        skeleton.classList.add("has-error");
+        visibilityObserver?.unobserve(skeleton);
+    };
+
+    const prepareSkeleton = (skeleton: HTMLElement) => {
+        const image = skeleton.querySelector<HTMLImageElement>("img");
+        if (!image || skeleton.dataset.skeletonReady === "true") return;
+
+        skeleton.dataset.skeletonReady = "true";
+
+        if (image.complete) {
+            image.naturalWidth > 0 ? markLoaded(image) : markError(image);
+            return;
+        }
+
+        visibilityObserver?.observe(skeleton);
+    };
+
+    const scanSkeletons = (root: ParentNode) => {
+        if (root instanceof HTMLElement && root.matches(".image-skeleton")) {
+            prepareSkeleton(root);
+        }
+
+        root
+            .querySelectorAll<HTMLElement>(".image-skeleton")
+            .forEach(prepareSkeleton);
+    };
+
+    const initializeSkeletons = () => {
+        visibilityObserver?.disconnect();
+        mutationObserver?.disconnect();
+
+        visibilityObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    const skeleton = entry.target as HTMLElement;
+                    if (
+                        skeleton.classList.contains("is-loaded") ||
+                        skeleton.classList.contains("has-error")
+                    ) {
+                        visibilityObserver?.unobserve(skeleton);
+                        return;
+                    }
+
+                    skeleton.classList.toggle("is-loading", entry.isIntersecting);
+                });
+            },
+            { rootMargin: "160px" },
+        );
+
+        scanSkeletons(document);
+
+        mutationObserver = new MutationObserver((records) => {
+            records.forEach((record) => {
+                record.addedNodes.forEach((node) => {
+                    if (node instanceof HTMLElement) scanSkeletons(node);
+                });
+            });
+        });
+        mutationObserver.observe(document.body, {
+            childList: true,
+            subtree: true,
+        });
+    };
+
+    document.addEventListener(
+        "load",
+        (event) => {
+            if (event.target instanceof HTMLImageElement) {
+                markLoaded(event.target);
+            }
+        },
+        true,
+    );
+
+    document.addEventListener(
+        "error",
+        (event) => {
+            if (event.target instanceof HTMLImageElement) {
+                markError(event.target);
+            }
+        },
+        true,
+    );
+
+    document.addEventListener("astro:page-load", initializeSkeletons);
+
+    // The initial page-load event can fire before a deferred component script.
+    // Initialize immediately as well so first-paint skeletons never get stuck.
+    initializeSkeletons();
+</script>
+
+<style is:global>
+    .image-skeleton {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.045) 0%,
+            rgba(255, 255, 255, 0.085) 50%,
+            rgba(255, 255, 255, 0.045) 100%
+        );
+        isolation: isolate;
+    }
+
+    .image-skeleton::before {
+        content: "";
+        position: absolute;
+        z-index: 2;
+        inset: -75%;
+        pointer-events: none;
+        opacity: 0;
+        background: linear-gradient(
+            135deg,
+            transparent 42%,
+            rgba(255, 255, 255, 0.08) 46%,
+            rgba(255, 255, 255, 0.24) 50%,
+            rgba(255, 255, 255, 0.08) 54%,
+            transparent 58%
+        );
+        transform: translate3d(-35%, -35%, 0);
+    }
+
+    .image-skeleton.is-loading::before {
+        opacity: 1;
+        animation: image-skeleton-shimmer 1.45s ease-in-out infinite;
+        will-change: transform;
+    }
+
+    .image-skeleton img {
+        opacity: 0;
+        transition: opacity 220ms ease-out;
+    }
+
+    .image-skeleton.is-loaded img {
+        opacity: 1;
+    }
+
+    .image-skeleton.is-loaded {
+        background: transparent;
+    }
+
+    .image-skeleton.has-error::before {
+        opacity: 0;
+        animation: none;
+    }
+
+    @keyframes image-skeleton-shimmer {
+        to {
+            transform: translate3d(35%, 35%, 0);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .image-skeleton.is-loading::before {
+            animation: none;
+            opacity: 0.45;
+            transform: none;
+        }
+
+        .image-skeleton img {
+            transition: none;
+        }
+    }
+</style>
+
+<noscript>
+    <style is:global>
+        .image-skeleton img {
+            opacity: 1 !important;
+        }
+
+        .image-skeleton::before {
+            display: none !important;
+        }
+    </style>
+</noscript>

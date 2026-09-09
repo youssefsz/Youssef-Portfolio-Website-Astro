@@ -1,7 +1,7 @@
 ---
 // Hero Section - Bold futuristic hero with image
 import { Image } from "astro:assets";
-import ResumeButton from "../ResumeButton";
+import ResumeButton from "../ResumeButton.astro";
 const profileImage = "https://youssef.tn/ysf.webp";
 ---
 
@@ -37,7 +37,7 @@ const profileImage = "https://youssef.tn/ysf.webp";
                 <noscript>
                     <h1 class="display-xl mb-6">Youssef Dhibi</h1>
                     <p class="text-xl md:text-2xl text-muted max-w-xl mb-12 leading-relaxed">
-                        Full Stack Web & Mobile Developer (iOS & Android) Based in Tunisia.
+                        I build full-stack applications across web, mobile, desktop, and CLI. Top Rated Plus on Upwork with 100% Job Success.
                     </p>
                 </noscript>
                 <h1
@@ -55,7 +55,7 @@ const profileImage = "https://youssef.tn/ysf.webp";
                 </h1>
 
                 <div class="text-xl md:text-2xl text-muted max-w-xl mb-12 leading-relaxed mx-auto lg:mx-0 lg:justify-start justify-center text-center lg:text-left">
-                    Full-stack developer building mobile and web apps from Tunisia. 18 projects, 5-star reviews.
+                    I build full-stack applications across web, mobile, desktop, and CLI. Top Rated Plus on Upwork with 100% Job Success.
                 </div>
 
                 <!-- CTA Button -->
@@ -82,7 +82,7 @@ const profileImage = "https://youssef.tn/ysf.webp";
                                     d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </a>
-                        <ResumeButton client:load />
+                        <ResumeButton />
                     </div>
                 </div>
             </div>
@@ -117,7 +117,7 @@ const profileImage = "https://youssef.tn/ysf.webp";
 
                         <!-- Image Container -->
                         <div
-                            class="relative w-72 h-80 md:w-80 md:h-96 lg:w-96 lg:h-[28rem] overflow-hidden"
+                            class="image-skeleton is-loading relative w-72 h-80 md:w-80 md:h-96 lg:w-96 lg:h-[28rem] overflow-hidden"
                         >
                             <Image
                                 src={profileImage}
@@ -125,7 +125,7 @@ const profileImage = "https://youssef.tn/ysf.webp";
                                 width={500}
                                 height={600}
                                 class="w-full h-full object-cover object-top transition-all duration-500"
-                                loading="eager"
+                                priority
                             />
                             <!-- Overlay -->
                             <div

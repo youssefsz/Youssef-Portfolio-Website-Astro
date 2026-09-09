@@ -8,6 +8,7 @@ export interface ExperienceItem {
   title: string;
   company: string;
   description: string;
+  badge?: string;
   stats?: StatItem[];
   link?: string;
 }
@@ -24,11 +25,12 @@ export const experience: ExperienceItem[] = [
   {
     date: "Mar 2025 - Present",
     title: "Upwork Freelancer",
-    company: "Web, AI & Software Engineering",
-    description: "Delivered full-stack and AI-powered solutions with a focus on clean code, performance, and client results.",
+    company: "Full-Stack & AI Development",
+    description: "Built and shipped web, mobile, desktop, CLI, and AI products for clients worldwide.",
+    badge: "Top Rated Plus",
     link: "https://www.upwork.com/freelancers/youssefsz",
     stats: [
-      { value: "18", label: "Jobs Completed" },
+      { value: "19", label: "Jobs Completed" },
       { value: "100%", label: "Job Success" },
       { value: "5.0★", label: "Client Rating" }
     ]

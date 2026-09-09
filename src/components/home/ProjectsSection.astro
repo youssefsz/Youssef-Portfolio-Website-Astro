@@ -12,10 +12,17 @@ const remainingCount = projects.length - MAX_HOMEPAGE_PROJECTS;
 // Prepare data for the React Carousel component
 const carouselProjects = await Promise.all(
   displayedProjects.map(async (project) => {
-    const optimizedImage = await getImage({ src: project.image, format: 'webp' });
+    const optimizedImage = await getImage({
+      src: project.image,
+      format: "webp",
+      widths: [320, 480, 640, 800, 960],
+      sizes: "(max-width: 640px) calc(100vw - 2rem), 420px",
+    });
     return {
       ...project,
       image: optimizedImage.src,
+      srcSet: optimizedImage.srcSet.attribute,
+      sizes: optimizedImage.attributes.sizes,
     };
   })
 );
@@ -55,7 +62,7 @@ const carouselProjects = await Promise.all(
         <!-- Mobile Carousel - Visible only on small screens -->
         <div class="block md:hidden mb-8">
             <div>
-                <ProjectCarousel client:load projects={carouselProjects} />
+                <ProjectCarousel client:visible projects={carouselProjects} />
             </div>
         </div>
 
@@ -75,7 +82,7 @@ const carouselProjects = await Promise.all(
         <div class="hidden md:block">
             <div class="projects-grid">
                 {
-                    displayedProjects.map((project, index) => (
+                    displayedProjects.map((project) => (
                         <div
                             class="project-card-wrapper"
                         >
@@ -85,7 +92,6 @@ const carouselProjects = await Promise.all(
                                 category={project.category}
                                 image={project.image}
                                 link={project.link}
-                                index={index}
                             />
                         </div>
                     ))
@@ -100,8 +106,8 @@ const carouselProjects = await Promise.all(
                     <div class="w-full sm:w-auto">
                         <a href="/projects" class="btn-secondary group w-full py-3 px-4 text-xs sm:w-auto sm:py-4 sm:px-8 sm:text-sm">
                             <span>
-                                Show All Projects
-                                <span class="text-accent ml-1">
+                                Show All Projects{" "}
+                                <span class="text-accent">
                                     (+{remainingCount} more)
                                 </span>
                             </span>

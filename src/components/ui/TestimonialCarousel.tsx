@@ -67,7 +67,7 @@ export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testim
             <button
               key={index}
               onClick={() => scrollTo(index)}
-              className="flex min-h-[48px] items-center justify-center px-1"
+              className="flex min-h-[48px] min-w-8 items-center justify-center px-1"
               aria-label={`Go to testimonial slide ${index + 1}`}
             >
               <span

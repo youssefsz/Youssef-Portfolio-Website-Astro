@@ -82,4 +82,4 @@ if [ -n "$IS_BLUE_RUNNING" ] || [ "$CURRENT" == "landing-green" ]; then
 fi
 
 echo "✨ Deployment Complete Successfully!"
-echo "🌍 Service is running on $TARGET."
+echo "🌍 Portfolio is running on $TARGET."

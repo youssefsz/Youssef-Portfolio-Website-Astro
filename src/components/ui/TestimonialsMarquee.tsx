@@ -25,18 +25,21 @@ const ReviewCard = ({
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-blue-400/5 to-transparent -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       
       <figcaption className="flex flex-row items-center gap-3">
-        <img 
-          className="h-10 w-10 rounded-full object-cover bg-gray-800 border border-white/10" 
-          alt={name} 
-          src={typeof img === 'string' ? img : img.src} 
-          width={40}
-          height={40}
-          loading="lazy"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff`;
-          }}
-        />
+        <span className="image-skeleton is-loading h-10 w-10 shrink-0 rounded-full border border-white/10 bg-gray-800">
+          <img
+            className="h-full w-full rounded-full object-cover"
+            alt={name}
+            src={typeof img === 'string' ? img : img.src}
+            width={40}
+            height={40}
+            loading="lazy"
+            decoding="async"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff`;
+            }}
+          />
+        </span>
         <div className="flex flex-col">
           <span className="text-base font-bold text-white tracking-tight">
             {name}

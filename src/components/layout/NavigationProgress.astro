@@ -1,0 +1,101 @@
+<div id="navigation-progress" transition:persist aria-hidden="true"></div>
+
+<script>
+    import NProgress from "nprogress";
+
+    const SHOW_DELAY_MS = 180;
+    let showTimer: ReturnType<typeof setTimeout> | undefined;
+    let progressStarted = false;
+
+    NProgress.configure({
+        minimum: 0.12,
+        easing: "ease",
+        speed: 260,
+        trickle: true,
+        trickleSpeed: 220,
+        showSpinner: false,
+        parent: "#navigation-progress",
+    });
+
+    const clearShowTimer = () => {
+        if (showTimer !== undefined) {
+            clearTimeout(showTimer);
+            showTimer = undefined;
+        }
+    };
+
+    const startProgress = () => {
+        clearShowTimer();
+
+        if (progressStarted) {
+            NProgress.remove();
+            progressStarted = false;
+        }
+
+        showTimer = setTimeout(() => {
+            progressStarted = true;
+            document.documentElement.setAttribute("aria-busy", "true");
+            NProgress.start();
+        }, SHOW_DELAY_MS);
+    };
+
+    const finishProgress = () => {
+        clearShowTimer();
+
+        if (progressStarted) {
+            NProgress.done();
+            progressStarted = false;
+        }
+
+        document.documentElement.removeAttribute("aria-busy");
+    };
+
+    document.addEventListener("astro:before-preparation", startProgress);
+    document.addEventListener("astro:page-load", finishProgress);
+</script>
+
+<style is:global>
+    #navigation-progress,
+    #nprogress {
+        pointer-events: none;
+    }
+
+    #nprogress .bar {
+        position: fixed;
+        z-index: 10000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--accent);
+        box-shadow: 0 0 8px rgba(59, 130, 246, 0.65);
+        transition: all 260ms ease;
+    }
+
+    #nprogress .peg {
+        position: absolute;
+        right: 0;
+        display: block;
+        width: 110px;
+        height: 100%;
+        opacity: 1;
+        box-shadow:
+            0 0 10px var(--accent),
+            0 0 4px var(--accent);
+        transform: rotate(2deg) translateY(-1px);
+    }
+
+    #nprogress .spinner {
+        display: none !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        #nprogress .bar {
+            transition-duration: 1ms;
+        }
+
+        #nprogress .peg {
+            display: none;
+        }
+    }
+</style>

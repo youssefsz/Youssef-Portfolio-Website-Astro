@@ -26,10 +26,18 @@
 </button>
 
 <script>
-    const scrollBtn = document.getElementById("scroll-to-top");
+    let scrollController: AbortController | undefined;
 
-    if (scrollBtn) {
-        // Handle scroll visibility
+    const initializeScrollTop = () => {
+        scrollController?.abort();
+        scrollController = undefined;
+
+        const scrollBtn = document.getElementById("scroll-to-top");
+        if (!scrollBtn) return;
+
+        scrollController = new AbortController();
+        const { signal } = scrollController;
+
         const toggleVisibility = () => {
             if (window.scrollY > 400) {
                 scrollBtn.classList.remove(
@@ -56,19 +64,26 @@
             }
         };
 
-        window.addEventListener("scroll", toggleVisibility, { passive: true });
-
-        // Handle click
-        scrollBtn.addEventListener("click", () => {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-            });
+        window.addEventListener("scroll", toggleVisibility, {
+            passive: true,
+            signal,
         });
 
-        // Initial check
+        scrollBtn.addEventListener(
+            "click",
+            () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+            },
+            { signal },
+        );
+
         toggleVisibility();
-    }
+    };
+
+    document.addEventListener("astro:page-load", initializeScrollTop);
 </script>
 
 <style>

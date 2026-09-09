@@ -30,12 +30,12 @@ import { skills } from "../../data/skills";
       </div>
     </div>
 
-    <!-- Skills Grid - Service Card Style -->
+    <!-- Skills Grid - Shared Card Style -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {
-        skills.map((category, catIndex) => (
+        skills.map((category) => (
           <div class="h-full">
-            <div class="service-card group h-full p-8 flex flex-col relative bg-black border border-white/10 overflow-hidden transition-colors duration-300 hover:border-white/25">
+            <div class="content-card group h-full p-8 flex flex-col relative bg-black border border-white/10 overflow-hidden transition-colors duration-300 hover:border-white/25">
               <!-- Background Gradient -->
               <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-white/0 -z-10 transition-opacity duration-300 group-hover:opacity-100"></div>
               
@@ -54,7 +54,7 @@ import { skills } from "../../data/skills";
                     class="flex items-center gap-3 group/skill cursor-pointer"
                     aria-label={`Visit ${skill.name} website`}
                   >
-                    <div class="relative w-10 h-10 flex-shrink-0 flex items-center justify-center transition-transform duration-300 group-hover/skill:scale-110">
+                    <div class="image-skeleton is-loading relative w-10 h-10 flex-shrink-0 flex items-center justify-center transition-transform duration-300 group-hover/skill:scale-110">
                       <img 
                         src={skill.icon} 
                         alt={`${skill.name} logo`} 
@@ -78,11 +78,11 @@ import { skills } from "../../data/skills";
     </div>
 
     <style>
-      .service-card {
+      .content-card {
         isolation: isolate;
       }
       /* Hover Gradient Effect */
-      .service-card::after {
+      .content-card::after {
         content: "";
         position: absolute;
         inset: 0;
@@ -95,7 +95,7 @@ import { skills } from "../../data/skills";
         opacity: 0;
         transition: opacity 0.4s ease;
       }
-      .service-card:hover::after {
+      .content-card:hover::after {
         opacity: 1;
       }
     </style>

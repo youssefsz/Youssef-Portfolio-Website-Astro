@@ -1,0 +1,129 @@
+<style is:inline>
+    html[data-restoring-scroll] body {
+        visibility: hidden;
+    }
+</style>
+
+<script is:inline>
+    (() => {
+        const stateKey = "__portfolioScrollRestoration";
+        const storagePrefix = "portfolio-scroll:";
+        const navigation = performance.getEntriesByType("navigation")[0];
+        const isReload = navigation?.type === "reload";
+        const locationKey = () =>
+            `${storagePrefix}${location.pathname}${location.search}${location.hash}`;
+
+        let savedPosition = null;
+
+        if (isReload) {
+            try {
+                savedPosition = JSON.parse(
+                    sessionStorage.getItem(locationKey()) || "null",
+                );
+            } catch {
+                savedPosition = null;
+            }
+        }
+
+        const hasSavedPosition =
+            savedPosition &&
+            Number.isFinite(savedPosition.x) &&
+            Number.isFinite(savedPosition.y);
+
+        if (hasSavedPosition) {
+            const originalHash = location.hash;
+
+            history.scrollRestoration = "manual";
+            document.documentElement.setAttribute(
+                "data-restoring-scroll",
+                "",
+            );
+
+            // Prevent the browser's delayed fragment jump from overriding the
+            // exact position saved immediately before the refresh.
+            if (originalHash) {
+                history.replaceState(
+                    history.state,
+                    "",
+                    `${location.pathname}${location.search}`,
+                );
+            }
+
+            const restore = () => {
+                const restorePosition = () => {
+                    const scrollingElement = document.scrollingElement;
+                    const maximumY = Math.max(
+                        0,
+                        (scrollingElement?.scrollHeight || 0) - innerHeight,
+                    );
+
+                    scrollTo({
+                        left: savedPosition.x,
+                        top: Math.min(savedPosition.y, maximumY),
+                        behavior: "instant",
+                    });
+                };
+
+                restorePosition();
+
+                const finishRestoration = () => requestAnimationFrame(() => {
+                    restorePosition();
+
+                    if (originalHash) {
+                        history.replaceState(
+                            history.state,
+                            "",
+                            `${location.pathname}${location.search}${originalHash}`,
+                        );
+                    }
+
+                    document.documentElement.removeAttribute(
+                        "data-restoring-scroll",
+                    );
+                    history.scrollRestoration = "auto";
+                });
+
+                // Fragment scrolling can run after DOMContentLoaded. Keep the
+                // hash suppressed until `load`, then reveal the final position.
+                if (originalHash && document.readyState !== "complete") {
+                    addEventListener("load", finishRestoration, { once: true });
+                } else {
+                    finishRestoration();
+                }
+            };
+
+            if (document.readyState === "loading") {
+                document.addEventListener("DOMContentLoaded", restore, {
+                    once: true,
+                });
+            } else {
+                restore();
+            }
+        }
+
+        if (!window[stateKey]) {
+            window[stateKey] = true;
+            let saveTimer;
+
+            const savePosition = () => {
+                clearTimeout(saveTimer);
+                saveTimer = undefined;
+
+                try {
+                    sessionStorage.setItem(
+                        locationKey(),
+                        JSON.stringify({ x: scrollX, y: scrollY }),
+                    );
+                } catch {
+                    // Storage can be unavailable in restrictive browsing modes.
+                }
+            };
+
+            addEventListener("scroll", () => {
+                clearTimeout(saveTimer);
+                saveTimer = setTimeout(savePosition, 120);
+            }, { passive: true });
+            addEventListener("pagehide", savePosition);
+        }
+    })();
+</script>

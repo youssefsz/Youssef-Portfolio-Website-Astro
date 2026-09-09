@@ -7,7 +7,7 @@ import { projects } from "../data/projects";
 
 <Layout
     title="All Projects | Youssef Dhibi"
-    description="Explore my portfolio of web and mobile applications - iOS, Android, and Web platforms built for performance and scale."
+    description="Explore web, mobile, desktop, and CLI applications built by Youssef Dhibi with a focus on performance, usability, and reliable software."
 >
     <main class="min-h-screen">
         <!-- Page Header -->
@@ -67,6 +67,7 @@ import { projects } from "../data/projects";
         <!-- Projects Grid Section - No divider needed, cleaner look -->
         <section class="py-20 relative">
             <div class="container-main relative z-10">
+                <h2 class="sr-only">Project catalog</h2>
                 <noscript>
                     <div class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                         {projects.map((project) => (
@@ -81,17 +82,7 @@ import { projects } from "../data/projects";
                 <!-- Projects Grid - Adaptive layout -->
                 <div class="projects-grid-full">
                     {
-                        projects.map((project, index) => {
-                            // Optimize delay for scrolling:
-                            // First 6 items (likely above fold) get progressive stagger
-                            // Subsequent items get minimal stagger based on column position
-                            const isAboveFold = index < 6;
-                            // Reduce base delay to 200ms for snappier feel
-                            const delay = isAboveFold 
-                                ? index * 100 + 200 
-                                : (index % 3) * 100; 
-
-                            return (
+                        projects.map((project) => (
                                 <div
                                     class="project-card-wrapper"
                                 >
@@ -101,11 +92,9 @@ import { projects } from "../data/projects";
                                         category={project.category}
                                         image={project.image}
                                         link={project.link}
-                                        index={index}
                                     />
                                 </div>
-                            );
-                        })
+                        ))
                     }
                 </div>
             </div>
