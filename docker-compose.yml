@@ -19,7 +19,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.landing-blue.rule=Host(`youssef.tn`) || Host(`www.youssef.tn`)"
       - "traefik.http.routers.landing-blue.entrypoints=websecure"
-      - "traefik.http.routers.landing-blue.tls.certresolver=myresolver"
+      - "traefik.http.routers.landing-blue.tls=true"
       - "traefik.http.services.landing-blue.loadbalancer.server.port=80"
 
   landing-green:
@@ -42,7 +42,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.landing-green.rule=Host(`youssef.tn`) || Host(`www.youssef.tn`)"
       - "traefik.http.routers.landing-green.entrypoints=websecure"
-      - "traefik.http.routers.landing-green.tls.certresolver=myresolver"
+      - "traefik.http.routers.landing-green.tls=true"
       - "traefik.http.services.landing-green.loadbalancer.server.port=80"
 
 networks:
