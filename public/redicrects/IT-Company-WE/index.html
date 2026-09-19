@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting - TechFlow Solutions</title>
+    <meta name="description" content="Redirecting to TechFlow Solutions - Your trusted IT partner">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            --primary: 221.2 83.2% 53.3%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            --border: 214.3 31.8% 91.4%;
+            --radius: 0.75rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #dbeafe 50%, #f1f5f9 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: hsl(var(--foreground));
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background Pattern */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(226 232 240 / 0.5)'%3e%3cpath d='m0 .5 32 0'/%3e%3cpath d='m0 32.5 32 0'/%3e%3cpath d='m.5 0 0 32'/%3e%3cpath d='m32.5 0 0 32'/%3e%3c/svg%3e");
+            background-size: 60px 60px;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: #dbeafe;
+            color: #1e40af;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            animation: fadeInUp 0.6s ease-out 0.3s both;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: hsl(var(--muted-foreground));
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out 0.4s both;
+        }
+
+        .countdown {
+            font-size: 4rem;
+            font-weight: 700;
+            color: hsl(var(--primary));
+            margin: 2rem 0;
+            animation: fadeInUp 0.6s ease-out 0.5s both;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: hsl(var(--secondary));
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin: 2rem 0;
+            animation: fadeInUp 0.6s ease-out 0.6s both;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, hsl(var(--primary)), #3b82f6);
+            border-radius: var(--radius);
+            width: 0%;
+            transition: width 0.1s ease-out;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 2rem;
+            background: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            animation: fadeInUp 0.6s ease-out 0.7s both;
+        }
+
+        .button:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.2;
+            filter: blur(40px);
+        }
+
+        .circle-1 {
+            width: 200px;
+            height: 200px;
+            background: #3b82f6;
+            top: 10%;
+            right: 10%;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .circle-2 {
+            width: 150px;
+            height: 150px;
+            background: #8b5cf6;
+            bottom: 10%;
+            left: 10%;
+            animation: float 3s ease-in-out infinite reverse;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            .countdown {
+                font-size: 3rem;
+            }
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-circle circle-1"></div>
+        <div class="floating-circle circle-2"></div>
+    </div>
+
+    <div class="container">
+        <div class="badge">
+            🚀 TechFlow Solutions
+        </div>
+        
+        <h1 class="title">
+            Directing to <span style="color: hsl(var(--primary))">TechFlow</span> Website
+        </h1>
+        
+        <p class="subtitle">
+            You'll be automatically directed to TechFlow Solutions in a few seconds.
+        </p>
+        
+        <div class="countdown pulse" id="countdown">5</div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <a href="https://it-company-we.vercel.app/" class="button" id="redirectBtn">
+            Continue to Website →
+        </a>
+    </div>
+
+    <script>
+        let countdown = 5;
+        let progress = 0;
+        const countdownElement = document.getElementById('countdown');
+        const progressFill = document.getElementById('progressFill');
+        const redirectBtn = document.getElementById('redirectBtn');
+        const targetUrl = 'https://it-company-we.vercel.app/';
+
+        // Update countdown and progress with smoother animation
+        const timer = setInterval(() => {
+            countdown--;
+            progress += 20;
+            
+            countdownElement.textContent = countdown;
+            
+            // Animate progress bar smoothly
+            progressFill.style.transition = 'width 1s ease-out';
+            progressFill.style.width = progress + '%';
+            
+            if (countdown <= 0) {
+                clearInterval(timer);
+                redirect();
+            }
+        }, 1000);
+        
+        // Initialize smooth progress animation
+        setTimeout(() => {
+            progressFill.style.width = '0%';
+        }, 100);
+
+        // Redirect function
+        function redirect() {
+            try {
+                window.location.href = targetUrl;
+            } catch (error) {
+                // Fallback if redirect fails
+                console.error('Redirect failed:', error);
+                showManualRedirect();
+            }
+        }
+
+        // Show manual redirect option if automatic redirect fails
+        function showManualRedirect() {
+            countdownElement.textContent = '!';
+            countdownElement.style.color = '#ef4444';
+            redirectBtn.textContent = 'Click Here to Continue';
+            redirectBtn.style.background = '#ef4444';
+            redirectBtn.style.animation = 'pulse 1s ease-in-out infinite';
+        }
+
+        // Manual redirect button click
+        redirectBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            redirect();
+        });
+
+        // Preload the target page for faster redirect
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = targetUrl;
+        document.head.appendChild(link);
+
+        // Handle visibility change (pause timer when tab is not visible)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                clearInterval(timer);
+            }
+        });
+    </script>
+</body>
+</html>

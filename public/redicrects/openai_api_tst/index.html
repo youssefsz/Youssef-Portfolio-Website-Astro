@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenAI Image Processing</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Image Processing with GPT-4o mini</h1>
+        
+        <div class="api-key-container">
+            <label for="api-key">OpenAI API Key:</label>
+            <input type="password" id="api-key" placeholder="Enter your OpenAI API key">
+        </div>
+        
+        <div class="upload-container">
+            <label for="image-upload">Upload Image:</label>
+            <input type="file" id="image-upload" accept="image/*">
+            <div class="preview-container">
+                <img id="image-preview" src="" alt="Preview">
+            </div>
+        </div>
+        
+        <div class="prompt-container">
+            <label for="prompt-input">Prompt:</label>
+            <textarea id="prompt-input" placeholder="Enter a prompt for GPT-4o mini (e.g., 'Describe this image in detail')"></textarea>
+        </div>
+        
+        <button id="process-button">Process Image</button>
+        
+        <div class="result-container">
+            <h2>Result:</h2>
+            <div id="result-output"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 

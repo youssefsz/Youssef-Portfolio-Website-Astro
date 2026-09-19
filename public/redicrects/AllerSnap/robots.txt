@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Block admin or dev paths if any (none currently)
+
+Sitemap: https://allersnap.com/sitemap.xml
+

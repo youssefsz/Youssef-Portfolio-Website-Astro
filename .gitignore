@@ -22,3 +22,9 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# local editor settings
+.vscode/
+
+# legacy server-rendered project; static migration only
+public/redicrects/Nurzhol/

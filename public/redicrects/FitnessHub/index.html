@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitnessHub - Your Ultimate Workout Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <i class="fas fa-dumbbell"></i>
+                <span>FitnessHub</span>
+            </a>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#showcase" class="nav-link">App Preview</a>
+                <a href="#download" class="nav-link download-btn">Download Now</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Your Ultimate
+                        <span class="gradient-text">Fitness Journey</span>
+                        Starts Here
+                    </h1>
+                    <p class="hero-description">
+                        Discover thousands of exercises, create personalized workouts, and track your progress with FitnessHub - the most comprehensive fitness app designed for every fitness level.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})">
+                            <i class="fas fa-compass"></i>
+                            Explore Features
+                        </button>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <span class="stat-number">1000+</span>
+                            <span class="stat-label">Exercises</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">50+</span>
+                            <span class="stat-label">Muscle Groups</span>
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="phone-mockup main-phone">
+                        <img src="imgs/home_screen.png" alt="FitnessHub Home Screen" class="phone-screen">
+                        <div class="phone-frame"></div>
+                    </div>
+                    <div class="floating-phones">
+                        <div class="phone-mockup floating-phone phone-1">
+                            <img src="imgs/exercise_detail_screen.png" alt="Exercise Detail" class="phone-screen">
+                        </div>
+                        <div class="phone-mockup floating-phone phone-2">
+                            <img src="imgs/muscle_groups_screen.png" alt="Muscle Groups" class="phone-screen">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-bg-elements">
+            <div class="bg-circle circle-1"></div>
+            <div class="bg-circle circle-2"></div>
+            <div class="bg-gradient"></div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Everything You Need for Your Fitness Journey</h2>
+                <p class="section-description">Comprehensive tools and features designed to help you achieve your fitness goals</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3>Comprehensive Exercise Library</h3>
+                    <p>Access over 1000 exercises with detailed instructions, muscle targeting, and difficulty levels for every fitness goal.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Smart Search & Filtering</h3>
+                    <p>Find exercises quickly by muscle group, equipment, difficulty level, or exercise type with our intelligent search system.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Personal Favorites</h3>
+                    <p>Save your favorite exercises and create custom workout collections for quick access during your training sessions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Muscle Group Categories</h3>
+                    <p>Explore exercises organized by body parts - upper body, core, and lower body with targeted muscle group breakdowns.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-random"></i>
+                    </div>
+                    <h3>Random Workouts</h3>
+                    <p>Get instant workout inspiration with our random exercise generator for when you need variety in your routine.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Beautiful UI/UX</h3>
+                    <p>Enjoy a sleek, dark-themed interface designed for optimal viewing during workouts with intuitive navigation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Showcase Section -->
+    <section id="showcase" class="showcase">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Explore Every Feature</h2>
+                <p class="section-description">Take a closer look at all the screens and features that make FitnessHub special</p>
+            </div>
+            <div class="showcase-content">
+                <div class="showcase-tabs">
+                    <button class="tab-btn active" data-tab="home">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </button>
+                    <button class="tab-btn" data-tab="muscle-groups">
+                        <i class="fas fa-dumbbell"></i>
+                        <span>Muscle Groups</span>
+                    </button>
+                    <button class="tab-btn" data-tab="exercise-list">
+                        <i class="fas fa-list"></i>
+                        <span>Exercise List</span>
+                    </button>
+                    <button class="tab-btn" data-tab="exercise-detail">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Exercise Detail</span>
+                    </button>
+                    <button class="tab-btn" data-tab="favorites">
+                        <i class="fas fa-heart"></i>
+                        <span>Favorites</span>
+                    </button>
+                </div>
+                <div class="showcase-display">
+                    <div class="tab-content active" id="home">
+                        <div class="showcase-item">
+                            <div class="showcase-phone">
+                                <img src="imgs/home_screen.png" alt="Home Screen" class="showcase-image">
+                            </div>
+                            <div class="showcase-info">
+                                <h3>Home Dashboard</h3>
+                                <p>Your fitness journey starts here. Quick access to categories, featured exercises, and personalized recommendations.</p>
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> Quick action buttons</li>
+                                    <li><i class="fas fa-check"></i> Exercise categories</li>
+                                    <li><i class="fas fa-check"></i> Featured exercises</li>
+                                    <li><i class="fas fa-check"></i> Random workout generator</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="muscle-groups">
+                        <div class="showcase-item">
+                            <div class="showcase-phone">
+                                <img src="imgs/muscle_groups_screen.png" alt="Muscle Groups Screen" class="showcase-image">
+                            </div>
+                            <div class="showcase-info">
+                                <h3>Muscle Groups</h3>
+                                <p>Browse exercises by specific muscle groups and body parts for targeted training sessions.</p>
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> Upper body exercises</li>
+                                    <li><i class="fas fa-check"></i> Core strengthening</li>
+                                    <li><i class="fas fa-check"></i> Lower body workouts</li>
+                                    <li><i class="fas fa-check"></i> Exercise count per muscle</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="exercise-list">
+                        <div class="showcase-item">
+                            <div class="showcase-phone">
+                                <img src="imgs/exercise_list_screen.png" alt="Exercise List Screen" class="showcase-image">
+                            </div>
+                            <div class="showcase-info">
+                                <h3>Exercise Library</h3>
+                                <p>Comprehensive list of exercises with powerful search and filtering capabilities.</p>
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> Advanced search functionality</li>
+                                    <li><i class="fas fa-check"></i> Sort by difficulty & muscle</li>
+                                    <li><i class="fas fa-check"></i> Filter by equipment</li>
+                                    <li><i class="fas fa-check"></i> Clean, organized layout</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="exercise-detail">
+                        <div class="showcase-item">
+                            <div class="showcase-phone">
+                                <img src="imgs/exercise_detail_screen.png" alt="Exercise Detail Screen" class="showcase-image">
+                            </div>
+                            <div class="showcase-info">
+                                <h3>Exercise Details</h3>
+                                <p>Detailed exercise information with step-by-step instructions and muscle targeting.</p>
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> Step-by-step instructions</li>
+                                    <li><i class="fas fa-check"></i> Primary & secondary muscles</li>
+                                    <li><i class="fas fa-check"></i> Difficulty level indicators</li>
+                                    <li><i class="fas fa-check"></i> Equipment requirements</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="favorites">
+                        <div class="showcase-item">
+                            <div class="showcase-phone">
+                                <img src="imgs/favorite_screen.png" alt="Favorites Screen" class="showcase-image">
+                            </div>
+                            <div class="showcase-info">
+                                <h3>Personal Favorites</h3>
+                                <p>Save and organize your favorite exercises for quick access during workouts.</p>
+                                <ul class="feature-list">
+                                    <li><i class="fas fa-check"></i> Save favorite exercises</li>
+                                    <li><i class="fas fa-check"></i> Quick access during workouts</li>
+                                    <li><i class="fas fa-check"></i> Easy management</li>
+                                    <li><i class="fas fa-check"></i> Personalized collections</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download">
+        <div class="container">
+            <div class="download-content">
+                <div class="download-text">
+                    <h2>Ready to Start Your Fitness Journey?</h2>
+                    <p>Download FitnessHub today and transform the way you work out. Available on all platforms.</p>
+                    <div class="download-buttons">
+                        <button class="download-btn">
+                            <i class="fab fa-apple"></i>
+                            <div>
+                                <span class="small">Download on the</span>
+                                <span class="large">App Store</span>
+                            </div>
+                        </button>
+                        <button class="download-btn">
+                            <i class="fab fa-google-play"></i>
+                            <div>
+                                <span class="small">Get it on</span>
+                                <span class="large">Google Play</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+                <div class="download-image">
+                    <div class="phone-mockup download-phone">
+                        <img src="imgs/home_screen.png" alt="FitnessHub App" class="phone-screen">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-dumbbell"></i>
+                        <span>FitnessHub</span>
+                    </div>
+                    <p>Your ultimate fitness companion for achieving your health and wellness goals.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Features</h4>
+                    <ul>
+                        <li><a href="#">Exercise Library</a></li>
+                        <li><a href="#">Muscle Groups</a></li>
+                        <li><a href="#">Workout Plans</a></li>
+                        <li><a href="#">Progress Tracking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="mailto:contact@youssef.tn">Contact: contact@youssef.tn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FitnessHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-top" id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /DocScanner/
+
+Sitemap: https://youssef.tn/DocScanner/sitemap-index.xml

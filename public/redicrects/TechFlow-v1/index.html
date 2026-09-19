@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to TechFlow - AI-Powered Development Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: oklch(0.145 0 0);
+            --foreground: oklch(0.985 0 0);
+            --primary: oklch(0.985 0 0);
+            --primary-foreground: oklch(0.205 0 0);
+            --secondary: oklch(0.269 0 0);
+            --secondary-foreground: oklch(0.985 0 0);
+            --muted: oklch(0.269 0 0);
+            --muted-foreground: oklch(0.708 0 0);
+            --accent: oklch(0.269 0 0);
+            --accent-foreground: oklch(0.985 0 0);
+            --border: oklch(0.269 0 0);
+            --ring: oklch(0.439 0 0);
+            --radius: 0.625rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background gradient */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(120, 252, 214, 0.05) 0%, 
+                rgba(0, 255, 182, 0.02) 50%, 
+                rgba(120, 252, 214, 0.03) 100%);
+            pointer-events: none;
+        }
+
+        /* Floating elements */
+        .floating-element {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            width: 12px;
+            height: 12px;
+            background: rgba(120, 252, 214, 0.5);
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #78fcd6 0%, #00ffb6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .redirect-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: calc(var(--radius) + 8px);
+            padding: 3rem 2rem;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--muted-foreground);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .redirect-info {
+            background: rgba(120, 252, 214, 0.1);
+            border: 1px solid rgba(120, 252, 214, 0.2);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .redirect-url {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--primary);
+            word-break: break-all;
+            background: rgba(120, 252, 214, 0.05);
+            padding: 0.5rem;
+            border-radius: calc(var(--radius) - 2px);
+            border: 1px solid rgba(120, 252, 214, 0.1);
+        }
+
+        .countdown {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #78fcd6 0%, #00ffb6 100%);
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+
+        .manual-link {
+            display: inline-block;
+            background: linear-gradient(135deg, #78fcd6 0%, #00ffb6 100%);
+            color: var(--background);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        .manual-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(120, 252, 214, 0.3);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(120, 252, 214, 0.3);
+            border-radius: 50%;
+            border-top-color: #78fcd6;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .redirect-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .title {
+                font-size: 1.5rem;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating background elements -->
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+
+    <div class="container">
+        <div class="redirect-card">
+            <div class="logo gradient-text">TechFlow</div>
+            
+            <h1 class="title">Redirecting you to TechFlow</h1>
+            
+            <p class="subtitle">
+                You're being redirected to our AI-powered development platform. 
+                Get ready to build software at the speed of thought.
+            </p>
+            
+            <div class="redirect-info">
+                <div class="countdown" id="countdown">5</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress"></div>
+                </div>
+                <p>Redirecting to:</p>
+                <div class="redirect-url">https://company-website-next-v1.vercel.app/</div>
+            </div>
+            
+            <a href="https://company-website-next-v1.vercel.app/" class="manual-link">
+                <span class="spinner"></span>
+                Continue to TechFlow
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Countdown and redirect functionality
+        let countdown = 5;
+        const countdownElement = document.getElementById('countdown');
+        const progressElement = document.getElementById('progress');
+        const totalTime = 5000; // 5 seconds
+        let elapsed = 0;
+
+        function updateCountdown() {
+            countdownElement.textContent = countdown;
+            const progress = ((totalTime - elapsed) / totalTime) * 100;
+            progressElement.style.width = progress + '%';
+        }
+
+        function startCountdown() {
+            updateCountdown();
+            
+            const interval = setInterval(() => {
+                elapsed += 100;
+                countdown--;
+                updateCountdown();
+                
+                if (countdown <= 0) {
+                    clearInterval(interval);
+                    window.location.href = 'https://company-website-next-v1.vercel.app/';
+                }
+            }, 1000);
+        }
+
+        // Start countdown when page loads
+        document.addEventListener('DOMContentLoaded', startCountdown);
+
+        // Update progress bar smoothly
+        setInterval(() => {
+            elapsed += 50;
+            const progress = ((totalTime - elapsed) / totalTime) * 100;
+            progressElement.style.width = Math.max(0, progress) + '%';
+        }, 50);
+    </script>
+</body>
+</html> 

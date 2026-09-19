@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator - Computer Science S1</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="msapplication-TileColor" content="#4a90e2">
+
+
+    <style>
+        
+        
+        :root {
+    --primary-color: #0f2167;
+    --primary-dark: #091441;
+    --secondary-color: #e2e8f0;
+    --text-color: #020617;
+    --success-color: #065f46;
+    --success-dark: #064e3b;
+    --border-radius: 12px;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --hover-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: linear-gradient(to bottom right, #d1d5db, #94a3b8);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+    color: var(--text-color);
+    margin-bottom: 2.5rem;
+    font-size: 2.75em;
+    font-weight: 800;
+    background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding: 1rem 0;
+}
+
+.actions {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 3rem;
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.subject-container {
+    background: rgba(255, 255, 255, 0.97);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    height: fit-content;
+    position: relative;
+    overflow: hidden;
+}
+
+.subject-container:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+    background: rgba(255, 255, 255, 1);
+}
+
+h3 {
+    color: var(--text-color);
+    margin-top: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 1.25rem;
+    border-bottom: 2px solid var(--secondary-color);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.input-group {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    gap: 1.25rem;
+}
+
+label {
+    color: #475569;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+input {
+    width: 100%;
+    max-width: 200px;
+    padding: 0.875rem 1.25rem;
+    border: 2px solid #94a3b8;
+    border-radius: 10px;
+    transition: var(--transition);
+    font-size: 1rem;
+    background-color: #e2e8f0;
+}
+
+input:hover {
+    border-color: #cbd5e1;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.875rem 1.75rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+button:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.result {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background-color: var(--secondary-color);
+    border-radius: 10px;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-align: center;
+    border: 2px solid rgba(37, 99, 235, 0.1);
+}
+
+.coefficient {
+    font-size: 0.9rem;
+    color: #475569;
+    background: #e2e8f0;
+    padding: 0.5rem 1.25rem;
+    border-radius: 999px;
+    font-weight: 500;
+    border: 1px solid #94a3b8;
+}
+
+.semester-average {
+    max-width: 700px;
+    margin: 4rem auto;
+    background: white;
+    padding: 3rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    position: relative;
+}
+
+.semester-average h3 {
+    color: var(--text-color);
+    border-bottom: none;
+    justify-content: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+#semester-average-result {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 2rem 0;
+    padding: 1rem;
+    border-radius: 12px;
+    transition: all 0.5s ease;
+}
+
+#semester-average-result.success {
+    background: linear-gradient(135deg, #065f46, #064e3b);
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+#semester-average-result.fail {
+    background: linear-gradient(135deg, #b91c1c, #991b1b);
+    color: white;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(4, 120, 87, 0.4);
+    }
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(4, 120, 87, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(4, 120, 87, 0);
+    }
+}
+
+.calculate-all-btn {
+    background-color: var(--success-color);
+    font-size: 1.1rem;
+    padding: 1.25rem 2.5rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+}
+
+.calculate-all-btn:hover {
+    background-color: var(--success-dark);
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+
+    .subjects-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .input-group {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    input {
+        max-width: 90%;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .semester-average {
+        padding: 2rem 1.5rem;
+    }
+
+    #semester-average-result {
+        font-size: 2rem;
+    }
+
+    .actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    button {
+        width: 100%;
+    }
+}
+
+@media print {
+    /* Hide regular content when printing */
+    .subjects-grid, .actions {
+        display: none;
+    }
+
+    /* Show print-specific table */
+    .print-table {
+        display: table !important;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 11pt;
+    }
+
+    .print-table th, .print-table td {
+        border: 1px solid #ddd;
+        padding: 4px 8px;
+        text-align: left;
+    }
+
+    .print-table th {
+        background-color: #e2e8f0;
+        font-weight: bold;
+    }
+
+    .print-table tr:nth-child(even) {
+        background-color: #f1f5f9;
+    }
+
+    .semester-average {
+        display: none;
+    }
+
+    /* Adjust general print settings */
+    @page {
+        margin: 0.5cm;
+        size: portrait;
+    }
+
+    body {
+        padding: 0;
+        margin: 0;
+        background: none;
+    }
+
+    h1 {
+        font-size: 14pt;
+        margin: 5px 0;
+        text-align: center;
+        background: none;
+        -webkit-text-fill-color: black;
+        padding: 0;
+    }
+
+    /* Ensure table fits on one page */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
+
+.copyright {
+    text-align: center;
+    padding: 2rem 0;
+    color: #475569;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+@media print {
+    .copyright {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        padding: 0.5rem 0;
+        font-size: 8pt;
+    }
+}
+
+.print-table {
+    display: none; /* Hide the table by default */
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.print-table th, .print-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.print-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.print-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.print-table tr:hover {
+    background-color: #f1f1f1;
+}
+.download-pdf-btn{
+    background-color: #581c87;
+}
+
+.download-pdf-btn:hover {
+    background-color: #3b0764;
+}
+    </style>
+</head>
+<body>
+    <h1>Grade Calculator - Computer Science Semester 1</h1>
+    
+    
+
+    <div class="subjects-grid">
+        <div class="subject-container">
+            <h3>Algèbre 1 (ECUEF111) <span class="coefficient">Coefficient: 1.5</span></h3>
+            <div class="input-group">
+                <label for="ds-111">DS:</label>
+                <input type="number" id="ds-111" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="exam-111">Examen:</label>
+                <input type="number" id="exam-111" min="0" max="20" step="0.01">
+            </div>
+            <button onclick="calculateGrade('111', false)">Calculate</button>
+            <div id="result-111" class="result"></div>
+        </div>
+
+        <div class="subject-container">
+            <h3>Analyse 1 (ECUEF112) <span class="coefficient">Coefficient: 1.5</span></h3>
+            <div class="input-group">
+                <label for="ds-112">DS:</label>
+                <input type="number" id="ds-112" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="exam-112">Examen:</label>
+                <input type="number" id="exam-112" min="0" max="20" step="0.01">
+            </div>
+            <button onclick="calculateGrade('112', false)">Calculate</button>
+            <div id="result-112" class="result"></div>
+        </div>
+
+        <div class="subject-container">
+            <h3>Algorithmique et structure de données (ECUEF121) <span class="coefficient">Coefficient: 2</span></h3>
+            <div class="input-group">
+                <label for="ds-121">DS:</label>
+                <input type="number" id="ds-121" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="exam-121">Examen:</label>
+                <input type="number" id="exam-121" min="0" max="20" step="0.01">
+            </div>
+            <button onclick="calculateGrade('121', false)">Calculate</button>
+            <div id="result-121" class="result"></div>
+        </div>
+
+        <div class="subject-container">
+            <h3>Atelier programmation 1 (ECUEF122) <span class="coefficient">Coefficient: 1.5</span></h3>
+            <div class="input-group">
+                <label for="ds-122">DS:</label>
+                <input type="number" id="ds-122" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="tp-122">TP:</label>
+                <input type="number" id="tp-122" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="exam-122">Examen:</label>
+                <input type="number" id="exam-122" min="0" max="20" step="0.01">
+            </div>
+            <button onclick="calculateGrade('122', true)">Calculate</button>
+            <div id="result-122" class="result"></div>
+        </div>
+
+        <div class="subject-container">
+            <h3>Système d'exploitation 1 (ECUEF131) <span class="coefficient">Coefficient: 2</span></h3>
+            <div class="input-group">
+                <label for="ds-131">DS:</label>
+                <input type="number" id="ds-131" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="tp-131">TP:</label>
+                <input type="number" id="tp-131" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="exam-131">Examen:</label>
+                <input type="number" id="exam-131" min="0" max="20" step="0.01">
+            </div>
+            <button onclick="calculateGrade('131', true)">Calculate</button>
+            <div id="result-131" class="result"></div>
+        </div>
+
+        <div class="subject-container">
+            <h3>Systèmes Logiques & Architecture des ordinateurs (ECUEF132) <span class="coefficient">Coefficient: 2</span></h3>
+            <div class="input-group">
+                <label for="ds-132">DS:</label>
+                <input type="number" id="ds-132" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="tp-132">TP:</label>
+                <input type="number" id="tp-132" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="exam-132">Examen:</label>
+                <input type="number" id="exam-132" min="0" max="20" step="0.01">
+            </div>
+            <button onclick="calculateGrade('132', true)">Calculate</button>
+            <div id="result-132" class="result"></div>
+        </div>
+
+        <div class="subject-container">
+            <h3>Logique formelle (ECUEF141) <span class="coefficient">Coefficient: 1.5</span></h3>
+            <div class="input-group">
+                <label for="ds-141">DS:</label>
+                <input type="number" id="ds-141" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="exam-141">Examen:</label>
+                <input type="number" id="exam-141" min="0" max="20" step="0.01">
+            </div>
+            <button onclick="calculateGrade('141', false)">Calculate</button>
+            <div id="result-141" class="result"></div>
+        </div>
+
+        <div class="subject-container">
+            <h3>Technologies Multimédias (ECUEF142) <span class="coefficient">Coefficient: 1.5</span></h3>
+            <div class="input-group">
+                <label for="ds-142">DS:</label>
+                <input type="number" id="ds-142" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="tp-142">TP:</label>
+                <input type="number" id="tp-142" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="exam-142">Examen:</label>
+                <input type="number" id="exam-142" min="0" max="20" step="0.01">
+            </div>
+            <button onclick="calculateGrade('142', true)">Calculate</button>
+            <div id="result-142" class="result"></div>
+        </div>
+
+        <div class="subject-container">
+            <h3>Anglais 1 (ECUET111) <span class="coefficient">Coefficient: 1</span></h3>
+            <div class="input-group">
+                <label for="tp-t111">TP (Oral):</label>
+                <input type="number" id="tp-t111" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="exam-t111">Examen:</label>
+                <input type="number" id="exam-t111" min="0" max="20" step="0.01">
+            </div>
+            <button onclick="calculateGrade('t111', true)">Calculate</button>
+            <div id="result-t111" class="result"></div>
+        </div>
+
+        <div class="subject-container">
+            <h3>Techniques de communication 1 (ECUET112) <span class="coefficient">Coefficient: 1</span></h3>
+            <div class="input-group">
+                <label for="tp-t112">TP (Oral):</label>
+                <input type="number" id="tp-t112" min="0" max="20" step="0.01">
+            </div>
+            <div class="input-group">
+                <label for="exam-t112">Examen:</label>
+                <input type="number" id="exam-t112" min="0" max="20" step="0.01">
+            </div>
+            <button onclick="calculateGrade('t112', true)">Calculate</button>
+            <div id="result-t112" class="result"></div>
+        </div>
+    </div>
+
+    <div class="semester-average">
+        <h3>Semester Average</h3>
+        <div id="semester-average-result"></div>
+        <button onclick="calculateSemesterAverage()" class="calculate-all-btn">Calculate Semester Average</button><br>
+        <br>
+        <button onclick="window.print()">Print Results</button>
+        <br>
+        <br>
+        <button class="download-pdf-btn" onclick="downloadPDF()">Download as PDF</button>
+    </div>
+
+    <div class="copyright">
+        © 2025 Youssef Dhibi. All rights reserved.
+    </div>
+
+    <table class="print-table">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Coefficient</th>
+                <th>Final Grade</th>
+            </tr>
+        </thead>
+        <tbody id="print-grades">
+        </tbody>
+    </table>
+    <script >
+        const subjects = {
+        '111': { name: 'Algèbre 1', coef: 1.5, hasTP: false },
+        '112': { name: 'Analyse 1', coef: 1.5, hasTP: false },
+        '121': { name: 'Algorithmique', coef: 2, hasTP: false },
+        '122': { name: 'Atelier programmation 1', coef: 1.5, hasTP: true },
+        '131': { name: 'Système d\'exploitation 1', coef: 1.5, hasTP: true },
+        '132': { name: 'Systèmes Logiques', coef: 2, hasTP: true },
+        '141': { name: 'Logique formelle', coef: 1.5, hasTP: false },
+        '142': { name: 'Technologies Multimédias', coef: 1.5, hasTP: true },
+        't111': { name: 'Anglais 1', coef: 1, hasTP: true, noDS: true },
+        't112': { name: 'Techniques de communication 1', coef: 1, hasTP: true, noDS: true }
+    };
+    
+    function calculateGrade(subjectCode, hasTP) {
+        const ds = parseFloat(document.getElementById(`ds-${subjectCode}`)?.value) || 0;
+        const tp = hasTP ? parseFloat(document.getElementById(`tp-${subjectCode}`).value) || 0 : 0;
+        const exam = parseFloat(document.getElementById(`exam-${subjectCode}`).value) || 0;
+        
+        if (ds > 20 || tp > 20 || exam > 20) {
+            alert('Grades must be between 0 and 20');
+            return;
+        }
+        
+        let finalGrade;
+        if (subjectCode === 't111' || subjectCode === 't112') {
+            // Special calculation for Anglais and TC: 30% TP + 70% Exam
+            finalGrade = (tp * 0.3) + (exam * 0.7);
+        } else if (hasTP) {
+            finalGrade = (ds * 0.2) + (tp * 0.1) + (exam * 0.7);
+        } else {
+            finalGrade = (ds * 0.3) + (exam * 0.7);
+        }
+        
+        document.getElementById(`result-${subjectCode}`).innerHTML = 
+            `Final Grade: ${finalGrade.toFixed(2)}/20`;
+        return finalGrade;
+    }
+    
+    function saveGrades() {
+        const grades = {};
+        for (const subjectCode in subjects) {
+            grades[subjectCode] = {
+                ds: document.getElementById(`ds-${subjectCode}`).value,
+                tp: document.getElementById(`tp-${subjectCode}`).value,
+                exam: document.getElementById(`exam-${subjectCode}`).value
+            };
+        }
+        localStorage.setItem('savedGrades', JSON.stringify(grades));
+        alert('Grades saved successfully!');
+    }
+    
+    function loadGrades() {
+        const savedGrades = JSON.parse(localStorage.getItem('savedGrades'));
+        if (!savedGrades) {
+            alert('No saved grades found!');
+            return;
+        }
+        
+        for (const subjectCode in savedGrades) {
+            document.getElementById(`ds-${subjectCode}`).value = savedGrades[subjectCode].ds;
+            document.getElementById(`tp-${subjectCode}`).value = savedGrades[subjectCode].tp;
+            document.getElementById(`exam-${subjectCode}`).value = savedGrades[subjectCode].exam;
+            calculateGrade(subjectCode, subjects[subjectCode].hasTP);
+        }
+    }
+    
+    function calculateSemesterAverage() {
+        let totalWeightedGrade = 0;
+        let totalCoef = 0;
+        
+        for (const subjectCode in subjects) {
+            const grade = calculateGrade(subjectCode, subjects[subjectCode].hasTP);
+            totalWeightedGrade += grade * subjects[subjectCode].coef;
+            totalCoef += subjects[subjectCode].coef;
+        }
+        
+        const average = totalWeightedGrade / totalCoef;
+        const resultElement = document.getElementById('semester-average-result');
+        resultElement.innerHTML = `Average: ${average.toFixed(2)}/20`;
+    
+        // Remove existing classes
+        resultElement.classList.remove('success', 'fail');
+    
+        // Add appropriate class and trigger celebration if average >= 10
+        if (average >= 10) {
+            resultElement.classList.add('success');
+            celebrateSuccess();
+        } else {
+            resultElement.classList.add('fail');
+        }
+    
+        updatePrintTable();
+    }
+    
+    function celebrateSuccess() {
+        // Confetti configuration
+        const config = {
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#059669', '#047857', '#34d399', '#6ee7b7', '#ecfdf5']
+        };
+    
+        // First burst of confetti
+        confetti(config);
+    
+        // Second burst after a small delay
+        setTimeout(() => {
+            confetti({
+                ...config,
+                particleCount: 50,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0, y: 0.6 }
+            });
+        }, 250);
+    
+        // Third burst after another small delay
+        setTimeout(() => {
+            confetti({
+                ...config,
+                particleCount: 50,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1, y: 0.6 }
+            });
+        }, 400);
+    }
+    
+    function updatePrintTable() {
+        const tbody = document.getElementById('print-grades');
+        tbody.innerHTML = ''; // Clear existing rows
+    
+        let totalWeightedGrade = 0;
+        let totalCoef = 0;
+    
+        // Add rows for each subject
+        for (const subjectCode in subjects) {
+            const subject = subjects[subjectCode];
+            const grade = calculateGrade(subjectCode, subject.hasTP);
+            
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${subject.name}</td>
+                <td>${subject.coef}</td>
+                <td>${grade.toFixed(2)}/20</td>
+            `;
+            tbody.appendChild(row);
+    
+            totalWeightedGrade += grade * subject.coef;
+            totalCoef += subject.coef;
+        }
+    
+        // Add average row
+        const average = totalWeightedGrade / totalCoef;
+        const averageRow = document.createElement('tr');
+        averageRow.innerHTML = `
+            <td colspan="2" style="font-weight: bold; text-align: right;">Semester Average:</td>
+            <td style="font-weight: bold;">${average.toFixed(2)}/20</td>
+        `;
+        tbody.appendChild(averageRow);
+    }
+    
+    // Update print button click handler
+    document.querySelector('button[onclick="window.print()"]').onclick = function() {
+        calculateSemesterAverage(); // Make sure grades are calculated
+        window.print();
+    };
+
+    function downloadPDF() {
+        calculateSemesterAverage(); // Ensure grades are calculated
+        const element = document.querySelector('.print-table');
+        element.style.display = 'table'; // Show the table for PDF generation
+        html2pdf().from(element).save('Semester_Results.pdf').then(() => {
+            element.style.display = 'none'; // Hide the table again
+        });
+    }
+    </script>
+    
+</body>
+</html>

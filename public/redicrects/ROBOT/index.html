@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="manifest" href="../site.webmanifest">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="msapplication-TileColor" content="#4a90e2">
+    
+    <title>Robot Car Project</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;
+        background-color: #0f172a;
+        color: #e2e8f0;
+      }
+
+      /* Remove old sidebar styles and add new nav styles */
+      .top-nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+        border-bottom: 1px solid #334155;
+        z-index: 1000;
+        
+      }
+
+      .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .nav-brand h2 {
+        margin: 0;
+        color: #e2e8f0;
+        font-size: 1.5rem;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        margin-right: 3rem;
+      }
+
+      .nav-links a {
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 1.1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #38bdf8;
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        color: #f1f5f9;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Update robot logo size for nav */
+      .robot-logo {
+        width: 40px;
+        height: 40px;
+        margin: 0;
+        scale: 0.8;
+      }
+
+      /* Update main content margin */
+      .main-content {
+        margin-top: 80px; /* Add space for fixed nav */
+        padding: 20px;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      /* Remove old header styles since nav is taking its place */
+      header {
+        display: none;
+      }
+
+      /* Sidebar */
+      .sidebar {
+        width: 200px;
+        background: linear-gradient(135deg, #1e293b, #0f172a);
+        color: white;
+        height: 100vh;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+        transform: translateX(-100%);
+        animation: gentleSlide 0.8s ease-out forwards;
+        border-right: 1px solid #334155;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+      }
+
+      @keyframes gentleSlide {
+        to { transform: translateX(0); }
+      }
+
+      .sidebar h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 24px;
+      }
+
+      .sidebar a {
+        color: #94a3b8;
+        text-decoration: none;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        font-size: 18px;
+        position: relative;
+        overflow: hidden;
+        padding-left: 0;
+        border-left: 3px solid transparent;
+      }
+
+      .sidebar a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: white;
+        transition: width 0.3s ease-in-out;
+      }
+
+      .sidebar a:hover::after {
+        width: 100%;
+      }
+
+      .sidebar a:hover {
+        padding-left: 10px;
+        background: #334155;
+        border-left: 3px solid #38bdf8;
+        color: #f1f5f9;
+      }
+
+      /* Main content */
+      .main-content {
+        margin-left: 250px;
+        padding: 20px;
+        flex-grow: 1;
+        transition: all 0.5s ease-in-out;
+        animation: slideIn 0.8s ease-out;
+        background-color: #0f172a;
+      }
+
+      @keyframes slideIn {
+        from {
+          transform: translateX(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      .section {
+        margin-bottom: 50px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        background: linear-gradient(to bottom right, #1e293b05, #0f172a);
+        border-radius: 12px;
+        padding: 20px;
+        margin: 20px 0;
+        border: 1px solid #334155;
+      }
+
+      .section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .section img {
+        max-width: 100%;
+        height: auto;
+        margin: 20px 0;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .section h2 {
+        border-bottom: 2px solid #38bdf8;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-size: 28px;
+        color: #f1f5f9;
+      }
+
+      h2 {
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-size: 28px;
+        color: #34495e;
+      }
+
+      .section p,
+      .section ul,
+      .section ol {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #cbd5e1;
+      }
+
+      ul,
+      ol {
+        padding-left: 20px;
+      }
+
+      ol li {
+        margin-bottom: 10px;
+      }
+
+      /* Header */
+      header {
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        /* position: sticky; */
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+        transform: translateY(-100%);
+        animation: slideDown 0.6s ease-out forwards;
+        animation-delay: 0.2s;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 1px solid #334155;
+      }
+
+      @keyframes slideDown {
+        to { transform: translateY(0); }
+      }
+
+      header h1 {
+        font-size: 32px;
+        margin: 0;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 10px;
+        background-color: #1e293b;
+        color: #94a3b8;
+        margin-top: 50px;
+        font-size: 16px;
+        box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.03);
+        opacity: 0;
+        animation: fadeUp 0.6s ease forwards;
+        animation-delay: 0.4s;
+        border-top: 1px solid #334155;
+      }
+
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Hover Effects */
+      img:hover {
+        transform: scale(1.02);
+        transition: transform 0.3s;
+      }
+
+      #materials {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px; /* Space between the image and the list */
+      }
+
+      #materials ul {
+        flex: 1;
+        margin: 0; /* Remove default margin to align neatly */
+      }
+
+      #materials img {
+        flex-shrink: 0;
+        width: 250px; /* Fixed width */
+        height: auto; /* Maintain aspect ratio */
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transform: rotate(90deg);
+        margin-right: 80px;
+      }
+
+      /* Section Styling */
+      #gallery {
+        text-align: center;
+        padding: 20px;
+        background-color: #1e293b;
+      }
+
+      #gallery h2 {
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-size: 28px;
+        color: #34495e;
+      }
+
+      /* Grid Layout for Images */
+      .image-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 10px;
+      }
+
+      .image-grid img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s ease;
+        filter: saturate(1.05) brightness(1.02);
+        border: 1px solid #334155;
+        filter: brightness(0.9) contrast(1.1);
+      }
+
+      /* Hover Effect */
+      .image-grid img:hover {
+        transform: scale(1.03);
+        filter: saturate(1.1) brightness(1.05);
+        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+        border-color: #38bdf8;
+        box-shadow: 0 8px 20px rgba(56, 189, 248, 0.2);
+      }
+
+      /* ################### */
+      .masonry {
+        column-count: 3;
+        column-gap: 10px;
+        margin: 20px 20px auto auto;
+        max-width: 500px;
+      }
+
+      .masonry img {
+        width: 100%;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        display: block;
+        break-inside: avoid;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        transition: all 0.4s ease;
+        filter: contrast(1.02) brightness(1.02);
+        border: 1px solid #334155;
+        filter: brightness(0.9) contrast(1.1);
+      }
+
+      /* Hover effect */
+      .masonry img:hover {
+        transform: scale(1.05);
+        filter: contrast(1.05) brightness(1.05);
+        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.15);
+        border-color: #38bdf8;
+        box-shadow: 0 8px 20px rgba(56, 189, 248, 0.2);
+      }
+
+      /* Smooth header effects */
+      header::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        animation: shine 3s infinite;
+      }
+
+      @keyframes shine {
+        to {
+          left: 100%;
+        }
+      }
+
+      /* Links styling */
+      a {
+        color: #38bdf8;
+        transition: color 0.3s ease;
+      }
+
+      a:hover {
+        color: #7dd3fc;
+      }
+
+      /* Material cards */
+      #materials ul li {
+        background: #1e293b;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        border: 1px solid #334155;
+        color: #e2e8f0;
+      }
+
+      #materials ul li:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
+        background: #262f43;
+        border-color: #38bdf8;
+      }
+
+      /* Testing section video container */
+      #testing video {
+        border-radius: 12px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        border: 1px solid #334155;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      /* Add these new styles */
+      .robot-logo {
+        width: 80px;
+        height: 80px;
+        margin: 20px auto;
+        position: relative;
+        transform-style: preserve-3d;
+        animation: float 3s ease-in-out infinite;
+        top: -7px;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+
+      .robot-head {
+        width: 40px;
+        height: 30px;
+        background: #38bdf8;
+        border-radius: 8px;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+      }
+
+      .robot-eye {
+        width: 8px;
+        height: 8px;
+        background: #0f172a;
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        animation: blink 4s infinite;
+      }
+
+      @keyframes blink {
+        0%, 48%, 52%, 100% { height: 8px; }
+        50% { height: 1px; }
+      }
+
+      .robot-eye.left {
+        left: 8px;
+      }
+
+      .robot-eye.right {
+        right: 8px;
+      }
+
+      .robot-body {
+        width: 50px;
+        height: 40px;
+        background: #38bdf8;
+        border-radius: 5px;
+        position: absolute;
+        top: 35px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+      }
+
+      .robot-arm {
+        width: 10px;
+        height: 30px;
+        background: #38bdf8;
+        position: absolute;
+        top: 38px;
+        border-radius: 4px;
+        animation: wave 2s ease-in-out infinite;
+      }
+
+      @keyframes wave {
+        0%, 100% { transform: rotate(0deg); }
+        50% { transform: rotate(20deg); }
+      }
+
+      .robot-arm.left {
+        left: 10px;
+        transform-origin: top center;
+      }
+
+      .robot-arm.right {
+        right: 10px;
+        transform-origin: top center;
+        animation-delay: 1s;
+      }
+
+      /* Modern design improvements */
+      body {
+        margin: 0;
+        font-family: 'Inter', sans-serif;  /* Modern font */
+        background-color: #0f172a;
+        color: #e2e8f0;
+      }
+
+      /* Enhanced navigation */
+      .top-nav {
+        backdrop-filter: blur(10px);
+        background: rgba(30, 41, 59, 0.8);
+        padding: 0.5rem 1.5rem; /* Reduced padding */
+        border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+        height: 4rem; /* Fixed height */
+        display: flex;
+        align-items: center;
+      }
+
+      .nav-brand {
+        gap: 0.5rem; /* Reduced gap */
+      }
+
+      .nav-brand h2 {
+        font-size: 1.2rem; /* Smaller font size */
+        font-weight: 600;
+        letter-spacing: -0.5px;
+      }
+
+      /* Smaller robot logo */
+      .robot-logo {
+        width: 30px; /* Reduced size */
+        height: 30px;
+        scale: 0.6; /* Further scale down */
+      }
+
+      .nav-links {
+        gap: 1rem; /* Reduced gap between links */
+        margin-right: 10rem;
+      }
+
+      .nav-links a {
+        font-size: 1.1rem; /* Smaller font size */
+        padding: 0.3rem 0.8rem; /* Reduced padding */
+      }
+
+      /* Adjust main content margin for smaller navbar */
+      .main-content {
+        margin-top: 4rem; /* Reduced top margin */
+      }
+
+      /* Section improvements */
+      .section {
+        background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.4));
+        border: 1px solid rgba(51, 65, 85, 0.5);
+        border-radius: 16px;
+        padding: 2rem;
+        margin: 2rem 0;
+        backdrop-filter: blur(5px);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .section:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .section h2 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(90deg, #38bdf8, #818cf8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+        padding-bottom: 0.5rem;
+      }
+      .hh{
+        font-size: 1.8rem;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(90deg, #38bdf8, #818cf8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+        padding-bottom: 0.5rem;
+      }
+
+      /* Image grid improvements */
+      .image-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        padding: 1rem;
+      }
+
+      .image-grid img {
+        border-radius: 12px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 2px solid rgba(51, 65, 85, 0.5);
+        
+      }
+
+      .image-grid img:hover {
+        transform: scale(1.03) translateY(-5px);
+        border-color: #38bdf8;
+        box-shadow: 0 15px 30px rgba(56, 189, 248, 0.2);
+      }
+
+      /* Material list improvements */
+      #materials ul li {
+        background: rgba(30, 41, 59, 0.5);
+        padding: 1rem 1.5rem;
+        margin: 0.8rem 0;
+        border-radius: 10px;
+        border: 1px solid rgba(51, 65, 85, 0.5);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      #materials ul li:hover {
+        background: rgba(56, 189, 248, 0.1);
+        border-color: #38bdf8;
+        transform: translateX(5px);
+      }
+
+      #materials ul li::before {
+        content: '';
+        width: 24px;
+        height: 24px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        flex-shrink: 0;
+      }
+
+      /* Individual icons for each material */
+      #materials ul li:nth-child(1)::before {
+        background-image: url("icons/respbarryPi.png");
+
+      }
+
+      #materials ul li:nth-child(2)::before {
+        background-image: url("icons/motor.png");
+
+      }
+
+      #materials ul li:nth-child(3)::before {
+        background-image: url('icons/SERVO.png');
+      }
+
+      #materials ul li:nth-child(4)::before {
+        background-image: url('icons/sensor.png');
+      }
+
+      #materials ul li:nth-child(5)::before {
+        background-image: url('icons/Chassis.png');
+      }
+
+      #materials ul li:nth-child(6)::before,
+      #materials ul li:nth-child(7)::before,
+      #materials ul li:nth-child(8)::before {
+        background-image: url('icons/cables.png');
+      }
+
+      #materials ul li:nth-child(9)::before {
+        background-image: url('icons/powerBank.png');
+      }
+
+      #materials ul li:nth-child(10)::before {
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%2338bdf8" viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg>');
+      }
+
+      #materials ul li:nth-child(11)::before {
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%2338bdf8" viewBox="0 0 24 24"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg>');
+      }
+
+      #materials ul li:nth-child(12)::before {
+        background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="%2338bdf8" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>');
+      }
+
+      /* Enhance the hover effect */
+      #materials ul li:hover::before {
+        transform: scale(1.2);
+        filter: brightness(1.2);
+      }
+
+      /* Video container improvements */
+      #testing video {
+        border-radius: 16px;
+        border: 2px solid rgba(51, 65, 85, 0.5);
+        width: 100%;
+        transition: all 0.3s ease;
+      }
+
+      #testing video:hover {
+        border-color: #38bdf8;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Footer improvements */
+      footer {
+        background: linear-gradient(145deg, rgba(30, 41, 59, 0.4), rgba(15, 23, 42, 0.4));
+        padding: 2rem;
+        margin-top: 4rem;
+        border-top: 1px solid rgba(51, 65, 85, 0.5);
+        text-align: center;
+        font-size: 0.9rem;
+        color: #94a3b8;
+      }
+
+      /* Masonry improvements */
+      .masonry {
+        column-gap: 1.5rem;
+        padding: 1.5rem;
+      }
+
+      .masonry img {
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Scrollbar styling */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #1e293b;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #38bdf8;
+        border-radius: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #0ea5e9;
+      }
+
+      /* Add smooth scroll behavior */
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 5rem; /* Accounts for fixed navbar */
+      }
+
+      /* Add selection color */
+      ::selection {
+        background: rgba(56, 189, 248, 0.3);
+        color: #fff;
+      }
+
+      /* Smooth scroll animation classes */
+      .scroll-animation {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      .scroll-animation.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Add stagger effect for list items */
+      .scroll-animation li {
+        opacity: 0;
+        transform: translateX(-20px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+      }
+
+      .scroll-animation.active li {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      .scroll-animation li:nth-child(1) { transition-delay: 0.1s; }
+      .scroll-animation li:nth-child(2) { transition-delay: 0.2s; }
+      .scroll-animation li:nth-child(3) { transition-delay: 0.3s; }
+      .scroll-animation li:nth-child(4) { transition-delay: 0.4s; }
+      .scroll-animation li:nth-child(n+5) { transition-delay: 0.5s; }
+
+      /* Smooth fade for images */
+      .scroll-animation img {
+        opacity: 0;
+        transform: scale(0.95);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      .scroll-animation.active img {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* Enhanced hover animations for sections */
+      .section {
+        transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                    box-shadow 0.4s ease,
+                    border-color 0.3s ease;
+      }
+
+      
+
+      /* Improved nav link hover effects */
+      .nav-links a {
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .nav-links a:hover {
+        color: #38bdf8;
+        transform: translateY(-2px);
+        text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+      }
+
+      /* Enhanced image hover effects */
+      .image-grid img {
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .image-grid img:hover {
+        transform: scale(1.05) translateY(-10px) rotate(1deg);
+        filter: brightness(1.1) contrast(1.1);
+        box-shadow: 0 20px 40px rgba(56, 189, 248, 0.25);
+      }
+
+      /* Improved material list hover effects */
+      #materials ul li {
+        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      #materials ul li:hover {
+        transform: translateX(10px) scale(1.02);
+        background: rgba(56, 189, 248, 0.15);
+        border-color: #38bdf8;
+        box-shadow: 0 5px 15px rgba(56, 189, 248, 0.2);
+      }
+
+      /* Enhanced masonry image hover effects */
+      .masonry img {
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .masonry img:hover {
+        transform: scale(1.08) rotate(2deg);
+        filter: brightness(1.1) contrast(1.1);
+        box-shadow: 0 20px 40px rgba(56, 189, 248, 0.3);
+      }
+
+      /* Robot logo enhanced hover animation */
+      .robot-logo {
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      .nav-brand:hover .robot-logo {
+        transform: scale(1.1) rotate(5deg);
+        filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.5));
+      }
+
+      /* Video hover effect */
+      #testing video {
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      #testing video:hover {
+        transform: scale(1.02);
+        box-shadow: 0 20px 40px rgba(56, 189, 248, 0.2);
+        border-color: #38bdf8;
+      }
+
+      /* Footer hover effect */
+      footer {
+        transition: all 0.4s ease;
+      }
+
+      footer:hover {
+        background: linear-gradient(145deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.6));
+        color: #38bdf8;
+      }
+
+      /* Add these mobile navigation styles */
+      .nav-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 30px;
+        height: 25px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        z-index: 10;
+      }
+
+      .nav-toggle span {
+        width: 100%;
+        height: 3px;
+        background: #e2e8f0;
+        border-radius: 10px;
+        transition: all 0.3s linear;
+      }
+
+      /* Mobile responsive styles */
+      @media (max-width: 768px) {
+        .nav-toggle {
+          display: flex;
+        }
+
+        .nav-links {
+          position: fixed;
+          top: 4rem;
+          right: -100%;
+          width: 100%;
+          height: calc(100vh - 4rem);
+          background: rgba(15, 23, 42, 0.95);
+          flex-direction: column;
+          padding: 2rem;
+          margin: 0;
+          transition: 0.3s ease-in-out;
+          backdrop-filter: blur(10px);
+          visibility: hidden;
+          opacity: 0;
+        }
+
+        .nav-links.active {
+          right: 0;
+          visibility: visible;
+          opacity: 1;
+        }
+
+        .nav-links a {
+          padding: 1rem;
+          font-size: 1.2rem;
+          text-align: center;
+          width: 100%;
+        }
+
+        .nav-brand h2 {
+          font-size: 1rem;
+        }
+
+        /* Adjust main content for mobile */
+        .main-content {
+          margin-left: 0;
+          padding: 1rem;
+        }
+
+        /* Adjust masonry for mobile */
+        .masonry {
+          column-count: 1;
+          margin: 10px;
+        }
+
+        /* Adjust image grid for mobile */
+        .image-grid {
+          grid-template-columns: 1fr;
+        }
+
+        /* Adjust materials section for mobile */
+        #materials {
+          flex-direction: column;
+        }
+
+        #materials img {
+          width: 100%;
+          margin-right: 0;
+          margin-bottom: 20px;
+        }
+
+        .top-nav {
+          justify-content: space-between; /* Add this line */
+          padding: 0.5rem 1rem; /* Adjust padding */
+        }
+
+        .nav-toggle {
+          margin-right: 2rem; /* Add margin to move toggle left */
+        }
+
+        .nav-links {
+          margin-right: 0; /* Reset margin for mobile */
+        }
+        #materials > ul > li{
+            font-size: .9rem;
+        }
+      }
+
+      /* Animation for hamburger menu */
+      .nav-toggle.active span:first-child {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+
+      .nav-toggle.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .nav-toggle.active span:last-child {
+        transform: rotate(-45deg) translate(7px, -6px);
+      }
+
+      /* Add these new styles for the Go Up button */
+      .go-up-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: rgba(56, 189, 248, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+      }
+
+      .go-up-btn.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .go-up-btn:hover {
+        background: rgba(56, 189, 248, 1);
+        transform: translateY(-5px);
+        box-shadow: 0 6px 16px rgba(56, 189, 248, 0.3);
+      }
+
+      .go-up-btn svg {
+        width: 24px;
+        height: 24px;
+        fill: white;
+      }
+
+      /* Adjust for mobile */
+      @media (max-width: 768px) {
+        .go-up-btn {
+          bottom: 20px;
+          right: 20px;
+          width: 40px;
+          height: 40px;
+        }
+
+        .go-up-btn svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      /* Add these styles to your existing CSS */
+      .slideshow-container {
+        position: relative;
+        max-width: 600px;
+        margin: auto;
+        overflow: hidden;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        background: rgba(30, 41, 59, 0.5);
+        padding: 10px;
+        border: 1px solid rgba(51, 65, 85, 0.5);
+      }
+
+      .slides {
+        display: none;
+        width: 100%;
+      }
+
+      .slides img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+      }
+
+      .prev, .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        padding: 16px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.3s ease;
+        border-radius: 50%;
+        user-select: none;
+        background: rgba(56, 189, 248, 0.7);
+        text-decoration: none;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .next {
+        right: 10px;
+      }
+
+      .prev {
+        left: 10px;
+      }
+
+      .prev:hover, .next:hover {
+        background: rgba(56, 189, 248, 1);
+      }
+
+      .dots-container {
+        text-align: center;
+        padding: 10px;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .dot {
+        cursor: pointer;
+        height: 10px;
+        width: 10px;
+        margin: 0 5px;
+        background-color: rgba(255, 255, 255, 0.5);
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.3s ease;
+      }
+
+      .active-dot, .dot:hover {
+        background-color: #38bdf8;
+      }
+
+      .fade {
+        animation-name: fade;
+        animation-duration: 0.5s;
+      }
+
+      @keyframes fade {
+        from {opacity: .4} 
+        to {opacity: 1}
+      }
+
+      /* Link Preview Popup */
+      .link-preview-popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        z-index: 2000;
+        backdrop-filter: blur(5px);
+      }
+
+      .popup-content {
+        position: relative;
+        width: 90%;
+        height: 90%;
+        margin: 2% auto;
+        background: #1e293b;
+        border-radius: 12px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+        border: 1px solid #38bdf8;
+        overflow: hidden;
+        animation: popupFade 0.3s ease-out;
+      }
+
+      @keyframes popupFade {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      #linkPreviewFrame {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: white;
+      }
+
+      .close-popup {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 30px;
+        color: #38bdf8;
+        cursor: pointer;
+        z-index: 2001;
+        transition: all 0.3s ease;
+      }
+
+      .close-popup:hover {
+        color: #0ea5e9;
+        transform: scale(1.1);
+      }
+
+      /* Style the material links */
+      #materials ul li a {
+        position: relative;
+        cursor: pointer;
+      }
+
+      #materials ul li a:hover {
+        text-decoration: none;
+      }
+
+      /* Add these new loading screen styles */
+      .loader-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0f172a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+      }
+
+      .loader {
+        position: relative;
+        width: 120px;
+        height: 120px;
+      }
+
+      .loader-robot {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+        animation: robotPulse 2s ease-in-out infinite;
+      }
+
+      .loader-robot .robot-head {
+        width: 30px;
+        height: 25px;
+        background: #38bdf8;
+        border-radius: 8px;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: headBlink 1.5s infinite;
+      }
+
+      .loader-robot .robot-eye {
+        width: 6px;
+        height: 6px;
+        background: #0f172a;
+        border-radius: 50%;
+        position: absolute;
+        top: 8px;
+      }
+
+      .loader-robot .robot-eye.left {
+        left: 6px;
+      }
+
+      .loader-robot .robot-eye.right {
+        right: 6px;
+      }
+
+      .loader-robot .robot-body {
+        width: 40px;
+        height: 30px;
+        background: #38bdf8;
+        border-radius: 5px;
+        position: absolute;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .loader-robot .robot-arm {
+        width: 8px;
+        height: 25px;
+        background: #38bdf8;
+        position: absolute;
+        top: 32px;
+        border-radius: 4px;
+      }
+
+      .loader-robot .robot-arm.left {
+        left: 2px;
+        animation: waveLeft 1s ease-in-out infinite;
+      }
+
+      .loader-robot .robot-arm.right {
+        right: 2px;
+        animation: waveRight 1s ease-in-out infinite;
+      }
+
+      .loading-text {
+        position: absolute;
+        bottom: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #38bdf8;
+        font-size: 1.2rem;
+        letter-spacing: 3px;
+        animation: loadingText 1.5s ease-in-out infinite;
+      }
+
+      @keyframes robotPulse {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); }
+        50% { transform: translate(-50%, -50%) scale(1.1); }
+      }
+
+      @keyframes headBlink {
+        0%, 48%, 52%, 100% { transform: translateX(-50%) scaleY(1); }
+        50% { transform: translateX(-50%) scaleY(0.8); }
+      }
+
+      @keyframes waveLeft {
+        0%, 100% { transform: rotate(0deg); }
+        50% { transform: rotate(20deg); }
+      }
+
+      @keyframes waveRight {
+        0%, 100% { transform: rotate(0deg); }
+        50% { transform: rotate(-20deg); }
+      }
+
+      @keyframes loadingText {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+
+      /* Hide content while loading */
+      body.loading {
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body class="loading">
+    <!-- Add this loading screen HTML right after the body tag -->
+    <div class="loader-wrapper">
+      <div class="loader">
+        <div class="loader-robot">
+          <div class="robot-head">
+            <div class="robot-eye left"></div>
+            <div class="robot-eye right"></div>
+          </div>
+          <div class="robot-body"></div>
+          <div class="robot-arm left"></div>
+          <div class="robot-arm right"></div>
+        </div>
+      </div>
+      <div class="loading-text">LOADING...</div>
+    </div>
+
+    <!-- Replace the sidebar with top navigation -->
+    <nav class="top-nav">
+      <div class="nav-brand">
+        <div class="robot-logo">
+          <div class="robot-head">
+            <div class="robot-eye left"></div>
+            <div class="robot-eye right"></div>
+          </div>
+          <div class="robot-body"></div>
+          <div class="robot-arm left"></div>
+          <div class="robot-arm right"></div>
+        </div>
+        <h2>Robot Car Project</h2>
+      </div>
+      
+      <!-- Add hamburger menu button -->
+      <button class="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="nav-links">
+        <a href="#introduction">Introduction</a>
+        <a href="#materials">Materials</a>
+        <a href="#steps">Development Steps</a>
+        <a href="#testing">Testing</a>
+        <a href="#conclusion">Conclusion</a>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <header>
+        <h1>Robot Car Project</h1>
+      </header>
+
+      <section id="introduction" class="section">
+        <h2>Introduction</h2>
+        <p>
+          Welcome to the Robot Car Project! This project demonstrates the
+          process of building a robot car from scratch, including design,
+          coding, and testing.
+        </p>
+      </section>
+<section id="masonry-grid" class="section scroll-animation">
+        <div class="slideshow-container">
+          <div class="slides fade">
+            <img src="imgs/ui.jpg" alt="Image 1">
+          </div>
+          <div class="slides fade">
+            <img src="imgs/all.jpg" alt="Image 2">
+          </div>
+          <div class="slides fade">
+            <img src="imgs/powerbank.jpg" alt="Image 1">
+          </div>
+          <div class="slides fade">
+            <img src="imgs/switch.jpg" alt="Image 2">
+          </div>
+          
+          <!-- Navigation arrows -->
+          <a class="prev" onclick="changeSlide(-1)">❮</a>
+          <a class="next" onclick="changeSlide(1)">❯</a>
+          
+          <!-- Dots/circles -->
+          <div class="dots-container">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+          </div>
+        </div>
+      </section>
+      <h2 class="hh">Materials</h2>
+
+      <section id="materials" class="section">
+        
+        <ul>
+          <li>
+            <a
+              href="https://2btrading.tn/raspberry/1773-raspberry-pi-3-modele-b-sc0073.html"
+              target="_blank"
+              >Raspberry Pi 3 Modèle B+</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://2btrading.tn/accueil/507-module-driver-moteur-pont-h-l298n.html"
+              target="_blank"
+              >Module driver moteur Pont-H L298N</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://cothings.net/collections/servomoteurs/products/servo-sg90-360-degres-de-haute-qualite"
+              target="_blank"
+              >Servo SG90 360 degrés Rotation contenue</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://2btrading.tn/accueil/39-module-ultrason-hc-sr04.html"
+              >MODULE ULTRASON HC-SR04</a
+            >
+          </li>
+          <li>
+            <a href="https://2btrading.tn/robotique/424-kit-robot-4-roues-4wd.html"
+              >Kit de robot 4 roues (Chassis)</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://2btrading.tn/accueil/5356-fils-de-connexion-jumper-wire-male-femelle-30cm.html"
+              >Fils de connexion jumper wire male-femelle</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://2btrading.tn/accueil/5356-fils-de-connexion-jumper-wire-male-femelle-30cm.html"
+              >Fils de connexion jumper wire male-male</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://2btrading.tn/accueil/5356-fils-de-connexion-jumper-wire-male-femelle-30cm.html"
+              >Fils de connexion jumper wire femelle-femelle</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.tunisianet.com.tn/power-bank-tunisie/70659-power-bank-xiaomi-225w-10-000mah.html"
+              >Power Bank Xiaomi 22.5W / 10 000mAh</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://www.mobilefun.com/samsung-32gb-uhs-1-grade-1-microsdhc-class-10-38968"
+              >Samsung 32GB UHS-1 Grade 1 MicroSDHC - Class 10</a
+            >
+          </li>
+          <li>INR 18650 3000mAh 3.6v (x6)</li>
+          <li>Old Webcam</li>
+        </ul>
+        
+
+      </section>
+      
+      <section id="steps" class="section">
+        <h2>Development Steps</h2>
+        <p>Follow these steps to build your robot car:</p>
+        <ol>
+          <li>Assemble the chassis and attach the motors and wheels.</li>
+          <li>Connect the motor driver to the Raspberry Pi.</li>
+          <li>Attach the ultrasonic sensor to the chassis.</li>
+          <li>Write and upload the control code to the Raspberry Pi.</li>
+          <li>Test the robot and make adjustments as needed.</li>
+        </ol>
+        <section id="gallery" class="section">
+          <h2>Image Gallery</h2>
+          <div class="image-grid">
+            <img src="imgs/a1.jpg" alt="Image 1" />
+            <img src="imgs/a2.jpg" alt="Image 2" />
+            <img src="imgs/a3.jpg" alt="Image 3" />
+            <img src="imgs/a4.jpg" alt="Image 4" />
+          </div>
+        </section>
+      </section>
+
+      <section id="testing" class="section">
+        <h2>Testing</h2>
+        <p>
+          After assembling the robot, test its functionality by running the
+          control code. Verify that it moves correctly and avoids obstacles
+          using the ultrasonic sensor.
+        </p>
+        <video width="100%" controls>
+          <source src="imgs/10percent.mp4" type="video/mp4" />
+        </video>
+      </section>
+
+      <section id="conclusion" class="section">
+        <h2>Conclusion</h2>
+        <p>
+          Building a robot car is an exciting project that combines hardware and
+          software skills. This project demonstrates the fundamentals of
+          robotics and opens the door to more advanced projects in the future.
+        </p>
+      </section>
+
+      <footer>&copy; 2025 Robot Project. All rights reserved.</footer>
+    </div>
+
+    <!-- Add this button before the closing body tag -->
+    <button class="go-up-btn" aria-label="Go to top">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 4l8 8h-6v8h-4v-8H4z"/>
+      </svg>
+    </button>
+
+    <!-- Add this HTML for the popup just before the closing body tag -->
+    <div id="linkPreviewPopup" class="link-preview-popup">
+      <div class="popup-content">
+        <span class="close-popup">&times;</span>
+        <iframe id="linkPreviewFrame"></iframe>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Wait for all resources (images, scripts, etc.) to load
+        window.addEventListener('load', () => {
+          const loader = document.querySelector('.loader-wrapper');
+          const body = document.body;
+          
+          // Fade out the loader
+          loader.style.opacity = '0';
+          
+          // Remove the loader and loading class after fade out
+          setTimeout(() => {
+            loader.style.display = 'none';
+            body.classList.remove('loading');
+          }, 500);
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+          link.addEventListener('click', e => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          });
+        });
+
+        // Add scroll-animation class to all sections
+        document.querySelectorAll('.section').forEach(section => {
+          section.classList.add('scroll-animation');
+        });
+
+        // Enhanced intersection observer
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                entry.target.classList.add('visible');
+              }
+            });
+          },
+          {
+            threshold: 0.1,
+            rootMargin: '-50px'
+          }
+        );
+
+        // Observe all elements with scroll-animation class
+        document.querySelectorAll('.scroll-animation').forEach(element => {
+          observer.observe(element);
+        });
+
+        // Mobile navigation toggle
+        const navToggle = document.querySelector('.nav-toggle');
+        const navLinks = document.querySelector('.nav-links');
+
+        navToggle.addEventListener('click', () => {
+          navToggle.classList.toggle('active');
+          navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+          link.addEventListener('click', () => {
+            navToggle.classList.remove('active');
+            navLinks.classList.remove('active');
+          });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+            navToggle.classList.remove('active');
+            navLinks.classList.remove('active');
+          }
+        });
+
+        // Add this new code for the Go Up button
+        const goUpBtn = document.querySelector('.go-up-btn');
+
+        // Show/hide button based on scroll position
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 200) {
+            goUpBtn.classList.add('visible');
+          } else {
+            goUpBtn.classList.remove('visible');
+          }
+        });
+
+        // Scroll to top when clicked
+        goUpBtn.addEventListener('click', () => {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+
+        // Add touch support for mobile devices
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const slideshow = document.querySelector('.slideshow-container');
+
+        slideshow.addEventListener('touchstart', (e) => {
+          touchStartX = e.changedTouches[0].screenX;
+        });
+
+        slideshow.addEventListener('touchend', (e) => {
+          touchEndX = e.changedTouches[0].screenX;
+          handleSwipe();
+        });
+
+        function handleSwipe() {
+          const swipeThreshold = 50;
+          const difference = touchStartX - touchEndX;
+          
+          if (Math.abs(difference) > swipeThreshold) {
+            if (difference > 0) {
+              // Swiped left
+              changeSlide(1);
+            } else {
+              // Swiped right
+              changeSlide(-1);
+            }
+          }
+        }
+
+        // Add slideshow functionality
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        window.changeSlide = function(n) {
+          showSlides(slideIndex += n);
+        }
+
+        window.currentSlide = function(n) {
+          showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+          const slides = document.getElementsByClassName("slides");
+          const dots = document.getElementsByClassName("dot");
+          
+          if (n > slides.length) {slideIndex = 1}
+          if (n < 1) {slideIndex = slides.length}
+          
+          for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+          }
+          for (let i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active-dot", "");
+          }
+          
+          slides[slideIndex-1].style.display = "block";
+          dots[slideIndex-1].className += " active-dot";
+        }
+
+        // Initialize first slide
+        showSlides(slideIndex);
+
+        const popup = document.getElementById('linkPreviewPopup');
+        const previewFrame = document.getElementById('linkPreviewFrame');
+        const closeBtn = document.querySelector('.close-popup');
+        
+        // Get all material links
+        const materialLinks = document.querySelectorAll('#materials ul li a');
+        
+        materialLinks.forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const url = link.getAttribute('href');
+            if (url && url !== '#') {
+              previewFrame.src = url;
+              popup.style.display = 'block';
+              document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+          });
+        });
+        
+        // Close popup when clicking the close button
+        closeBtn.addEventListener('click', () => {
+          popup.style.display = 'none';
+          previewFrame.src = '';
+          document.body.style.overflow = 'auto'; // Restore scrolling
+        });
+        
+        // Close popup when clicking outside
+        popup.addEventListener('click', (e) => {
+          if (e.target === popup) {
+            popup.style.display = 'none';
+            previewFrame.src = '';
+            document.body.style.overflow = 'auto';
+          }
+        });
+        
+        // Close popup with Escape key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && popup.style.display === 'block') {
+            popup.style.display = 'none';
+            previewFrame.src = '';
+            document.body.style.overflow = 'auto';
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

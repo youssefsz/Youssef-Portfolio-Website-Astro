@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/SnapTools/static/css/main.a9e137e9.css",
+    "main.js": "/SnapTools/static/js/main.19e3c7a9.js",
+    "static/js/453.d4c3281e.chunk.js": "/SnapTools/static/js/453.d4c3281e.chunk.js",
+    "index.html": "/SnapTools/index.html",
+    "main.a9e137e9.css.map": "/SnapTools/static/css/main.a9e137e9.css.map",
+    "main.19e3c7a9.js.map": "/SnapTools/static/js/main.19e3c7a9.js.map",
+    "453.d4c3281e.chunk.js.map": "/SnapTools/static/js/453.d4c3281e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a9e137e9.css",
+    "static/js/main.19e3c7a9.js"
+  ]
+}

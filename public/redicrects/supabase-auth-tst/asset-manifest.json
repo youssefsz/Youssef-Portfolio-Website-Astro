@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/supabase-auth-tst/static/css/main.cafe742c.css",
+    "main.js": "/supabase-auth-tst/static/js/main.14538628.js",
+    "static/js/952.5c955740.chunk.js": "/supabase-auth-tst/static/js/952.5c955740.chunk.js",
+    "static/js/453.18621ee2.chunk.js": "/supabase-auth-tst/static/js/453.18621ee2.chunk.js",
+    "index.html": "/supabase-auth-tst/index.html",
+    "main.cafe742c.css.map": "/supabase-auth-tst/static/css/main.cafe742c.css.map",
+    "main.14538628.js.map": "/supabase-auth-tst/static/js/main.14538628.js.map",
+    "952.5c955740.chunk.js.map": "/supabase-auth-tst/static/js/952.5c955740.chunk.js.map",
+    "453.18621ee2.chunk.js.map": "/supabase-auth-tst/static/js/453.18621ee2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cafe742c.css",
+    "static/js/main.14538628.js"
+  ]
+}

@@ -1,0 +1,2078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TNchat - Next Generation Messaging</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        :root {
+            /* Light Theme Colors */
+            --primary: #4169E1;
+            --primary-light: #6488f0;
+            --secondary: #f8f9fa;
+            --dark: #212529;
+            --light: #ffffff;
+            --gray: #6c757d;
+            --success: #2ecc71;
+            --bg-main: #f6f9fe;
+            --bg-card: #ffffff;
+            --text-main: #212529;
+            --text-secondary: #6c757d;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --shadow-color-strong: rgba(0, 0, 0, 0.2);
+            --theme-icon: "☀️";
+            --light-rgb: 255, 255, 255;
+            --dark-rgb: 33, 37, 41;
+            --bg-card-rgb: 255, 255, 255;
+            --header-bg: rgba(255, 255, 255, 0.8);
+            --header-bg-solid: rgba(255, 255, 255, 0.95);
+            --feature-icon-bg: rgba(65, 105, 225, 0.1);
+            --primary-rgb: 65, 105, 225;
+            --footer-bg: #212529;
+            --footer-text: rgba(255, 255, 255, 0.85);
+            --footer-text-hover: #ffffff;
+            --footer-text-muted: rgba(255, 255, 255, 0.75);
+            --footer-link-bg: rgba(255, 255, 255, 0.15);
+            --footer-border: rgba(255, 255, 255, 0.15);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme Colors */
+            --primary: #5277FF;
+            --primary-light: #7597ff;
+            --secondary: #2c3136;
+            --dark: #e9ecef;
+            --light: #212529;
+            --gray: #adb5bd;
+            --success: #2ecc71;
+            --bg-main: #121212;
+            --bg-card: #1e1e1e;
+            --text-main: #e9ecef;
+            --text-secondary: #adb5bd;
+            --shadow-color: rgba(0, 0, 0, 0.3);
+            --shadow-color-strong: rgba(0, 0, 0, 0.4);
+            --theme-icon: "🌙";
+            --light-rgb: 33, 37, 41;
+            --dark-rgb: 233, 236, 239;
+            --bg-card-rgb: 30, 30, 30;
+            --header-bg: rgba(30, 30, 30, 0.8);
+            --header-bg-solid: rgba(30, 30, 30, 0.95);
+            --feature-icon-bg: rgba(82, 119, 255, 0.2);
+            --primary-rgb: 82, 119, 255;
+            --footer-bg: #1a1a1a;
+            --footer-text: rgba(233, 236, 239, 0.8);
+            --footer-text-hover: #e9ecef;
+            --footer-text-muted: rgba(233, 236, 239, 0.7);
+            --footer-link-bg: rgba(233, 236, 239, 0.1);
+            --footer-border: rgba(233, 236, 239, 0.1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Utility Classes */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--light);
+            box-shadow: 0 5px 15px rgba(65, 105, 225, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(65, 105, 225, 0.5);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--light);
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .section-title p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 10px auto 0;
+        }
+
+        /* Animation Keyframes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatPhone {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @keyframes rotateGlow {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        /* Added animations */
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes scaleUp {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        /* Scroll Reveal Base Styles */
+        .reveal {
+            opacity: 0;
+            transition: all 0.8s ease;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+        }
+        
+        .reveal-left {
+            transform: translateX(-50px);
+        }
+        
+        .reveal-left.active {
+            transform: translateX(0);
+        }
+        
+        .reveal-right {
+            transform: translateX(50px);
+        }
+        
+        .reveal-right.active {
+            transform: translateX(0);
+        }
+        
+        .reveal-up {
+            transform: translateY(50px);
+        }
+        
+        .reveal-up.active {
+            transform: translateY(0);
+        }
+        
+        .reveal-scale {
+            transform: scale(0.9);
+        }
+        
+        .reveal-scale.active {
+            transform: scale(1);
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            box-shadow: 0 5px 20px var(--shadow-color);
+            background: var(--header-bg-solid);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            transition: padding 0.3s ease;
+        }
+
+        header.scrolled .navbar {
+            padding: 10px 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            transition: font-size 0.3s ease;
+        }
+
+        header.scrolled .logo {
+            font-size: 1.6rem;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin: 0 15px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-buttons .btn {
+            margin-left: 15px;
+            padding: 10px 20px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-left: 15px;
+            background-color: rgba(var(--primary-rgb), 0.1);
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            background-color: rgba(var(--primary-rgb), 0.2);
+            transform: rotate(30deg);
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-main);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger.active .line1 {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        
+        .hamburger.active .line2 {
+            opacity: 0;
+        }
+        
+        .hamburger.active .line3 {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 120px 0 60px;
+        }
+
+        .hero:before {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: linear-gradient(to right, rgba(65, 105, 225, 0.1), rgba(65, 105, 225, 0.05));
+            border-radius: 50%;
+            top: -400px;
+            left: -200px;
+            z-index: -1;
+            animation: rotateGlow 20s linear infinite;
+        }
+
+        .hero:after {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(to right, rgba(65, 105, 225, 0.05), rgba(65, 105, 225, 0.02));
+            border-radius: 50%;
+            bottom: -300px;
+            right: -100px;
+            z-index: -1;
+            animation: rotateGlow 15s linear infinite reverse;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .hero-text {
+            flex: 1;
+            padding-right: 50px;
+            animation: fadeInUp 1s ease-out forwards;
+            min-width: 300px;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+        .hero-text h1 span {
+            color: var(--primary);
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .hero-images {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            min-width: 300px;
+            margin-top: 30px;
+        }
+
+        .phone-mockup {
+            position: relative;
+            z-index: 1;
+            animation: floatPhone 6s ease-in-out infinite;
+        }
+
+        .phone-mockup img {
+            max-height: 680px;
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0px 20px 30px rgba(0, 0, 0, 0.2));
+            border-radius: 35px;
+            transition: opacity 0.3s ease;
+        }
+
+        .floating-screens {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .floating-screens .screen {
+            position: absolute;
+            max-width: 160px;
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        .floating-screens .screen img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 24px;
+            transition: opacity 0.3s ease;
+        }
+
+        .floating-screens .screen:nth-child(1) {
+            top: 10%;
+            left: -50px;
+            animation-delay: 0.3s;
+        }
+
+        .floating-screens .screen:nth-child(2) {
+            top: 30%;
+            right: -60px;
+            animation-delay: 0.6s;
+        }
+
+        .floating-screens .screen:nth-child(3) {
+            bottom: 20%;
+            left: -70px;
+            animation-delay: 0.9s;
+        }
+
+        /* Features Section */
+        .features {
+            background-color: var(--bg-card);
+            position: relative;
+            overflow: hidden;
+            padding: 120px 0;
+        }
+
+        .features:before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(45deg, rgba(var(--primary-rgb), 0.08), rgba(var(--primary-rgb), 0.03));
+            border-radius: 50%;
+            top: -150px;
+            right: -150px;
+            z-index: 0;
+            animation: rotateGlow 25s linear infinite;
+        }
+        
+        .features:after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.05), rgba(var(--primary-rgb), 0.02));
+            border-radius: 50%;
+            bottom: -150px;
+            left: -150px;
+            z-index: 0;
+            animation: rotateGlow 20s linear infinite reverse;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(var(--primary-rgb), 0.05);
+            overflow: hidden;
+        }
+
+        .feature-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(var(--primary-rgb), 0.1);
+            border-color: rgba(var(--primary-rgb), 0.1);
+        }
+        
+        .feature-card:hover:before {
+            opacity: 1;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--feature-icon-bg);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            color: var(--primary);
+            font-size: 1.7rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(var(--primary-rgb), 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-icon:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(var(--primary-rgb), 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+            background: var(--primary);
+            color: white;
+        }
+        
+        .feature-card:hover .feature-icon:after {
+            opacity: 1;
+        }
+
+        .feature-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--text-main);
+            transition: color 0.3s ease;
+        }
+        
+        .feature-card:hover h3 {
+            color: var(--primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 1.05rem;
+            margin-bottom: 0;
+        }
+        
+        .section-title.features-title {
+            margin-bottom: 80px;
+        }
+        
+        .section-title.features-title h2 {
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title.features-title h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        /* App Showcase Section */
+        .app-showcase {
+            position: relative;
+            overflow: hidden;
+            padding: 120px 0;
+        }
+
+        .app-showcase:before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(45deg, rgba(var(--primary-rgb), 0.05), rgba(var(--primary-rgb), 0.02));
+            border-radius: 50%;
+            bottom: -200px;
+            left: -200px;
+            z-index: 0;
+            animation: rotateGlow 20s linear infinite;
+        }
+
+        .app-showcase-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .app-screens {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .app-screen {
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateY(50px);
+            opacity: 0;
+            width: calc(25% - 30px);
+            min-width: 220px;
+            margin-bottom: 40px;
+        }
+
+        .app-screen.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .app-screen:hover {
+            transform: translateY(-10px) !important;
+            box-shadow: 0 15px 35px rgba(var(--primary-rgb), 0.1);
+        }
+
+        .app-screen img {
+            max-height: 500px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .app-screen-caption {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            white-space: nowrap;
+            color: var(--text-main);
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: var(--bg-card);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials:before {
+            content: '';
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(to right, rgba(65, 105, 225, 0.08), rgba(65, 105, 225, 0.03));
+            border-radius: 50%;
+            top: -175px;
+            right: -175px;
+            z-index: 0;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(var(--primary-rgb), 0.05);
+            overflow: hidden;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(var(--primary-rgb), 0.1);
+        }
+        
+        .testimonial-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.03), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+        
+        .testimonial-card:hover:before {
+            opacity: 1;
+        }
+
+        .testimonial-quote {
+            font-size: 1.2rem;
+            color: var(--text-main);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .testimonial-quote:before {
+            content: '"';
+            position: absolute;
+            left: 0;
+            top: -5px;
+            font-size: 2.5rem;
+            font-family: serif;
+            color: var(--primary);
+            opacity: 0.5;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            border-top: 1px solid rgba(var(--primary-rgb), 0.1);
+            padding-top: 20px;
+            margin-top: 10px;
+        }
+
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+            border: 3px solid rgba(var(--primary-rgb), 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .testimonial-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .testimonial-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+
+        .testimonial-info p {
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Download Section */
+        .download {
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download:before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(to right, rgba(65, 105, 225, 0.08), rgba(65, 105, 225, 0.03));
+            border-radius: 50%;
+            bottom: -250px;
+            left: -250px;
+            z-index: 0;
+        }
+
+        .download-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .download-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+
+        .download-content p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .download-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--text-main);
+            color: var(--bg-card);
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .download-btn i {
+            font-size: 1.8rem;
+        }
+
+        .download-btn .btn-text {
+            text-align: left;
+        }
+
+        .download-btn .btn-text small {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 400;
+            margin-bottom: 2px;
+        }
+
+        .download-btn .btn-text span {
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--footer-bg);
+            color: var(--light);
+            padding: 80px 0 30px;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+            color: var(--footer-text-hover);
+        }
+
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: var(--footer-text);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: var(--footer-text-hover);
+            padding-left: 5px;
+        }
+
+        .footer-column p {
+            color: var(--footer-text);
+            line-height: 1.5;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--footer-border);
+            padding-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--footer-text-muted);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--footer-link-bg);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            color: var(--footer-text-hover);
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .hero-text p {
+                font-size: 1.1rem;
+            }
+
+            .phone-mockup img {
+                max-height: 600px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                height: calc(100vh - 80px);
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+                background: var(--bg-card);
+                transition: all 0.5s ease;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero-text {
+                padding-right: 0;
+                margin-bottom: 30px;
+                order: 1;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-images {
+                order: 2;
+                width: 100%;
+            }
+
+            .phone-mockup img {
+                max-height: 550px;
+            }
+
+            .floating-screens .screen {
+                max-width: 130px;
+            }
+            
+            .floating-screens .screen:nth-child(1) {
+                left: 5%;
+            }
+            
+            .floating-screens .screen:nth-child(2) {
+                right: 5%;
+            }
+            
+            .floating-screens .screen:nth-child(3) {
+                left: 15%;
+                bottom: 10%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 80px 0;
+            }
+            
+            .hero {
+                padding: 100px 0 40px;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .feature-card {
+                padding: 25px;
+            }
+            
+            .app-screen {
+                width: calc(50% - 20px);
+                min-width: 150px;
+            }
+
+            .app-screen img {
+                max-height: 400px;
+            }
+            
+            .app-screen-caption {
+                font-size: 0.9rem;
+                padding: 8px 15px;
+            }
+
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .download-btn {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+
+            footer {
+                padding: 60px 0 20px;
+            }
+            
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+                margin-bottom: 40px;
+            }
+            
+            .footer-column h3 {
+                font-size: 1.1rem;
+                margin-bottom: 15px;
+            }
+            
+            .footer-links li {
+                margin-bottom: 10px;
+            }
+            
+            .social-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-text {
+                min-width: 100%;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+                gap: 10px;
+            }
+
+            .phone-mockup img {
+                max-height: 400px;
+            }
+
+            .floating-screens .screen {
+                max-width: 90px;
+            }
+            
+            .floating-screens .screen:nth-child(1) {
+                top: 15%;
+                left: 2%;
+            }
+            
+            .floating-screens .screen:nth-child(2) {
+                top: 25%;
+                right: 2%;
+            }
+            
+            .floating-screens .screen:nth-child(3) {
+                bottom: 15%;
+                left: 5%;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .feature-card {
+                padding: 20px;
+                border-radius: 15px;
+            }
+            
+            .feature-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+                margin-bottom: 15px;
+                border-radius: 15px;
+            }
+            
+            .feature-card h3 {
+                font-size: 1.2rem;
+                margin-bottom: 10px;
+            }
+            
+            .feature-card p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            .testimonials-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .testimonial-card {
+                padding: 20px;
+            }
+            
+            .testimonial-quote {
+                font-size: 0.95rem;
+                line-height: 1.5;
+                margin-bottom: 15px;
+                padding-left: 18px;
+            }
+            
+            .testimonial-quote:before {
+                font-size: 1.8rem;
+                top: -3px;
+            }
+            
+            .testimonial-author {
+                padding-top: 15px;
+            }
+            
+            .testimonial-avatar {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .testimonial-info h4 {
+                font-size: 0.95rem;
+            }
+            
+            .testimonial-info p {
+                font-size: 0.8rem;
+            }
+            
+            .app-screen {
+                width: calc(50% - 15px);
+                min-width: 135px;
+                margin-bottom: 30px;
+            }
+
+            .app-screen img {
+                max-height: 300px;
+                border-radius: 20px;
+            }
+            
+            .app-screen-caption {
+                font-size: 0.8rem;
+                padding: 8px 15px;
+                bottom: -15px;
+            }
+            
+            .app-screens {
+                gap: 20px;
+            }
+            
+            .features {
+                padding: 80px 0;
+            }
+            
+            .section-title.features-title {
+                margin-bottom: 40px;
+            }
+            
+            .app-showcase {
+                padding: 80px 0;
+            }
+
+            footer {
+                padding: 40px 0 20px;
+            }
+            
+            .footer-top {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 25px;
+            }
+            
+            .footer-column h3:after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .footer-column p {
+                font-size: 0.95rem;
+                max-width: 90%;
+                margin: 0 auto;
+                color: var(--footer-text);
+            }
+            
+            .footer-links a:hover {
+                padding-left: 0;
+            }
+            
+            .social-links {
+                justify-content: center;
+                margin-top: 15px;
+            }
+            
+            .footer-links a {
+                font-weight: 500;
+            }
+        }
+
+        /* App Showcase Animation Styles */
+        [data-aos="fade-right"] {
+            transform: translate3d(50px, 0, 0) scale(0.95);
+        }
+        
+        [data-aos="fade-left"] {
+            transform: translate3d(-50px, 0, 0) scale(0.95);
+        }
+        
+        [data-aos="fade-up"].app-screen {
+            transform: translate3d(0, 80px, 0) scale(0.95);
+        }
+        
+        [data-aos="fade-right"].active,
+        [data-aos="fade-left"].active,
+        [data-aos="fade-up"].active {
+            transform: translate3d(0, 0, 0) scale(1);
+        }
+
+        /* Popup Styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .popup-content {
+            background-color: var(--bg-card);
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .popup.active .popup-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .close-popup {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+        
+        .close-popup:hover {
+            color: var(--primary);
+        }
+        
+        .popup h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-size: 1.8rem;
+        }
+        
+        .popup p {
+            margin-bottom: 25px;
+            color: var(--text-main);
+        }
+        
+        .popup-btn {
+            margin-top: 10px;
+        }
+
+        /* Footer contact icons styling */
+        .footer-links li i {
+            color: var(--primary);
+            margin-right: 8px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="#" class="logo">
+                    <i class="fas fa-comment-dots"></i> TNchat
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#showcase">Showcase</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="#download">Download</a></li>
+                </ul>
+                <div class="nav-buttons">
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+                <div class="hamburger">
+                    <div class="line1"></div>
+                    <div class="line2"></div>
+                    <div class="line3"></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text" data-aos="fade-right" data-aos-duration="1000">
+                    <h1>Connect with <span>TNchat</span><br>Next-Gen Messaging</h1>
+                    <p>Experience a new era of communication with TNchat. Smart messaging, AI chat, games, and more - all in one beautiful, intuitive app.</p>
+                    <div class="hero-buttons">
+                        <a href="#download" class="btn btn-primary" data-aos="fade-up" data-aos-delay="200">Download Now</a>
+                        <a href="#showcase" class="btn btn-outline" data-aos="fade-up" data-aos-delay="300">See Features</a>
+                    </div>
+                </div>
+                <div class="hero-images" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="phone-mockup">
+                        <img src="imgs/light_mode/home_page-portrait.png" alt="TNchat Home">
+                    </div>
+                    <div class="floating-screens">
+                        <div class="screen">
+                            <img src="imgs/light_mode/chat_page-portrait.png" alt="Chat Screen">
+                        </div>
+                        <div class="screen">
+                            <img src="imgs/light_mode/ai_chat_page-portrait.png" alt="AI Chat Screen">
+                        </div>
+                        <div class="screen">
+                            <img src="imgs/light_mode/games_page-portrait.png" alt="Games Screen" data-light-src="imgs/light_mode/games_page-portrait.png" data-dark-src="imgs/dark_mode/games.png" class="theme-aware-image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features section" id="features">
+        <div class="container">
+            <div class="section-title features-title" data-aos="fade-up" data-aos-duration="800">
+                <h2>Why Choose TNchat?</h2>
+                <p>Our app combines cutting-edge features with a sleek, intuitive interface for the ultimate messaging experience.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Smart Messaging</h3>
+                    <p>Enjoy seamless real-time messaging with friends, complete with read receipts, typing indicators, and media sharing capabilities.</p>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI Chat Assistant</h3>
+                    <p>Get answers, solve problems, and have engaging conversations with our advanced AI chat assistant powered by the latest language models.</p>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>In-App Games</h3>
+                    <p>Challenge friends or play solo with our integrated games, including Chess, Tic Tac Toe, and Tetris, all within the app.</p>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="150">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Enhanced Privacy</h3>
+                    <p>Your conversations stay private with end-to-end encryption and customizable privacy settings for complete peace of mind.</p>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="250">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Find Friends</h3>
+                    <p>Easily discover and connect with friends through our intuitive friend-finding system, expanding your social circle.</p>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="350">
+                    <div class="feature-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <h3>Dark Mode</h3>
+                    <p>Easy on the eyes with our beautiful dark mode implementation, perfect for night-time chatting and reduced eye strain.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Showcase Section -->
+    <section class="app-showcase section" id="showcase">
+        <div class="container app-showcase-container">
+            <div class="section-title" data-aos="fade-up" data-aos-duration="800">
+                <h2>Experience TNchat</h2>
+                <p>Take a visual tour of our app's stunning interface and powerful features.</p>
+            </div>
+            <div class="app-screens">
+                <div class="app-screen" data-aos="fade-right" data-aos-delay="100">
+                    <img src="imgs/light_mode/sign_up_page-portrait.png" alt="Sign Up">
+                    <div class="app-screen-caption">Easy Sign Up</div>
+                </div>
+                <div class="app-screen" data-aos="fade-left" data-aos-delay="200">
+                    <img src="imgs/light_mode/Login_page-portrait.png" alt="Login">
+                    <div class="app-screen-caption">Quick Login</div>
+                </div>
+                <div class="app-screen" data-aos="fade-up" data-aos-delay="150">
+                    <img src="imgs/light_mode/home_page-portrait.png" alt="Home">
+                    <div class="app-screen-caption">Chat Dashboard</div>
+                </div>
+                <div class="app-screen" data-aos="fade-right" data-aos-delay="200">
+                    <img src="imgs/light_mode/chat_page-portrait.png" alt="Chat">
+                    <div class="app-screen-caption">Messaging</div>
+                </div>
+                <div class="app-screen" data-aos="fade-left" data-aos-delay="250">
+                    <img src="imgs/light_mode/ai_chat_page-portrait.png" alt="AI Chat">
+                    <div class="app-screen-caption">AI Assistant</div>
+                </div>
+                <div class="app-screen" data-aos="fade-up" data-aos-delay="150">
+                    <img src="imgs/light_mode/find_friends_page-portrait.png" alt="Find Friends" data-light-src="imgs/light_mode/find_friends_page-portrait.png" data-dark-src="imgs/dark_mode/find_friends_page.png" class="theme-aware-image">
+                    <div class="app-screen-caption">Find Friends</div>
+                </div>
+                <div class="app-screen" data-aos="fade-right" data-aos-delay="300">
+                    <img src="imgs/light_mode/games_page-portrait.png" alt="Games" data-light-src="imgs/light_mode/games_page-portrait.png" data-dark-src="imgs/dark_mode/games.png" class="theme-aware-image">
+                    <div class="app-screen-caption">Games</div>
+                </div>
+                <div class="app-screen" data-aos="fade-left" data-aos-delay="350">
+                    <img src="imgs/light_mode/settings_page-portrait.png" alt="Settings">
+                    <div class="app-screen-caption">Preferences</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials section" id="testimonials">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up" data-aos-duration="800">
+                <h2>What Our Users Say</h2>
+                <p>Join thousands of satisfied TNchat users from around the world.</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-quote">
+                        "TNchat has completely changed how I stay in touch with friends. The interface is beautiful and the AI chat feature is surprisingly helpful!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Sarah J.">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Sarah J.</h4>
+                            <p>Daily User</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-quote">
+                        "I love the integrated games! Being able to challenge friends to a quick game of chess while chatting makes this app stand out from the rest."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael T.">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Michael T.</h4>
+                            <p>Game Enthusiast</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="testimonial-quote">
+                        "The dark mode is gorgeous, and the app feels incredibly smooth. TNchat has thought of everything a modern messaging app should have."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">
+                            <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Leila K.">
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Leila K.</h4>
+                            <p>Tech Blogger</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download section" id="download">
+        <div class="container">
+            <div class="download-content">
+                <h2 data-aos="zoom-in">Start Chatting Today</h2>
+                <p data-aos="fade-up" data-aos-delay="100">Download TNchat now and experience messaging reimagined. Available for iOS and Android devices.</p>
+                <div class="download-buttons">
+                    <a href="#" id="ios-download" class="download-btn" data-aos="fade-right" data-aos-delay="200">
+                        <i class="fab fa-apple"></i>
+                        <div class="btn-text">
+                            <small>Download on the</small>
+                            <span>App Store</span>
+                        </div>
+                    </a>
+                    <a href="Android/TNCHAT.apk" download class="download-btn" data-aos="fade-left" data-aos-delay="300">
+                        <i class="fab fa-google-play"></i>
+                        <div class="btn-text">
+                            <small>Get it on</small>
+                            <span>Google Play</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-column" data-aos="fade-up" data-aos-delay="100">
+                    <h3>TNchat</h3>
+                    <p>The next generation messaging platform that brings people together through innovative features and seamless communication.</p>
+                    <div class="social-links">
+                        <a href="#" data-aos="fade-up" data-aos-delay="200"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" data-aos="fade-up" data-aos-delay="250"><i class="fab fa-twitter"></i></a>
+                        <a href="#" data-aos="fade-up" data-aos-delay="300"><i class="fab fa-instagram"></i></a>
+                        <a href="#" data-aos="fade-up" data-aos-delay="350"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column" data-aos="fade-up" data-aos-delay="150">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li data-aos="fade-up" data-aos-delay="200"><a href="#features">Features</a></li>
+                        <li data-aos="fade-up" data-aos-delay="250"><a href="#showcase">App Showcase</a></li>
+                        <li data-aos="fade-up" data-aos-delay="300"><a href="#testimonials">Testimonials</a></li>
+                        <li data-aos="fade-up" data-aos-delay="350"><a href="#download">Download</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column" data-aos="fade-up" data-aos-delay="200">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li data-aos="fade-up" data-aos-delay="250"><a href="#">Help Center</a></li>
+                        <li data-aos="fade-up" data-aos-delay="300"><a href="#">Privacy Policy</a></li>
+                        <li data-aos="fade-up" data-aos-delay="350"><a href="#">Terms of Service</a></li>
+                        <li data-aos="fade-up" data-aos-delay="400"><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column" data-aos="fade-up" data-aos-delay="250">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li data-aos="fade-up" data-aos-delay="300"><i class="fas fa-envelope"></i> <a href="mailto:dhibi.ywsf@gmail.com">dhibi.ywsf@gmail.com</a></li>
+                        <li data-aos="fade-up" data-aos-delay="350"><i class="fas fa-phone"></i> <a href="tel:+216 27084318">+216 27 084 318 </a></li>
+                        <li data-aos="fade-up" data-aos-delay="400"><i class="fas fa-map-marker-alt"></i> <a href="#">Tunisia, Gafsa</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom" data-aos="fade-up" data-aos-delay="300">
+                <p>&copy; 2025 TNchat. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add Coming Soon Popup -->
+    <div id="coming-soon-popup" class="popup">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <h3>Coming Soon!</h3>
+            <p>TNchat will be available on the iOS App Store soon. Stay tuned!</p>
+            <button class="btn btn-primary popup-btn">Get Notified</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-out',
+            once: true,
+            mirror: false,
+            anchorPlacement: 'top-bottom',
+            offset: 120,
+            disable: 'mobile' // Disable AOS on mobile to avoid conflicts with other animations
+        });
+        
+        // Navigation toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // Close navbar when clicking a nav link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Set initial theme based on stored preference or system preference
+        if (storedTheme === 'dark' || (!storedTheme && prefersDarkScheme.matches)) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+            switchImagesTheme('dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+            switchImagesTheme('light');
+        }
+        
+        // Toggle theme on button click
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Toggle icon
+            if (newTheme === 'dark') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+            
+            // Switch all images to match theme
+            switchImagesTheme(newTheme);
+        });
+
+        // Smooth scroll reveal implementation
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        function reveal() {
+            for (let i = 0; i < revealElements.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = revealElements[i].getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    revealElements[i].classList.add('active');
+                }
+            }
+        }
+        
+        window.addEventListener('scroll', reveal);
+        reveal(); // Call on page load
+
+        // App screens scroll animation
+        const appScreens = document.querySelectorAll('.app-screen');
+        
+        const appScreenObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, { 
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        appScreens.forEach(screen => {
+            appScreenObserver.observe(screen);
+        });
+
+        // Add scroll parallax effect
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY;
+            const parallaxElements = document.querySelectorAll('.hero:before, .hero:after, .features:before, .features:after');
+            
+            parallaxElements.forEach(element => {
+                const speed = 0.15;
+                element.style.transform = `translateY(${scrollPosition * speed}px)`;
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Add smooth scrolling to all links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Ensure animations work correctly on mobile
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial theme for images on load
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            switchImagesTheme(currentTheme);
+            
+            if (window.innerWidth <= 768) {
+                // Force redraw of floating screens for better mobile appearance
+                const floatingScreens = document.querySelectorAll('.floating-screens .screen');
+                floatingScreens.forEach(screen => {
+                    screen.style.display = 'none';
+                    setTimeout(() => {
+                        screen.style.display = 'block';
+                    }, 10);
+                });
+            }
+            
+            // Refresh AOS when all content is loaded
+            window.addEventListener('load', () => {
+                AOS.refresh();
+            });
+        });
+
+        // Function to switch all images to match current theme
+        function switchImagesTheme(theme) {
+            // Special handling for specifically marked theme-aware images first
+            document.querySelectorAll('.theme-aware-image').forEach(img => {
+                if (theme === 'dark') {
+                    const darkSrc = img.getAttribute('data-dark-src');
+                    if (darkSrc) {
+                        console.log('Setting theme-aware image to dark mode:', darkSrc);
+                        img.setAttribute('src', darkSrc);
+                    }
+                } else {
+                    const lightSrc = img.getAttribute('data-light-src');
+                    if (lightSrc) {
+                        console.log('Setting theme-aware image to light mode:', lightSrc);
+                        img.setAttribute('src', lightSrc);
+                    }
+                }
+            });
+            
+            // Handle the rest of the images
+            const allImages = document.querySelectorAll('img[src^="imgs/"]:not(.theme-aware-image)');
+            
+            allImages.forEach(img => {
+                const currentSrc = img.getAttribute('src');
+                let newSrc = currentSrc;
+                
+                // General case for other images
+                if (theme === 'dark' && !currentSrc.includes('dark_mode/')) {
+                    // Extract file name from current path
+                    const fileName = currentSrc.split('/').pop();
+                    
+                    // Special handling for the filenames
+                    let darkModeFileName = fileName;
+                    
+                    // Remove -portrait suffix if present for dark mode files
+                    if (fileName.includes('-portrait')) {
+                        darkModeFileName = fileName.replace('-portrait', '');
+                    }
+                    
+                    // Handle special case for Login_page-portrait.png to login_page.png
+                    if (darkModeFileName.includes('Login_page')) {
+                        darkModeFileName = darkModeFileName.replace('Login_page', 'login_page');
+                    }
+                    
+                    // Set new path
+                    newSrc = `imgs/dark_mode/${darkModeFileName}`;
+                } 
+                else if (theme === 'light' && !currentSrc.includes('light_mode/')) {
+                    // Extract file name from current path
+                    const fileName = currentSrc.split('/').pop();
+                    
+                    // Special handling for filenames
+                    let lightModeFileName = fileName;
+                    
+                    // Add -portrait suffix if not present for light mode files
+                    if (!fileName.includes('-portrait')) {
+                        lightModeFileName = fileName.replace('.png', '-portrait.png');
+                    }
+                    
+                    // Handle special case for login_page.png to Login_page-portrait.png
+                    if (lightModeFileName.includes('login_page')) {
+                        lightModeFileName = lightModeFileName.replace('login_page', 'Login_page');
+                    }
+                    
+                    // Set new path
+                    newSrc = `imgs/light_mode/${lightModeFileName}`;
+                }
+                
+                // Only proceed if we're actually changing the source
+                if (newSrc !== currentSrc) {
+                    // Create new image to preload and then switch once loaded
+                    const newImg = new Image();
+                    newImg.onload = function() {
+                        img.setAttribute('src', newSrc);
+                        img.style.opacity = '0';
+                        setTimeout(() => {
+                            img.style.opacity = '1';
+                        }, 50);
+                    };
+                    newImg.onerror = function() {
+                        console.error('Failed to load image:', newSrc);
+                    };
+                    newImg.src = newSrc;
+                }
+            });
+            
+            // Refresh AOS animations after theme change
+            setTimeout(() => {
+                AOS.refresh();
+            }, 300);
+        }
+
+        // Handle iOS download popup
+        const iosDownloadBtn = document.getElementById('ios-download');
+        const comingSoonPopup = document.getElementById('coming-soon-popup');
+        const closePopupBtn = document.querySelector('.close-popup');
+        const popupNotifyBtn = document.querySelector('.popup-btn');
+
+        iosDownloadBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            comingSoonPopup.style.display = 'flex';
+            setTimeout(() => {
+                comingSoonPopup.classList.add('active');
+            }, 10);
+        });
+
+        function closePopup() {
+            comingSoonPopup.classList.remove('active');
+            setTimeout(() => {
+                comingSoonPopup.style.display = 'none';
+            }, 300);
+        }
+
+        closePopupBtn.addEventListener('click', closePopup);
+        
+        popupNotifyBtn.addEventListener('click', function() {
+            alert('Thank you! We will notify you when TNchat becomes available on iOS.');
+            closePopup();
+        });
+
+        // Close popup when clicking outside
+        comingSoonPopup.addEventListener('click', function(e) {
+            if (e.target === comingSoonPopup) {
+                closePopup();
+            }
+        });
+    </script>
+</body>
+</html>

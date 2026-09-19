@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting... - AnimatedTheme</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: 'oklch(1 0 0)',
+                        foreground: 'oklch(0.145 0 0)',
+                        primary: 'oklch(0.205 0 0)',
+                        'primary-foreground': 'oklch(0.985 0 0)',
+                        secondary: 'oklch(0.97 0 0)',
+                        'secondary-foreground': 'oklch(0.205 0 0)',
+                        muted: 'oklch(0.97 0 0)',
+                        'muted-foreground': 'oklch(0.556 0 0)',
+                        accent: 'oklch(0.97 0 0)',
+                        'accent-foreground': 'oklch(0.205 0 0)',
+                        border: 'oklch(0.922 0 0)',
+                        card: 'oklch(1 0 0)',
+                        'card-foreground': 'oklch(0.145 0 0)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes progress-fill {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+        
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(32, 32, 32, 0.1); }
+            50% { box-shadow: 0 0 30px rgba(32, 32, 32, 0.2); }
+        }
+        
+        .progress-bar-fill {
+            animation: progress-fill 4s ease-out forwards;
+        }
+        
+        .fade-in {
+            animation: fade-in 0.6s ease-out forwards;
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .dark-mode {
+                --background: oklch(0.145 0 0);
+                --foreground: oklch(0.985 0 0);
+                --primary: oklch(0.922 0 0);
+                --primary-foreground: oklch(0.205 0 0);
+                --secondary: oklch(0.269 0 0);
+                --secondary-foreground: oklch(0.985 0 0);
+                --muted: oklch(0.269 0 0);
+                --muted-foreground: oklch(0.708 0 0);
+                --accent: oklch(0.269 0 0);
+                --accent-foreground: oklch(0.985 0 0);
+                --border: oklch(1 0 0 / 10%);
+                --card: oklch(0.205 0 0);
+                --card-foreground: oklch(0.985 0 0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full">
+        <!-- Main Card -->
+        <div class="bg-card border border-border/40 rounded-2xl p-8 shadow-lg backdrop-blur-sm fade-in">
+            <!-- Logo/Brand -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center space-x-3 mb-4">
+                    <div class="h-10 w-10 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center">
+                        <span class="text-primary-foreground font-bold text-lg">A</span>
+                    </div>
+                    <span class="text-xl font-bold text-foreground">AnimatedTheme</span>
+                </div>
+                <h1 class="text-2xl font-bold text-foreground mb-2">Redirecting...</h1>
+                <p class="text-muted-foreground">You're being redirected to our main application</p>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="mb-8">
+                <div class="flex justify-between text-sm text-muted-foreground mb-2">
+                    <span>Progress</span>
+                    <span id="countdown">4s</span>
+                </div>
+                <div class="w-full bg-muted rounded-full h-2 overflow-hidden">
+                    <div class="progress-bar-fill h-full bg-gradient-to-r from-primary to-primary/60 rounded-full"></div>
+                </div>
+            </div>
+
+            <!-- Manual Redirect Button -->
+            <div class="text-center">
+                <button 
+                    id="manualRedirect"
+                    class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all duration-200 shadow-lg hover:shadow-xl cursor-pointer focus:outline-none focus:ring-4 focus:ring-primary/30 focus:ring-offset-2 pulse-glow"
+                >
+                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                    </svg>
+                    Go Now
+                </button>
+            </div>
+
+            <!-- Loading Animation -->
+            <div class="text-center mt-6">
+                <div class="inline-flex items-center gap-2 text-sm text-muted-foreground">
+                    <div class="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                    <div class="w-2 h-2 bg-primary rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+                    <div class="w-2 h-2 bg-primary rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+                    <span class="ml-2">Preparing your experience...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8">
+            <p class="text-sm text-muted-foreground">
+                Built with ❤️ using Next.js, Tailwind CSS, and Lucide React
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const targetUrl = 'https://toogle-animated-theme.vercel.app/';
+        let countdown = 4;
+        const countdownElement = document.getElementById('countdown');
+        const manualRedirectBtn = document.getElementById('manualRedirect');
+
+        // Update countdown
+        const updateCountdown = () => {
+            countdownElement.textContent = countdown + 's';
+            countdown--;
+        };
+
+        // Manual redirect
+        manualRedirectBtn.addEventListener('click', () => {
+            window.location.href = targetUrl;
+        });
+
+        // Auto redirect countdown
+        const countdownInterval = setInterval(() => {
+            updateCountdown();
+            if (countdown < 0) {
+                clearInterval(countdownInterval);
+                window.location.href = targetUrl;
+            }
+        }, 1000);
+
+        // Initial countdown update
+        updateCountdown();
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add hover effect to the card
+            const card = document.querySelector('.bg-card');
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+                card.style.transition = 'transform 0.2s ease';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

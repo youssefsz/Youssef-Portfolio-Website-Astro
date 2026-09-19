@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Redirecting... | Youssef's Blog</title>
+    <meta name="description" content="You are being redirected to Youssef's Blog">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables - Auto Light/Dark Mode */
+        :root {
+            --background: oklch(1 0 0);
+            --foreground: oklch(0.145 0 0);
+            --muted: oklch(0.97 0 0);
+            --muted-foreground: oklch(0.556 0 0);
+            --border: oklch(0.922 0 0);
+            --primary: oklch(0.205 0 0);
+            --primary-foreground: oklch(0.985 0 0);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background: oklch(0.19 0 0);
+                --foreground: oklch(0.985 0 0);
+                --muted: oklch(0.269 0 0);
+                --muted-foreground: oklch(0.708 0 0);
+                --border: oklch(1 0 0 / 15%);
+                --primary: oklch(0.922 0 0);
+                --primary-foreground: oklch(0.205 0 0);
+            }
+        }
+
+        /* Reset & Base */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--background);
+            color: var(--foreground);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Container */
+        .redirect-container {
+            text-align: center;
+            max-width: 440px;
+            width: 100%;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--muted-foreground);
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        /* Heading */
+        h1 {
+            font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        h1 span {
+            color: var(--muted-foreground);
+        }
+
+        /* Subtitle */
+        .subtitle {
+            font-size: 1.125rem;
+            color: var(--muted-foreground);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        /* Progress Container */
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--muted-foreground);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background-color: var(--muted);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--foreground);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        /* Timer */
+        .timer {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Button */
+        .continue-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--primary-foreground);
+            background-color: var(--primary);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px var(--foreground);
+        }
+
+        .continue-btn:active {
+            transform: translateY(0);
+        }
+
+        .continue-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .continue-btn:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* Separator */
+        .separator {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            color: var(--muted-foreground);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .separator::before,
+        .separator::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background-color: var(--border);
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 3rem;
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+        }
+
+        .footer a {
+            color: var(--foreground);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .footer a:hover {
+            border-bottom-color: var(--foreground);
+        }
+
+        /* Pulse animation for Arrow */
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .loading-indicator {
+            animation: pulse 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="redirect-container">
+        <div class="badge">Redirecting</div>
+
+        <h1>Taking you <span>to</span><br>Youssef's Blog.</h1>
+
+        <p class="subtitle">
+            You will be automatically redirected in a few seconds.
+        </p>
+
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Progress</span>
+                <span class="timer">4s</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+
+        <div class="separator">or</div>
+
+        <a href="https://blog.youssef.tn" class="continue-btn" id="continueBtn">
+            Continue Now
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+        </a>
+
+        <p class="footer">
+            Powered by <a href="https://youssef.tn" target="_blank" rel="noopener">Youssef Dhibi</a>
+        </p>
+    </div>
+
+    <script>
+        (function () {
+            const REDIRECT_URL = 'https://blog.youssef.tn';
+            const DURATION = 4000; // 4 seconds
+            const INTERVAL = 50; // Update every 50ms for smooth animation
+
+            const progressFill = document.getElementById('progressFill');
+            const timerDisplay = document.querySelector('.timer');
+            const continueBtn = document.getElementById('continueBtn');
+
+            let elapsed = 0;
+            let redirectTimer;
+
+            function updateProgress() {
+                elapsed += INTERVAL;
+                const progress = Math.min((elapsed / DURATION) * 100, 100);
+                const remaining = Math.max(Math.ceil((DURATION - elapsed) / 1000), 0);
+
+                progressFill.style.width = progress + '%';
+                timerDisplay.textContent = remaining + 's';
+
+                if (elapsed >= DURATION) {
+                    clearInterval(redirectTimer);
+                    redirect();
+                }
+            }
+
+            function redirect() {
+                window.location.href = REDIRECT_URL;
+            }
+
+            // Start the countdown
+            redirectTimer = setInterval(updateProgress, INTERVAL);
+
+            // Manual redirect button
+            continueBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                clearInterval(redirectTimer);
+                progressFill.style.width = '100%';
+                timerDisplay.textContent = '0s';
+                redirect();
+            });
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YWSF Informatique - E-commerce</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="manifest" href="../site.webmanifest">
+</head>
+<body>
+    <!-- Auth Modals -->
+    <div class="auth-modal" id="loginModal">
+        <div class="modal-content">
+            <button class="close-modal"><i class="fas fa-times"></i></button>
+            <h2>Connexion</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Mot de passe</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="submit-btn">Se connecter</button>
+                <p class="switch-form">Pas encore de compte? <a href="#" data-form="register">S'inscrire</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="auth-modal" id="registerModal">
+        <div class="modal-content">
+            <button class="close-modal"><i class="fas fa-times"></i></button>
+            <h2>Créer un compte</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Nom complet</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Mot de passe</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmer le mot de passe</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <button type="submit" class="submit-btn">S'inscrire</button>
+                <p class="switch-form">Déjà un compte? <a href="#" data-form="login">Se connecter</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="checkout-modal">
+        <div class="modal-content">
+            <button class="close-modal"><i class="fas fa-times"></i></button>
+            <h2>Finaliser la commande</h2>
+            <form id="checkoutForm">
+                <div class="form-section">
+                    <h3>Informations personnelles</h3>
+                    <div class="form-group">
+                        <label for="fullName">Nom complet</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Téléphone</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Adresse de livraison</h3>
+                    <div class="form-group">
+                        <label for="address">Adresse</label>
+                        <input type="text" id="address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Ville</label>
+                        <input type="text" id="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="postalCode">Code postal</label>
+                        <input type="text" id="postalCode" required>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Paiement</h3>
+                    <div class="form-group">
+                        <label for="cardNumber">Numéro de carte</label>
+                        <input type="text" id="cardNumber" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiryDate">Date d'expiration</label>
+                            <input type="text" id="expiryDate" placeholder="MM/YY" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-summary">
+                    <h3>Récapitulatif de la commande</h3>
+                    <div class="summary-items">
+                        <!-- Will be populated dynamically -->
+                    </div>
+                    <div class="summary-total">
+                        <span>Total:</span>
+                        <span class="total-amount">0.00 DT</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Confirmer la commande</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <header>
+        <div class="announcement-bar">
+            BIENVENUE SUR NOTRE BOUTIQUE
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="logo">
+                    <a href="main.html">
+                        <img src="images/logo.png" alt="YWSF Informatique">
+                    </a>
+                </div>
+                <div class="search-bar">
+                    <form action="#" method="GET">
+                        <input type="text" placeholder="Rechercher produit...">
+                        <button type="submit"><i class="fas fa-search"></i></button>
+                    </form>
+                </div>
+                <div class="header-right">
+                    <div class="contact-info">
+                        <span>Tel: 27 084 318</span>
+                        <span>E-mail: info@ywsf-informatique.tn</span>
+                    </div>
+                    <div class="user-actions">
+                        <a href="#" class="wishlist"><i class="fas fa-heart"></i> <span class="wishlist-count">0</span></a>
+                        <a href="#" class="account" id="authButton"><i class="fas fa-user"></i> MON ESPACE</a>
+                        <a href="#" class="cart"><i class="fas fa-shopping-cart"></i> <span class="cart-count">0</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="main-nav">
+            <div class="container">
+                <button class="category-btn">
+                    EXPLORER PAR CATÉGORIE <i class="fas fa-chevron-down"></i>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="#">À LA UNE</a></li>
+                    <li><a href="#">PROMOS</a></li>
+                    <li><a href="#">NOUVEAUTÉS</a></li>
+                    <li><a href="#">BLOG</a></li>
+                    <li><a href="#">CONTACT</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Vous ne trouvez pas l'article que vous cherchez?</h1>
+                <a href="#" class="cta-button">Consultez notre service import!</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h3>MON PANIER</h3>
+            <button class="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items">
+            <div class="cart-empty">
+                <i class="fas fa-shopping-bag"></i>
+                <p>VOTRE PANIER EST VIDE!</p>
+            </div>
+            <!-- Cart items will be dynamically added here -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span class="total-amount">0.00 DT</span>
+            </div>
+            <button class="checkout-btn">CONTINUER VOS ACHATS</button>
+            <a href="#" class="continue-shopping">Retourner à la boutique</a>
+        </div>
+    </div>
+
+    <!-- Price Filter -->
+    <section class="filters">
+        <div class="container">
+            <div class="price-filter">
+                <h3>Filtrer par prix</h3>
+                <div class="price-inputs">
+                    <div class="input-group">
+                        <input type="number" id="min-price" placeholder="Min" min="0">
+                        <span class="currency">DT</span>
+                    </div>
+                    <span class="separator">-</span>
+                    <div class="input-group">
+                        <input type="number" id="max-price" placeholder="Max" min="0">
+                        <span class="currency">DT</span>
+                    </div>
+                    <button id="apply-price-filter" class="btn btn-primary">
+                        <i class="fas fa-filter"></i>
+                        Appliquer
+                    </button>
+                    <button id="reset-price-filter" class="btn btn-secondary">
+                        <i class="fas fa-undo"></i>
+                        Réinitialiser
+                    </button>
+                </div>
+                <div class="sort-controls">
+                    <span class="sort-label">Trier par prix:</span>
+                    <button id="sort-asc" class="btn btn-secondary">
+                        <i class="fas fa-sort-amount-up-alt"></i>
+                        Prix croissant
+                    </button>
+                    <button id="sort-desc" class="btn btn-secondary">
+                        <i class="fas fa-sort-amount-down-alt"></i>
+                        Prix décroissant
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="featured-products">
+        <div class="container">
+            <div class="section-header">
+                <h2>NOTRE SÉLECTION POUR VOUS</h2>
+                <a href="#" class="view-all">VOIR TOUT</a>
+            </div>
+            <div class="products-grid">
+                <!-- Product cards will be dynamically added here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <i class="fas fa-credit-card"></i>
+                    <h3>FACILITÉ DE PAIEMENT</h3>
+                    <p>Payer En 3/4 fois</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-truck"></i>
+                    <h3>LIVRAISON GRATUITE</h3>
+                    <p>Sur Toute Commande > 500 DT</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-exchange-alt"></i>
+                    <h3>ÉCHANGES FACILES</h3>
+                    <p>24h Pour Échanger Un Produit</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Modal -->
+    <div class="product-modal">
+        <div class="modal-content">
+            <button class="close-modal"><i class="fas fa-times"></i></button>
+            <div class="modal-body">
+                <!-- Product details will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>QUI SOMMES-NOUS?</h3>
+                    <p>YWSF-Informatique est votre partenaire de confiance pour tous vos besoins en matériel informatique.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>NOUS CONTACTER</h3>
+                    <p>Tel: 27 084 318</p>
+                    <p>Email: info@ywsf-informatique.tn</p>
+                </div>
+                <div class="footer-section">
+                    <h3>SUIVEZ-NOUS</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2025 YWSF-Informatique. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Card Template -->
+    <template id="productCardTemplate">
+        <div class="product-card">
+            <div class="product-image">
+                <img src="" alt="">
+                <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+            </div>
+            <div class="product-info">
+                <div class="product-rating">
+                    <div class="stars"></div>
+                    <span class="rating-count">(0)</span>
+                </div>
+                <h3></h3>
+                <p class="price"></p>
+                <button class="view-details">Voir détails</button>
+                <button class="add-to-cart">Ajouter au panier</button>
+            </div>
+        </div>
+    </template>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

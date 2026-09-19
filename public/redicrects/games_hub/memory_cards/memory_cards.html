@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+    Copyright © 2024 Youssef Dhibi
+    All rights reserved.
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="msapplication-TileColor" content="#4a90e2">
+    
+    <title>Memory Card Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 15px;
+            background: 
+                linear-gradient(135deg, rgba(26, 26, 46, 0.97), rgba(22, 33, 62, 0.97)),
+                repeating-linear-gradient(45deg, 
+                    transparent 0px,
+                    transparent 10px,
+                    rgba(243, 156, 18, 0.05) 10px,
+                    rgba(243, 156, 18, 0.05) 20px
+                ),
+                repeating-linear-gradient(-45deg,
+                    transparent 0px,
+                    transparent 10px,
+                    rgba(243, 156, 18, 0.05) 10px,
+                    rgba(243, 156, 18, 0.05) 20px
+                );
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-attachment: fixed;
+            overscroll-behavior: none;
+        }
+
+        .game-container {
+            position: relative;
+            margin: 10px auto;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            max-width: 600px;
+            width: 95%;
+            border: 2px solid rgba(243, 156, 18, 0.3);
+        }
+
+        .memory-game {
+            width: 100%;
+            aspect-ratio: 1;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            perspective: 1000px;
+            margin-bottom: 1rem;
+            border: 3px solid #f39c12;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(243, 156, 18, 0.3);
+            transition: all 0.4s ease;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.85);
+            touch-action: manipulation;
+        }
+
+        .memory-game:hover {
+            box-shadow: 0 0 40px rgba(243, 156, 18, 0.5);
+            transform: translateY(-4px);
+        }
+
+        @media (max-width: 480px) {
+            .memory-game {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.4rem;
+                padding: 6px;
+                aspect-ratio: 0.75;
+            }
+
+            .game-container {
+                padding: 10px;
+                margin: 5px auto;
+            }
+
+            .score-container {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .score, .timer, .best-score {
+                margin: 0;
+                padding: 8px 12px;
+                min-width: 100%;
+                font-size: 0.85rem;
+            }
+
+            .back-btn {
+                top: 12px;
+                left: 12px;
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+            
+            .back-btn::before {
+                font-size: 16px;
+            }
+        }
+
+        .card {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            cursor: pointer;
+            touch-action: manipulation;
+            -webkit-transform-style: preserve-3d;
+            -webkit-backface-visibility: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .card:active {
+            transform: scale(0.95);
+        }
+
+        .card.flip {
+            transform: rotateY(180deg);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .front {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            transform: rotateY(180deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .back {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            transform: rotateY(0);
+            border: 2px solid rgba(243, 156, 18, 0.3);
+        }
+
+        .score-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-sizing: border-box;
+            border: 2px solid rgba(243, 156, 18, 0.2);
+        }
+
+        .score, .timer, .best-score {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 2px solid #f39c12;
+            min-width: 120px;
+            text-align: center;
+            transition: all 0.3s ease;
+            flex: 1;
+            margin: 0 8px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .score:active, .timer:active, .best-score:active {
+            transform: scale(0.95);
+        }
+
+        .button-container {
+            display: flex;
+            gap: 0.6rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .restart-btn {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .restart-btn:active {
+            transform: scale(0.95);
+            background: linear-gradient(45deg, #e67e22, #d35400);
+        }
+
+        .win-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(51, 51, 51, 0.98);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(0,0,0,0.4);
+            z-index: 1000;
+            width: 90%;
+            max-width: 350px;
+            color: white;
+            border: 3px solid #f39c12;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            animation: popIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 2px solid #f39c12;
+            z-index: 100;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .game-container {
+                padding: 0.6rem;
+            }
+            
+            .score-container {
+                margin-bottom: 0.6rem;
+                padding: 10px;
+            }
+            
+            .button-container {
+                margin-bottom: 0.4rem;
+            }
+
+            .score, .timer, .best-score {
+                padding: 10px 12px;
+                min-width: 110px;
+                font-size: 0.85rem;
+            }
+
+            footer {
+                padding: 5px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-height: 500px) {
+            footer {
+                position: static;
+                margin-top: 10px;
+            }
+        }
+
+        .card.preview {
+            transform: rotateY(180deg);
+        }
+
+        .card.locked {
+            pointer-events: none;
+        }
+
+        .restart-btn#startBtn {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+        }
+
+        .restart-btn#startBtn:active {
+            background: linear-gradient(45deg, #219a52, #25a25a);
+        }
+
+        .restart-btn:not(#startBtn) {
+            display: none;
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            color: white;
+            padding: 12px 24px;
+            border: 2px solid #f39c12;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.3);
+            background: linear-gradient(45deg, #34495e, #2c3e50);
+            border-color: #f39c12;
+        }
+
+        .back-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .back-btn::before {
+            content: "←";
+            font-size: 18px;
+            margin-right: 2px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-btn:hover::before {
+            transform: translateX(-3px);
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="back-btn">Back</a>
+    <div class="game-container">
+        <div class="score-container">
+            <div class="score">Moves: <span id="moves">0</span></div>
+            <div class="timer">Time: <span id="time">0:00</span></div>
+            <div class="best-score">Best: <span id="best">-</span></div>
+        </div>
+        <div class="memory-game"></div>
+        <div class="button-container">
+            <button class="restart-btn" id="startBtn">Start Game</button>
+            <button class="restart-btn">Restart Game</button>
+        </div>
+    </div>
+
+    <div class="win-message" id="winMessage">
+        <h2 style="color: #f39c12; margin-bottom: 1rem; font-size: 2rem">Congratulations! 🎉</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 0.5rem">You completed the game in <span id="finalMoves" style="color: #f39c12; font-weight: bold">0</span> moves</p>
+        <p style="font-size: 1.2rem; margin-bottom: 1.5rem">Time: <span id="finalTime" style="color: #f39c12; font-weight: bold">0:00</span></p>
+        <button class="restart-btn" onclick="restartGame()">Play Again</button>
+    </div>
+
+    
+
+    <script>
+        const gameContainer = document.querySelector('.memory-game');
+        const movesDisplay = document.getElementById('moves');
+        const timeDisplay = document.getElementById('time');
+        const bestDisplay = document.getElementById('best');
+        const winMessage = document.getElementById('winMessage');
+        const restartBtn = document.querySelector('.restart-btn:not(#startBtn)');
+        const scoreContainer = document.querySelector('.score-container');
+        
+        let moves = 0;
+        let hasFlippedCard = false;
+        let lockBoard = false;
+        let firstCard, secondCard;
+        let timer;
+        let seconds = 0;
+        let matchedPairs = 0;
+        let bestScore = localStorage.getItem('bestScore') || Infinity;
+        let gameStarted = false;
+        const startBtn = document.getElementById('startBtn');
+        
+        const emojis = ['🎮', '🎲', '🎯', '🎨', '🎭', '🎪'];
+        const cards = [...emojis, ...emojis];
+
+        // Prevent double tap zoom
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Prevent pull-to-refresh
+        document.body.style.overscrollBehavior = 'none';
+
+        function startTimer() {
+            timer = setInterval(() => {
+                seconds++;
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                timeDisplay.textContent = `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function createCards() {
+            const shuffledCards = shuffle([...cards]);
+            const totalCards = window.innerWidth <= 480 ? 12 : 16;
+            const selectedEmojis = window.innerWidth <= 480 ? emojis.slice(0, 6) : emojis;
+            const selectedCards = window.innerWidth <= 480 ? 
+                [...selectedEmojis, ...selectedEmojis] : 
+                [...selectedEmojis, ...selectedEmojis, '🎢', '🎡', '🎢', '🎡'];
+            
+            shuffle(selectedCards).forEach((emoji, index) => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.classList.add('locked');
+                card.dataset.framework = emoji;
+                
+                card.innerHTML = `
+                    <div class="front">${emoji}</div>
+                    <div class="back"></div>
+                `;
+
+                card.addEventListener('click', flipCard);
+                card.addEventListener('touchstart', flipCard, { passive: true });
+                gameContainer.appendChild(card);
+            });
+        }
+
+        function startGame() {
+            if (gameStarted) return;
+            gameStarted = true;
+            startBtn.style.display = 'none';
+            restartBtn.style.display = 'block';
+            
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => card.classList.add('preview'));
+            
+            setTimeout(() => {
+                cards.forEach(card => {
+                    card.classList.remove('preview');
+                    card.classList.remove('locked');
+                });
+                seconds = 0;
+                timeDisplay.textContent = '0:00';
+                startTimer();
+            }, 1000);
+        }
+
+        function flipCard() {
+            if (lockBoard || !gameStarted) return;
+            if (this === firstCard) return;
+
+            this.classList.add('flip');
+            moves++;
+            movesDisplay.textContent = moves;
+
+            if (!hasFlippedCard) {
+                hasFlippedCard = true;
+                firstCard = this;
+                return;
+            }
+
+            secondCard = this;
+            checkForMatch();
+        }
+
+        function checkForMatch() {
+            const isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+            isMatch ? disableCards() : unflipCards();
+        }
+
+        function disableCards() {
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
+            firstCard.removeEventListener('touchstart', flipCard);
+            secondCard.removeEventListener('touchstart', flipCard);
+            matchedPairs++;
+            
+            const totalPairs = window.innerWidth <= 480 ? 6 : 8;
+            if (matchedPairs === totalPairs) {
+                setTimeout(() => {
+                    stopTimer();
+                    if (moves < bestScore) {
+                        bestScore = moves;
+                        localStorage.setItem('bestScore', bestScore);
+                        bestDisplay.textContent = bestScore;
+                    }
+                    document.getElementById('finalMoves').textContent = moves;
+                    document.getElementById('finalTime').textContent = timeDisplay.textContent;
+                    winMessage.style.display = 'block';
+                }, 500);
+            }
+            
+            resetBoard();
+        }
+
+        function unflipCards() {
+            lockBoard = true;
+            setTimeout(() => {
+                firstCard.classList.remove('flip');
+                secondCard.classList.remove('flip');
+                resetBoard();
+            }, 1000);
+        }
+
+        function resetBoard() {
+            [hasFlippedCard, lockBoard] = [false, false];
+            [firstCard, secondCard] = [null, null];
+        }
+
+        function restartGame() {
+            stopTimer();
+            seconds = 0;
+            moves = 0;
+            matchedPairs = 0;
+            gameStarted = false;
+            movesDisplay.textContent = '0';
+            timeDisplay.textContent = '0:00';
+            winMessage.style.display = 'none';
+            startBtn.style.display = 'block';
+            restartBtn.style.display = 'none';
+            
+            while (gameContainer.firstChild) {
+                gameContainer.removeChild(gameContainer.firstChild);
+            }
+            
+            createCards();
+            resetBoard();
+        }
+
+        bestDisplay.textContent = bestScore === Infinity ? '-' : bestScore;
+        restartBtn.addEventListener('click', restartGame);
+        startBtn.addEventListener('click', startGame);
+
+        window.addEventListener('orientationchange', () => {
+            setTimeout(restartGame, 200);
+        });
+
+        createCards();
+    </script>
+</body>
+</html>

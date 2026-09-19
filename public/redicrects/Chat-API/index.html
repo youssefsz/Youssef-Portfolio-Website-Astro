@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting - Chat API</title>
+    <meta name="description" content="Redirecting to Chat API - AI-Powered Conversations">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: #0f1211;
+            --foreground: #e7eceb;
+            --primary: #78fcd6;
+            --primary-alt: #00ffb6;
+            --card-bg: rgba(39, 39, 42, 0.6);
+            --border: rgba(255, 255, 255, 0.1);
+            --muted: rgba(231, 236, 235, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 252, 214, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(0, 255, 182, 0.06) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120, 252, 214, 0.04) 0%, transparent 50%);
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(120, 252, 214, 0.02) 50%, transparent 70%);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 500px;
+            padding: 2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 3rem 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 
+                        0 0 0 1px rgba(120, 252, 214, 0.05),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            animation: slideUp 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0.6;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        .logo-icon {
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-alt));
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--background);
+            font-size: 1.125rem;
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 8px 32px rgba(120, 252, 214, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--foreground);
+        }
+
+        .title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-alt), var(--primary));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeIn 1s ease-out 0.5s both, gradientShift 3s ease-in-out infinite;
+            letter-spacing: -0.02em;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            font-size: 1.125rem;
+            color: var(--muted);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            animation: fadeIn 1s ease-out 0.7s both;
+        }
+
+        .countdown {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-out 0.9s both;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 1.5px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-out 1.1s both;
+            position: relative;
+        }
+        
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(120, 252, 214, 0.1), transparent);
+            animation: progressShimmer 2s ease-in-out infinite;
+        }
+        
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-alt), var(--primary));
+            border-radius: 1.5px;
+            animation: progress 5s linear;
+            transform-origin: left;
+            box-shadow: 0 0 10px rgba(120, 252, 214, 0.5);
+        }
+
+        @keyframes progress {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        .manual-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            background: linear-gradient(135deg, rgba(120, 252, 214, 0.1), rgba(0, 255, 182, 0.05));
+            border: 1px solid rgba(120, 252, 214, 0.3);
+            border-radius: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 1s ease-out 1.3s both;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .manual-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(120, 252, 214, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .manual-link:hover::before {
+            left: 100%;
+        }
+
+        .manual-link:hover {
+            background: linear-gradient(135deg, rgba(120, 252, 214, 0.2), rgba(0, 255, 182, 0.1));
+            border-color: rgba(120, 252, 214, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(120, 252, 214, 0.25),
+                        0 0 0 1px rgba(120, 252, 214, 0.1);
+        }
+
+        .manual-link svg {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive design */
+        @media (max-width: 640px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .title {
+                font-size: 1.75rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <div class="container">
+        <div class="card">
+            <div class="logo">
+                <div class="logo-icon">AI</div>
+                <span class="logo-text">Chat API</span>
+            </div>
+            
+            <h1 class="title">Redirecting...</h1>
+            <p class="subtitle">You're being redirected to the Chat API platform. Get ready to experience AI-powered conversations!</p>
+            
+            <div class="countdown" id="countdown">Redirecting in <span id="timer">5</span> seconds</div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            
+            <a href="https://chat-bot-ysf-api.vercel.app/" class="manual-link" id="manualLink">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 17L17 7"/>
+                    <path d="M7 7h10v10"/>
+                </svg>
+                Continue Manually
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Countdown timer
+        let timeLeft = 5;
+        const timerElement = document.getElementById('timer');
+        const countdownElement = document.getElementById('countdown');
+        
+        const countdown = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+            
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                countdownElement.textContent = 'Redirecting now...';
+                
+                // Redirect after a brief moment
+                setTimeout(() => {
+                    window.location.href = 'https://chat-bot-ysf-api.vercel.app/';
+                }, 500);
+            }
+        }, 1000);
+        
+        // Manual redirect functionality
+        document.getElementById('manualLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            clearInterval(countdown);
+            countdownElement.textContent = 'Redirecting now...';
+            
+            // Add a small delay for better UX
+            setTimeout(() => {
+                window.location.href = 'https://chat-bot-ysf-api.vercel.app/';
+            }, 200);
+        });
+        
+        // Preload the target page for faster redirect
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = 'https://chat-bot-ysf-api.vercel.app/';
+        document.head.appendChild(link);
+    </script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+    <!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#2563EB" />
+    <link rel="canonical" href="https://youssef.tn/AllerSnap/privacy.html" />
+    <title>AllerSnap — Privacy & Security</title>
+    <meta name="description" content="Learn how AllerSnap collects, uses, and protects your data. Your privacy and security are our top priorities." />
+    <meta name="robots" content="noindex,follow" />
+    <meta name="application-name" content="AllerSnap" />
+    <meta name="apple-mobile-web-app-title" content="AllerSnap" />
+    <meta property="og:title" content="AllerSnap — Privacy & Security" />
+    <meta property="og:description" content="Your privacy and data security are our top priorities. Read our Privacy Policy." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://youssef.tn/AllerSnap/privacy.html" />
+    <meta property="og:image" content="https://youssef.tn/AllerSnap/logo/logo.png" />
+    <meta property="og:image:secure_url" content="https://youssef.tn/AllerSnap/logo/logo.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="AllerSnap logo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AllerSnap — Privacy & Security" />
+    <meta name="twitter:description" content="Your privacy and data security are our top priorities. Read our Privacy Policy." />
+    <meta name="twitter:image" content="https://youssef.tn/AllerSnap/logo/logo.png" />
+    <meta name="twitter:image:alt" content="AllerSnap logo" />
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png" />
+    <link rel="icon" href="favicons/favicon.ico" sizes="any" />
+    <link rel="manifest" href="favicons/site.webmanifest" crossorigin="anonymous" />
+    <meta property="og:locale" content="en_US" />
+
+    <style>
+      :root {
+        --blue-600: #2563EB;
+        --blue-400: #60A5FA;
+        --blue-700: #1D4ED8;
+        --bg: #ffffff;
+        --surface: #F8FAFC;
+        --green: #22C55E;
+        --yellow: #F59E0B;
+        --orange: #F97316;
+        --red: #EF4444;
+        --text-primary: #1E293B;
+        --text-secondary: #64748B;
+        --text-tertiary: #94A3B8;
+        --border: #E2E8F0;
+        --shadow: 0 10px 30px rgba(0,0,0,0.06);
+        --radius-lg: 20px;
+        /* Header sizing */
+        --nav-height: 64px;
+        --header-offset: 12px;
+      }
+
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0; background: var(--bg); color: var(--text-primary);
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+        -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      }
+      .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+      /* Header (floating pill + centered nav) */
+      header { position: sticky; top: var(--header-offset); z-index: 50; background: transparent; border-bottom: 0; padding: 4px 0; }
+      .nav { display:grid; grid-template-columns: 1fr auto 1fr; align-items:center; height: var(--nav-height); background: color-mix(in srgb, #fff 92%, transparent); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow); backdrop-filter: saturate(180%) blur(10px); padding: 0 14px; transition: height .25s ease, box-shadow .2s ease, background-color .2s ease, transform .2s ease; }
+      .brand { display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:-.3px; text-decoration: none; color: inherit; }
+      .brand img { width:28px; height:28px; border-radius:7px; transition: width .2s ease, height .2s ease; }
+      .nav > .brand { grid-column: 1; justify-self: start; }
+      .nav > nav { grid-column: 2; justify-self: center; display:flex; align-items:center; gap: 18px; }
+      .nav > .menu-toggle { grid-column: 3; justify-self: end; }
+      nav a { color: var(--text-secondary); text-decoration:none; font-weight:600; transition: color .2s ease; }
+      nav a:hover { color: var(--blue-700); }
+
+      /* Shrink on scroll */
+      header.is-scrolled { --nav-height: 56px; }
+      header.is-scrolled .nav { box-shadow: 0 6px 18px rgba(15,23,42,.10); }
+      header.is-scrolled .brand img { width:24px; height:24px; }
+      
+      /* Mobile navigation */
+      .menu-toggle { 
+        display: none; 
+        background: none; 
+        border: 0; 
+        padding: 8px; 
+        border-radius: 10px; 
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+      .menu-toggle:hover { background-color: var(--surface); }
+      .menu-toggle:focus-visible { 
+        outline: 2px solid var(--blue-400); 
+        outline-offset: 2px; 
+      }
+      .menu-toggle .bar { 
+        display: block; 
+        width: 22px; 
+        height: 2px; 
+        background: var(--text-primary); 
+        margin: 3px; 
+        border-radius: 2px; 
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+      }
+      .menu-toggle.is-open .bar:nth-child(1) { 
+        transform: translateY(7px) rotate(45deg); 
+      }
+      .menu-toggle.is-open .bar:nth-child(2) { 
+        opacity: 0; 
+      }
+      .menu-toggle.is-open .bar:nth-child(3) { 
+        transform: translateY(-7px) rotate(-45deg); 
+      }
+
+      /* Hero */
+      .hero { background: linear-gradient(180deg, #fff, var(--surface)); padding: 56px 0 24px; }
+      .hero h1 { font-size: clamp(26px, 5vw, 40px); line-height:1.1; letter-spacing:-.8px; margin:0 0 10px; font-weight:800; }
+      .hero p { font-size: 16px; color: var(--text-secondary); margin: 0; max-width: 760px; }
+
+      /* Sections */
+      section { padding: 56px 0; }
+      .section-title { margin: 0 0 10px; font-size: clamp(22px, 3.5vw, 30px); letter-spacing:-.6px; font-weight:800; }
+      .section-sub { margin: 0 0 24px; max-width: 760px; color: var(--text-secondary); }
+
+      /* Cards */
+      .grid { display:grid; grid-template-columns: 1fr; gap: 16px; }
+      .card { background:#fff; border:1px solid var(--border); border-radius: var(--radius-lg); padding: 18px; box-shadow: var(--shadow); }
+      .card h3 { margin: 6px 0 8px; font-size:18px; display:flex; align-items:center; gap:10px; }
+      .badge { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:10px; color:#fff; background: var(--blue-600); font-size: 16px; }
+      .muted { color: var(--text-secondary); }
+
+      /* Footer */
+      footer { background: #fff; border-top:1px solid var(--border); padding: 36px 0; margin-top: 24px; }
+      .foot { display:grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items:center; }
+      .legal { font-size: 12px; color: var(--text-secondary); }
+      .links a { color: var(--text-secondary); text-decoration:none; margin-right: 14px; font-size: 13px; }
+      .links a:hover { color: var(--blue-700); }
+
+      @media (max-width: 960px) {
+        nav { display:none; }
+        .foot { grid-template-columns: 1fr; text-align:center; }
+        
+        /* Mobile navigation */
+        .menu-toggle { display: inline-flex; flex-direction: column; justify-content: center; align-items: center; }
+        nav { 
+          position: absolute; 
+          top: calc(var(--header-offset) + var(--nav-height)); 
+          left: 0; 
+          right: 0;
+          background: color-mix(in srgb, #fff 96%, transparent);
+          backdrop-filter: saturate(180%) blur(10px);
+          border-bottom: 1px solid rgba(226,232,240,.6);
+          box-shadow: 0 8px 28px rgba(15,23,42,.08);
+          display: flex; 
+          flex-direction: column;
+          padding: 16px 24px 20px;
+          gap: 12px;
+          max-height: 0; 
+          opacity: 0; 
+          transform: translateY(-8px);
+          pointer-events: none; 
+          overflow: hidden;
+          transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                      opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                      transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        nav.is-open { 
+          max-height: 300px; 
+          opacity: 1; 
+          transform: translateY(0); 
+          pointer-events: auto; 
+        }
+        nav a { 
+          margin: 0; 
+          padding: 12px 0;
+          border-radius: 8px;
+          transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        nav a:hover { 
+          background-color: var(--surface); 
+          color: var(--blue-700); 
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <a class="brand" href="./" aria-label="AllerSnap home">
+          <img src="logo/logo.png" alt="" aria-hidden="true" width="28" height="28" />
+          <span>AllerSnap</span>
+        </a>
+        <button class="menu-toggle" aria-label="Toggle navigation" aria-controls="primary-navigation" aria-expanded="false">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <nav id="primary-navigation">
+          <a href="./">Home</a>
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <h1>Privacy & Security</h1>
+          <p>Your privacy and data security are our top priorities. This policy explains what we collect, why we collect it, and how you can control your data.</p>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <h2 class="section-title">What we collect and why</h2>
+          <p class="section-sub">We only collect information needed to personalize your experience and improve AI accuracy.</p>
+          <div class="grid">
+            <article class="card">
+              <h3><span class="badge">📊</span> Data Collection</h3>
+              <p class="muted">We collect your allergy profile, scan history, and app usage data to provide personalized protection and improve our AI accuracy.</p>
+            </article>
+
+            <article class="card">
+              <h3><span class="badge" style="background: var(--orange);">🛡️</span> Creator Access</h3>
+              <p class="muted">As the app creator, I have access to all stored data (profiles, scan history, allergy lists) for analytics, research, and operational purposes. This helps improve AI accuracy and app quality.</p>
+            </article>
+
+            <article class="card">
+              <h3><span class="badge" style="background: var(--green);">🔒</span> Data Security</h3>
+              <p class="muted">All data is encrypted and securely stored using Firebase. We use industry‑standard security practices and never share personally identifiable information externally.</p>
+            </article>
+
+            <article class="card">
+              <h3><span class="badge">⚙️</span> Your Control</h3>
+              <p class="muted">You can request complete data deletion at any time. Contact support to exercise your data rights under GDPR and COPPA compliance.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section >
+        <div class="container">
+          <h2 class="section-title">Additional details</h2>
+          <div class="grid">
+            <article class="card">
+              <h3><span class="badge" style="background: var(--blue-700);">🔍</span> Usage analytics</h3>
+              <p class="muted">We analyze aggregated app usage to understand features performance and reliability. Analytics help improve accuracy, UI, and stability.</p>
+            </article>
+            <article class="card">
+              <h3><span class="badge" style="background: var(--blue-600);">✉️</span> Contact & deletion requests</h3>
+              <p class="muted">To request data deletion or ask privacy questions, email <a href="mailto:hello@allersnap.com">hello@allersnap.com</a>. We respond within 30 days.</p>
+            </article>
+            <article class="card">
+              <h3><span class="badge" style="background: var(--yellow);">ℹ️</span> Legal notice</h3>
+              <p class="muted">By using AllerSnap, you agree to our <a href="terms.html">Terms of Service</a> and this Privacy Policy, which include data access permissions for app improvement.</p>
+            </article>
+          </div>
+          <p class="muted" style="margin-top: 10px;">Last updated: July 2025</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container foot">
+        <a class="brand" href="./" style="justify-content:center;" aria-label="AllerSnap home">
+          <img src="logo/logo.png" alt="" aria-hidden="true" width="24" height="24" />
+          <span>AllerSnap</span>
+        </a>
+        <div class="links" style="text-align:center;">
+          <a href="./">Home</a>
+          <a href="terms.html">Terms</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="mailto:hello@allersnap.com">Contact</a>
+        </div>
+        <div class="legal" style="grid-column: 1/-1; text-align:center; margin-top: 8px;">
+          <div>© <span id="y"></span> AllerSnap. All rights reserved.</div>
+          <div style="margin-top:6px;">Medical Disclaimer: AllerSnap is not a medical device. Use at your own risk. Accuracy may vary due to lighting, mixed ingredients, or incomplete labels.</div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      (function(){
+        // Mobile navigation toggle
+        var toggle = document.querySelector('.menu-toggle');
+        var primaryNav = document.getElementById('primary-navigation');
+        
+        function closeNav() {
+          if (!toggle || !primaryNav) return;
+          primaryNav.classList.remove('is-open');
+          toggle.classList.remove('is-open');
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+        
+        if (toggle && primaryNav) {
+          toggle.addEventListener('click', function() {
+            var willOpen = !primaryNav.classList.contains('is-open');
+            primaryNav.classList.toggle('is-open', willOpen);
+            toggle.classList.toggle('is-open', willOpen);
+            toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+          });
+          
+          // Close nav when clicking on a link
+          primaryNav.querySelectorAll('a').forEach(function(a) {
+            a.addEventListener('click', closeNav);
+          });
+          
+          // Close nav on escape key
+          document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeNav();
+          });
+          
+          // Close nav when clicking outside
+          document.addEventListener('click', function(e) {
+            if (!primaryNav.classList.contains('is-open')) return;
+            if (e.target.closest('nav') || e.target.closest('.menu-toggle')) return;
+            closeNav();
+          });
+        }
+        
+        var y=document.getElementById('y'); if(y) y.textContent=new Date().getFullYear();
+
+        // Shrink header on scroll (match index.html)
+        var headerEl = document.querySelector('header');
+        var lastKnownScrollY = 0;
+        var ticking = false;
+
+        function onScroll() {
+          lastKnownScrollY = window.scrollY || window.pageYOffset;
+          if (!ticking) {
+            window.requestAnimationFrame(function() {
+              if (headerEl) {
+                if (lastKnownScrollY > 10) {
+                  headerEl.classList.add('is-scrolled');
+                } else {
+                  headerEl.classList.remove('is-scrolled');
+                }
+              }
+              ticking = false;
+            });
+            ticking = true;
+          }
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+      })();
+    </script>
+  </body>
+  </html>
+
+

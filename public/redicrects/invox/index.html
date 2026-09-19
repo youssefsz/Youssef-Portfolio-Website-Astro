@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Primary Meta Tags -->
+    <title>Invoice Maker: PDF by Invox | Mobile Invoicing App</title>
+    <meta name="title" content="Invoice Maker: PDF by Invox | Mobile Invoicing App">
+    <meta name="description"
+        content="Create and send professional invoices in seconds. Manage clients, items, and track payments with Invox on iOS.">
+    <meta name="keywords"
+        content="invoice maker, invoice app, create invoice, billing app, small business, invoicing, estimate maker, PDF invoice, business accounting">
+    <meta name="author" content="Youssef Dhibi">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+
+    <!--css-->
+    <link rel="stylesheet" href="styles/index.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="favicons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="favicons/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicons/android-chrome-512x512.png">
+    <link rel="manifest" href="favicons/site.webmanifest">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Invoice Maker: PDF by Invox">
+    <meta property="og:description"
+        content="Create and send professional invoices in seconds. Manage clients, items, and track payments with Invox.">
+    <meta property="og:image" content="https://youssef.tn/invox/splash.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://youssef.tn/invox/">
+    <meta property="og:site_name" content="Invoice Maker: PDF by Invox">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Invoice Maker: PDF by Invox">
+    <meta name="twitter:description"
+        content="Create and send professional invoices in seconds. Manage clients, items, and track payments with Invox.">
+    <meta name="twitter:image" content="https://youssef.tn/invox/splash.png">
+    <meta name="twitter:creator" content="@youssefsz">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#FAFAFA">
+    <meta name="msapplication-TileColor" content="#FAFAFA">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://youssef.tn/invox/">
+
+    <!-- Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet">
+
+    <!-- Prevent flickering by setting theme before body renders -->
+    <script>
+        (function () {
+            const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.classList.add(theme);
+        })();
+    </script>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Invoice Maker: PDF by Invox",
+    "alternateName": "Invox",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "iOS",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Create and send professional invoices in seconds. Manage clients, items, and track payments with Invox.",
+    "screenshot": [
+      "screenshots/light/home.png",
+      "screenshots/light/new-invoice.png",
+      "screenshots/light/settings.png"
+    ],
+    "author": {
+      "@type": "Person",
+      "name": "Youssef Dhibi"
+    },
+    "downloadUrl": "https://apps.apple.com/app/id6757089247",
+    "softwareVersion": "2.0.6"
+  }
+  </script>
+
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Invoice Maker: PDF by Invox",
+    "alternateName": "Invox",
+    "description": "Create professional invoices and manage clients, items, and payments with Invox.",
+    "url": "https://youssef.tn/invox/",
+    "author": {
+      "@type": "Person",
+      "name": "Youssef Dhibi"
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+</head>
+
+<body>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode">
+        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+                d="M12 2V4M12 20V22M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07M2 12H4M20 12H22M6.34 17.66L4.93 19.07M19.07 4.93L17.66 6.34"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </button>
+
+    <main class="landing">
+        <header class="hero">
+            <div class="logo">
+                <img src="logo/logo.png" alt="Invox app icon">
+            </div>
+
+            <div class="hero-copy">
+                <h1>Invoice Maker: PDF by Invox</h1>
+                <p class="subtitle">Create professional invoices in seconds. Manage clients, items, and payments from
+                    your device.</p>
+            </div>
+
+            <div class="store-actions" aria-label="Download and source links">
+                <a href="https://apps.apple.com/app/id6757089247" class="store-button app-store-button"
+                    aria-label="Download Invox on the App Store" target="_blank" rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="currentColor"
+                            d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.79 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.09ZM12.03 7.25C11.88 5.02 13.69 3.18 15.77 3c.29 2.58-2.34 4.5-3.74 4.25Z">
+                        </path>
+                    </svg>
+                    <span class="button-copy">
+                        <span class="button-kicker">Download on the</span>
+                        <span class="button-label">App Store</span>
+                    </span>
+                </a>
+
+                <a href="https://github.com/youssefsz/Invoice-Maker-Mobile-App-Public"
+                    class="store-button github-button" aria-label="View the Invox source on GitHub" target="_blank"
+                    rel="noopener noreferrer">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="currentColor"
+                            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.748-1.026 2.748-1.026.546 1.378.203 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.339 4.695-4.566 4.943.359.309.678.92.678 1.854 0 1.336-.012 2.415-.012 2.743 0 .268.18.58.688.481A10.019 10.019 0 0 0 22 12.017C22 6.484 17.523 2 12 2Z">
+                        </path>
+                    </svg>
+                    <span class="button-copy">
+                        <span class="button-kicker">View the source</span>
+                        <span class="button-label">GitHub</span>
+                    </span>
+                </a>
+            </div>
+        </header>
+
+        <section class="app-showcase" aria-label="Invox app preview">
+            <div class="showcase-glow showcase-glow-top" aria-hidden="true"></div>
+            <div class="showcase-glow showcase-glow-bottom" aria-hidden="true"></div>
+            <div class="phone-frame">
+                <span class="phone-side-control phone-action-button" aria-hidden="true"></span>
+                <span class="phone-side-control phone-volume-up-button" aria-hidden="true"></span>
+                <span class="phone-side-control phone-volume-down-button" aria-hidden="true"></span>
+                <span class="phone-side-control phone-power-button" aria-hidden="true"></span>
+                <span class="phone-camera-control" aria-hidden="true"></span>
+                <span class="dynamic-island" aria-hidden="true"></span>
+                <div class="image-container">
+                    <img id="homeImg" src="screenshots/light/home.png" alt="Invox invoice dashboard"
+                        class="app-demo-img active">
+                    <img id="savedImg" src="screenshots/light/new-invoice.png"
+                        alt="Creating a new invoice in Invox" class="app-demo-img" aria-hidden="true">
+                    <img id="previewImg" src="screenshots/light/invoice-preview.png"
+                        alt="Previewing an invoice PDF in Invox" class="app-demo-img" aria-hidden="true">
+                    <img id="settingsImg" src="screenshots/light/settings.png" alt="Invox settings"
+                        class="app-demo-img" aria-hidden="true">
+                </div>
+            </div>
+            <div class="carousel-controls" role="group" aria-label="Choose app screenshot">
+                <button class="carousel-control" type="button" aria-label="Show invoice dashboard"
+                    aria-current="true" data-slide="0"><span aria-hidden="true"></span></button>
+                <button class="carousel-control" type="button" aria-label="Show new invoice"
+                    aria-current="false" data-slide="1"><span aria-hidden="true"></span></button>
+                <button class="carousel-control" type="button" aria-label="Show invoice preview"
+                    aria-current="false" data-slide="2"><span aria-hidden="true"></span></button>
+                <button class="carousel-control" type="button" aria-label="Show settings"
+                    aria-current="false" data-slide="3"><span aria-hidden="true"></span></button>
+            </div>
+            <p class="carousel-caption" aria-live="polite" aria-atomic="true">Invox invoice dashboard</p>
+        </section>
+
+        <footer class="site-footer">
+            <nav class="footer-links" aria-label="Footer">
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="https://github.com/youssefsz/Invoice-Maker-Mobile-App-Public" target="_blank"
+                    rel="noopener noreferrer">Open Source</a>
+                <a href="mailto:dhibi.ywsf@gmail.com">Support</a>
+            </nav>
+            <p>Created with ❤️ by <a href="https://youssef.tn" target="_blank"
+                    rel="noopener noreferrer">Youssef Dhibi</a></p>
+            <p class="copyright">© 2026 Invox. All rights reserved.</p>
+        </footer>
+    </main>
+
+    <script src="js/index.js"></script>
+</body>
+
+</html>

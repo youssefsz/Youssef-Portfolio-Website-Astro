@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="../logo.svg">
+    <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="favicon-64x64.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="msapplication-TileColor" content="#4a90e2">
+    
+    <title>Dream House Builder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #000000 0%, #0a0a1a 100%);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px;
+            height: 97vh;
+            animation: fadeIn 1s ease;
+            display: flex;
+            gap: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            background: rgba(51, 51, 51, 0.95);
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+            position: relative;
+            top: 0;
+            z-index: 100;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #f39c12;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #e0e0e0;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .game-area {
+            background: rgba(51, 51, 51, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+            flex: 1;
+        }
+
+        .toolbar {
+            background: rgba(51, 51, 51, 0.95);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 200px;
+            height: fit-content;
+            position: sticky;
+            top: 60px;
+        }
+
+        .canvas-container {
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid #f39c12;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(243, 156, 18, 0.4);
+            transition: all 0.3s ease;
+            height: 75vh;
+            overflow: hidden;
+        }
+
+        .canvas-container:hover {
+            box-shadow: 0 0 30px rgba(243, 156, 18, 0.6);
+        }
+
+        #gameCanvas {
+            width: 100%;
+            height: 100%;
+            touch-action: none;
+        }
+
+        .tool-button {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .tool-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(45deg, #e67e22, #d35400);
+            transition: all 0.3s;
+            z-index: -1;
+        }
+
+        .tool-button:hover::before {
+            width: 100%;
+        }
+
+        .tool-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(243, 156, 18, 0.3);
+        }
+
+        .tool-group {
+            background: rgba(51, 51, 51, 0.95);
+            border-radius: 12px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            width: 100%;
+        }
+
+        .tool-group-title {
+            color: #f39c12;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .theme-selector {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            padding: 8px;
+            border: none;
+            border-radius: 20px;
+            width: 100%;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .theme-selector:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(243, 156, 18, 0.3);
+        }
+
+        .grid-toggle {
+            color: white;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .grid-toggle input {
+            accent-color: #f39c12;
+        }
+
+        .zoom-controls {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .zoom-btn {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .zoom-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(243, 156, 18, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                flex-direction: column;
+            }
+            
+            .toolbar {
+                width: 100%;
+                position: static;
+            }
+
+            .tool-group {
+                width: 100%;
+            }
+        }
+
+        /* Tutorial Overlay Styles */
+        .tutorial-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tutorial-content {
+            background: linear-gradient(135deg, #2d3748, #1a202c);
+            border: 2px solid #f39c12;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            color: white;
+            box-shadow: 0 0 20px rgba(243, 156, 18, 0.3);
+        }
+
+        .tutorial-content h2 {
+            color: #f39c12;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+
+        .tutorial-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .tutorial-content ul {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+
+        .tutorial-content li {
+            margin: 10px 0;
+            line-height: 1.4;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tutorial-content li::before {
+            content: '✨';
+        }
+
+        .tutorial-btn {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        .tutorial-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(243, 156, 18, 0.5);
+        }
+
+        /* Mobile-friendly tutorial adjustments */
+        @media (max-width: 768px) {
+            .tutorial-content {
+                padding: 20px;
+                width: 95%;
+                max-height: 90vh;
+                overflow-y: auto;
+                margin: 10px;
+            }
+
+            .tutorial-content h2 {
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+
+            .tutorial-content p {
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+
+            .tutorial-content ul {
+                margin: 15px 0;
+            }
+
+            .tutorial-content li {
+                font-size: 14px;
+                margin: 8px 0;
+                padding-right: 10px;
+            }
+
+            .tutorial-btn {
+                width: 100%;
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            /* Add touch-friendly scrolling */
+            .tutorial-content {
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+            }
+
+            /* Custom scrollbar styling */
+            .tutorial-content::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .tutorial-content::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 3px;
+            }
+
+            .tutorial-content::-webkit-scrollbar-thumb {
+                background: #f39c12;
+                border-radius: 3px;
+            }
+        }
+
+        /* Add touch-friendly tap targets */
+        @media (hover: none) {
+            .tutorial-btn {
+                min-height: 44px; /* Minimum touch target size */
+            }
+        }
+
+        .mobile-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            z-index: 2000;
+            max-width: 90%;
+            width: 320px;
+            color: white;
+            text-align: center;
+            animation: fadeIn 0.3s ease;
+            display: none;
+        }
+
+        .mobile-warning h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .mobile-warning p {
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .warning-btn {
+            background: white;
+            color: #d32f2f;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .warning-btn:hover {
+            transform: scale(1.05);
+            background: #f5f5f5;
+        }
+
+        .mobile-warning-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1999;
+            display: none;
+        }
+
+        /* Add these new styles for the back button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(243, 156, 18, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='../index.html'">
+        ← Back to Games
+    </button>
+    
+    <div class="header">
+        <h1>Dream House Builder</h1>
+        <p>Create your perfect home with our intuitive design tools</p>
+    </div>
+    
+    <div class="container">
+        <div class="toolbar">
+            <div class="tool-group">
+                <div class="tool-group-title">Settings</div>
+                <select class="theme-selector" id="themeSelect">
+                    <option value="modern">🏢 Modern</option>
+                    <option value="rustic">🏡 Rustic</option>
+                    <option value="victorian">🏰 Victorian</option>
+                    <option value="futuristic">🚀 Futuristic</option>
+                    <option value="mediterranean">🌅 Mediterranean</option>
+                    <option value="minimalist">✨ Minimalist</option>
+                </select>
+                <div class="grid-toggle">
+                    <input type="checkbox" id="gridToggle" checked>
+                    <label for="gridToggle">Show Grid</label>
+                </div>
+            </div>
+
+            <!-- Structure Tools -->
+            <div class="tool-group">
+                <div class="tool-group-title">Structure</div>
+                <div class="tool-buttons-container">
+                    <button class="tool-button" id="wallTool" title="Click and drag to draw walls">🧱</button>
+                    <button class="tool-button" id="doorTool" title="Click to place a door">🚪</button>
+                    <button class="tool-button" id="windowTool" title="Click to place a window">🪟</button>
+                </div>
+            </div>
+            
+            <!-- Furniture Tools -->
+            <div class="tool-group">
+                <div class="tool-group-title">Furniture</div>
+                <div class="tool-buttons-container">
+                    <button class="tool-button" id="sofaTool" title="Click to place a sofa">🛋️</button>
+                    <button class="tool-button" id="bedTool" title="Click to place a bed">🛏️</button>
+                    <button class="tool-button" id="tableTool" title="Click to place a table">🪑</button>
+                    <button class="tool-button" id="lampTool" title="Click to place a lamp">💡</button>
+                    <button class="tool-button" id="rugTool" title="Click to place a rug">🔲</button>
+                    <button class="tool-button" id="deskTool" title="Click to place a desk">🖥️</button>
+                    <button class="tool-button" id="shelfTool" title="Click to place a shelf">📚</button>
+                </div>
+            </div>
+
+            <!-- Outdoor Tools -->
+            <div class="tool-group">
+                <div class="tool-group-title">Outdoor</div>
+                <div class="tool-buttons-container">
+                    <button class="tool-button" id="gardenTool" title="Click to place garden elements">🌳</button>
+                </div>
+            </div>
+            
+            <!-- Utility Tools -->
+            <div class="tool-group">
+                <div class="tool-group-title">Utilities</div>
+                <div class="tool-buttons-container">
+                    <button class="tool-button" id="eraseTool" title="Click to erase elements">🧹</button>
+                    <button class="tool-button" id="undoTool" title="Undo last action (Ctrl+Z)">↩️</button>
+                    <button class="tool-button" id="clearTool" title="Clear the canvas">🗑️</button>
+                    <button class="tool-button" id="saveTool" title="Save your design (Ctrl+S)">💾</button>
+                    <button class="tool-button" id="loadTool" title="Load a saved design">📂</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="game-area">
+            <div class="canvas-container">
+                <canvas id="gameCanvas"></canvas>
+                <div class="zoom-controls">
+                    <button class="zoom-btn" id="zoomIn" title="Zoom In">+</button>
+                    <button class="zoom-btn" id="zoomOut" title="Zoom Out">-</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="statusMessage" class="status-message"></div>
+
+    <div class="tutorial-overlay" id="tutorialOverlay">
+        <div class="tutorial-content">
+            <h2>Welcome to Dream House Builder! 🏠</h2>
+            <p>Let's help you create your perfect home with these simple steps:</p>
+            <ul>
+                <li>Select tools from the left toolbar to start building</li>
+                <li>Use the Wall Tool (🧱) to create your house structure</li>
+                <li>Add doors (🚪) and windows (🪟) to your walls</li>
+                <li>Furnish your space with furniture like sofas (🛋️) and beds (🛏️)</li>
+                <li>Use the zoom buttons (+/-) to adjust your view</li>
+                <li>Toggle the grid for precise placement</li>
+                <li>Save (💾) your design at any time</li>
+            </ul>
+            <p>Pro tip: Use Ctrl+Z to undo and Ctrl+S to save quickly!</p>
+            <button class="tutorial-btn" onclick="closeTutorial()">Let's Start Building! 🎨</button>
+        </div>
+    </div>
+
+    <div class="mobile-warning" id="mobileWarning">
+        <h3>⚠️ Mobile Device Detected</h3>
+        <p>This game is designed for desktop use and may not work properly on mobile devices. For the best experience, please use a computer.</p>
+        <button class="warning-btn" onclick="acknowledgeMobileWarning()">I Understand</button>
+    </div>
+
+    <div class="mobile-warning-overlay" id="mobileWarningOverlay"></div>
+
+    <script>
+        // Get canvas and context
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let currentTool = null;
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let drawHistory = [];
+        let currentHistoryIndex = -1;
+        let scale = 1;
+        let offsetX = 0;
+        let offsetY = 0;
+        
+        // Tutorial initialization
+        function initializeTutorial() {
+            // Only show tutorial if it hasn't been seen before
+            if (!localStorage.getItem('tutorialSeen')) {
+                document.getElementById('tutorialOverlay').style.display = 'flex';
+            } else {
+                document.getElementById('tutorialOverlay').style.display = 'none';
+            }
+        }
+
+        // Close tutorial function
+        function closeTutorial() {
+            const overlay = document.getElementById('tutorialOverlay');
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+            localStorage.setItem('tutorialSeen', 'true');
+        }
+
+        // Call initializeTutorial when the page loads
+        window.addEventListener('load', initializeTutorial);
+        
+        // Set canvas size with proper scaling
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = container.clientWidth * dpr;
+            canvas.height = container.clientHeight * dpr;
+            canvas.style.width = `${container.clientWidth}px`;
+            canvas.style.height = `${container.clientHeight}px`;
+            ctx.scale(dpr * scale, dpr * scale);
+            drawGrid();
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Zoom controls
+        document.getElementById('zoomIn').addEventListener('click', () => {
+            scale *= 1.2;
+            resizeCanvas();
+            redrawCanvas();
+            showStatus('Zoomed in 🔍');
+        });
+
+        document.getElementById('zoomOut').addEventListener('click', () => {
+            scale *= 0.8;
+            resizeCanvas();
+            redrawCanvas();
+            showStatus('Zoomed out 🔍');
+        });
+
+        // Grid toggle
+        document.getElementById('gridToggle').addEventListener('change', (e) => {
+            if (e.target.checked) {
+                drawGrid();
+                showStatus('Grid lines shown');
+            } else {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                redrawCanvas();
+                showStatus('Grid lines hidden');
+            }
+        });
+
+        // Pan functionality
+        let isPanning = false;
+        let startPanX = 0;
+        let startPanY = 0;
+
+        canvas.addEventListener('mousedown', (e) => {
+            if (e.button === 1) { // Middle mouse button
+                isPanning = true;
+                startPanX = e.clientX - offsetX;
+                startPanY = e.clientY - offsetY;
+                canvas.style.cursor = 'grabbing';
+            }
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (isPanning) {
+                offsetX = e.clientX - startPanX;
+                offsetY = e.clientY - startPanY;
+                redrawCanvas();
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isPanning = false;
+            canvas.style.cursor = 'crosshair';
+        });
+
+        // Tool selection with visual feedback
+        document.querySelectorAll('.tool-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                if (e.target.id === 'clearTool') {
+                    if (confirm('Are you sure you want to clear the canvas? This action cannot be undone.')) {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        drawGrid();
+                        showStatus('Canvas cleared successfully! Start fresh ✨');
+                    }
+                    return;
+                }
+
+                currentTool = e.target.id;
+                document.querySelectorAll('.tool-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                e.target.classList.add('active');
+                showStatus(`Selected tool: ${e.target.title.split(' - ')[0]}`);
+                
+                // Update cursor based on tool
+                if (currentTool === 'wallTool') {
+                    canvas.style.cursor = 'crosshair';
+                } else if (currentTool === 'eraseTool') {
+                    canvas.style.cursor = 'url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=) 12 12, auto';
+                } else {
+                    canvas.style.cursor = 'pointer';
+                }
+            });
+        });
+
+        // Enhanced touch and mouse events with snapping
+        function handleStart(e) {
+            e.preventDefault();
+            if (e.button === 1) return; // Ignore middle mouse button
+            
+            isDrawing = true;
+            const pos = getPointerPos(e);
+            [lastX, lastY] = snapToGrid(pos[0], pos[1]);
+            
+            if (currentTool === 'eraseTool') {
+                eraseAtPoint(lastX, lastY);
+            } else {
+                drawElement(lastX, lastY, currentTool);
+            }
+            saveToHistory();
+        }
+
+        function handleMove(e) {
+            e.preventDefault();
+            if (!isDrawing) return;
+            
+            const pos = getPointerPos(e);
+            const [x, y] = snapToGrid(pos[0], pos[1]);
+            
+            if (x !== lastX || y !== lastY) {
+                if (currentTool === 'eraseTool') {
+                    eraseAtPoint(x, y);
+                } else {
+                    drawElement(x, y, currentTool);
+                }
+                [lastX, lastY] = [x, y];
+            }
+        }
+
+        function handleEnd(e) {
+            e.preventDefault();
+            if (isDrawing) {
+                isDrawing = false;
+                saveToHistory();
+            }
+        }
+
+        function eraseAtPoint(x, y) {
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(scale, scale);
+            ctx.clearRect(x - 20, y - 20, 40, 40);
+            if (document.getElementById('gridToggle').checked) {
+                drawGrid();
+            }
+            ctx.restore();
+        }
+
+        function snapToGrid(x, y) {
+            const gridSize = 40;
+            return [
+                Math.round(x / gridSize) * gridSize,
+                Math.round(y / gridSize) * gridSize
+            ];
+        }
+
+        function getPointerPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return [
+                ((clientX - rect.left) * scaleX - offsetX) / scale,
+                ((clientY - rect.top) * scaleY - offsetY) / scale
+            ];
+        }
+
+        canvas.addEventListener('touchstart', handleStart, { passive: false });
+        canvas.addEventListener('touchmove', handleMove, { passive: false });
+        canvas.addEventListener('touchend', handleEnd, { passive: false });
+        canvas.addEventListener('mousedown', handleStart);
+        canvas.addEventListener('mousemove', handleMove);
+        canvas.addEventListener('mouseup', handleEnd);
+        canvas.addEventListener('mouseout', handleEnd);
+
+        function drawElement(x, y, tool) {
+            if (!tool) return;
+            
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(scale, scale);
+            
+            ctx.beginPath();
+            switch(tool) {
+                case 'wallTool':
+                    ctx.fillStyle = '#4a5568';
+                    ctx.fillRect(x-20, y-20, 40, 40);
+                    // Add texture
+                    ctx.strokeStyle = '#2d3748';
+                    ctx.lineWidth = 1;
+                    for(let i = 0; i < 4; i++) {
+                        ctx.moveTo(x-20, y-20 + i*10);
+                        ctx.lineTo(x+20, y-20 + i*10);
+                        ctx.stroke();
+                    }
+                    break;
+                    
+                case 'doorTool':
+                    // Door frame
+                    ctx.fillStyle = '#744210';
+                    ctx.fillRect(x-20, y-30, 40, 60);
+                    // Door
+                    ctx.fillStyle = '#975a16';
+                    ctx.fillRect(x-15, y-25, 30, 50);
+                    // Handle
+                    ctx.fillStyle = '#d69e2e';
+                    ctx.beginPath();
+                    ctx.arc(x+8, y, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    break;
+                    
+                case 'windowTool':
+                    // Window frame
+                    ctx.fillStyle = '#718096';
+                    ctx.fillRect(x-20, y-20, 40, 40);
+                    // Glass
+                    ctx.fillStyle = '#a0aec0';
+                    ctx.fillRect(x-16, y-16, 32, 32);
+                    // Window shine
+                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                    ctx.beginPath();
+                    ctx.moveTo(x-12, y-12);
+                    ctx.lineTo(x+4, y-12);
+                    ctx.lineTo(x-12, y+4);
+                    ctx.fill();
+                    break;
+                    
+                case 'sofaTool':
+                    // Base
+                    ctx.fillStyle = '#744210';
+                    ctx.fillRect(x-30, y-20, 60, 40);
+                    // Cushion
+                    ctx.fillStyle = '#975a16';
+                    ctx.fillRect(x-25, y-15, 50, 30);
+                    // Details
+                    ctx.strokeStyle = '#b7791f';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(x-20, y-10, 40, 20);
+                    break;
+
+                case 'bedTool':
+                    // Frame
+                    ctx.fillStyle = '#744210';
+                    ctx.fillRect(x-40, y-30, 80, 60);
+                    // Mattress
+                    ctx.fillStyle = '#e2e8f0';
+                    ctx.fillRect(x-35, y-25, 70, 50);
+                    // Pillow
+                    ctx.fillStyle = '#fff';
+                    ctx.fillRect(x-30, y-20, 20, 15);
+                    break;
+
+                case 'tableTool':
+                    // Table top
+                    ctx.fillStyle = '#744210';
+                    ctx.fillRect(x-25, y-25, 50, 50);
+                    // Legs
+                    ctx.fillStyle = '#975a16';
+                    ctx.fillRect(x-20, y+25, 5, 15);
+                    ctx.fillRect(x+15, y+25, 5, 15);
+                    break;
+
+                case 'lampTool':
+                    // Stand
+                    ctx.fillStyle = '#718096';
+                    ctx.fillRect(x-5, y-10, 10, 40);
+                    // Shade
+                    ctx.fillStyle = '#f7fafc';
+                    ctx.beginPath();
+                    ctx.arc(x, y-20, 15, 0, Math.PI * 2);
+                    ctx.fill();
+                    break;
+
+                case 'rugTool':
+                    // Rug base
+                    ctx.fillStyle = '#4299e1';
+                    ctx.fillRect(x-40, y-30, 80, 60);
+                    // Pattern
+                    ctx.strokeStyle = '#2b6cb0';
+                    ctx.setLineDash([5, 5]);
+                    ctx.strokeRect(x-35, y-25, 70, 50);
+                    ctx.setLineDash([]);
+                    break;
+
+                case 'deskTool':
+                    // Desktop
+                    ctx.fillStyle = '#744210';
+                    ctx.fillRect(x-35, y-20, 70, 40);
+                    // Legs
+                    ctx.fillStyle = '#975a16';
+                    ctx.fillRect(x-30, y+20, 10, 20);
+                    ctx.fillRect(x+20, y+20, 10, 20);
+                    break;
+
+                case 'shelfTool':
+                    // Shelves
+                    ctx.fillStyle = '#744210';
+                    ctx.fillRect(x-30, y-30, 60, 10);
+                    ctx.fillRect(x-30, y, 60, 10);
+                    ctx.fillRect(x-30, y+30, 60, 10);
+                    // Brackets
+                    ctx.fillStyle = '#975a16';
+                    ctx.fillRect(x-25, y-20, 5, 60);
+                    ctx.fillRect(x+20, y-20, 5, 60);
+                    break;
+                    
+                case 'gardenTool':
+                    // Trunk
+                    ctx.fillStyle = '#4a5568';
+                    ctx.fillRect(x-5, y-10, 10, 30);
+                    // Leaves
+                    ctx.fillStyle = '#48bb78';
+                    ctx.beginPath();
+                    ctx.arc(x, y-20, 20, 0, Math.PI * 2);
+                    ctx.fill();
+                    // Highlights
+                    ctx.fillStyle = '#68d391';
+                    ctx.beginPath();
+                    ctx.arc(x-5, y-25, 8, 0, Math.PI * 2);
+                    ctx.fill();
+                    break;
+            }
+            ctx.closePath();
+            ctx.restore();
+        }
+
+        function redrawCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (document.getElementById('gridToggle').checked) {
+                drawGrid();
+            }
+            if (drawHistory[currentHistoryIndex]) {
+                const img = new Image();
+                img.onload = () => {
+                    ctx.save();
+                    ctx.translate(offsetX, offsetY);
+                    ctx.scale(scale, scale);
+                    ctx.drawImage(img, 0, 0);
+                    ctx.restore();
+                };
+                img.src = drawHistory[currentHistoryIndex];
+            }
+        }
+
+        document.getElementById('themeSelect').addEventListener('change', (e) => {
+            const theme = e.target.value;
+            const themes = {
+                modern: '#f7fafc',
+                rustic: '#faf5eb',
+                victorian: '#f5efe6',
+                futuristic: '#e6f6ff',
+                mediterranean: '#fff5eb',
+                minimalist: '#ffffff'
+            };
+
+            canvas.style.backgroundColor = themes[theme];
+            drawGrid();
+            showStatus(`Theme changed to ${theme} style ✨`);
+        });
+
+        document.getElementById('saveTool').addEventListener('click', () => {
+            try {
+                const dataURL = canvas.toDataURL();
+                const link = document.createElement('a');
+                link.download = `dream-house-${new Date().toISOString().slice(0,10)}.png`;
+                link.href = dataURL;
+                link.click();
+                showStatus('Design saved successfully! 🎉');
+            } catch (error) {
+                showStatus('Failed to save design 😔 Please try again');
+            }
+        });
+
+        document.getElementById('loadTool').addEventListener('click', () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        const img = new Image();
+                        img.onload = () => {
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            drawGrid();
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            showStatus('Design loaded successfully! 🎉');
+                            saveToHistory();
+                        };
+                        img.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        });
+
+        document.getElementById('undoTool').addEventListener('click', () => {
+            if (currentHistoryIndex > 0) {
+                currentHistoryIndex--;
+                redrawCanvas();
+                showStatus('Last action undone ↩️');
+            } else {
+                showStatus('Nothing more to undo 🤔');
+            }
+        });
+
+        function saveToHistory() {
+            currentHistoryIndex++;
+            drawHistory = drawHistory.slice(0, currentHistoryIndex);
+            drawHistory.push(canvas.toDataURL());
+        }
+
+        function drawGrid(color = '#e2e8f0') {
+            ctx.save();
+            ctx.translate(offsetX, offsetY);
+            ctx.scale(scale, scale);
+            
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1;
+            
+            const gridSize = 40;
+            const width = canvas.width / scale;
+            const height = canvas.height / scale;
+            
+            for(let x = 0; x < width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            
+            for(let y = 0; y < height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+            
+            ctx.restore();
+        }
+
+        function showStatus(message) {
+            const statusElement = document.getElementById('statusMessage');
+            statusElement.textContent = message;
+            statusElement.style.display = 'block';
+            
+            setTimeout(() => {
+                statusElement.style.opacity = '0';
+                setTimeout(() => {
+                    statusElement.style.display = 'none';
+                    statusElement.style.opacity = '1';
+                }, 300);
+            }, 2000);
+        }
+
+        // Initialize
+        drawGrid();
+        saveToHistory();
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key.toLowerCase()) {
+                    case 'z':
+                        e.preventDefault();
+                        document.getElementById('undoTool').click();
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        document.getElementById('saveTool').click();
+                        break;
+                }
+            }
+        });
+
+        // Mobile warning handling
+        function closeMobileWarning() {
+            const overlay = document.getElementById('mobileWarningOverlay');
+            overlay.style.display = 'none';
+        }
+
+        // Check if it's the first visit
+        if (localStorage.getItem('mobileWarningSeen')) {
+            document.getElementById('mobileWarning').style.display = 'none';
+        }
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key.toLowerCase()) {
+                    case 'z':
+                        e.preventDefault();
+                        document.getElementById('undoTool').click();
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        document.getElementById('saveTool').click();
+                        break;
+                }
+            }
+        });
+
+        function checkMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        function showMobileWarning() {
+            const warning = document.getElementById('mobileWarning');
+            const overlay = document.getElementById('mobileWarningOverlay');
+            warning.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        function acknowledgeMobileWarning() {
+            const warning = document.getElementById('mobileWarning');
+            const overlay = document.getElementById('mobileWarningOverlay');
+            warning.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+
+        // Add this to your window load event or at the end of your script
+        window.addEventListener('load', () => {
+            if (checkMobileDevice()) {
+                showMobileWarning();
+            }
+        });
+    </script>
+</body>
+</html>

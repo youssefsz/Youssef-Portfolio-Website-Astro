@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="manifest" href="../site.webmanifest">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="msapplication-TileColor" content="#4a90e2">
+    
+    <title>Advanced Face Detection</title>
+
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --background: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-radius: 24px;
+            --accent: #22c55e;
+            --error: #ef4444;
+            --gradient-start: #3b82f6;
+            --gradient-end: #8b5cf6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--background), #1e1b4b);
+            min-height: 100vh;
+            color: var(--text-primary);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.3);
+            margin: 20px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+        }
+
+        .video-container {
+            position: relative;
+        }
+
+        #video, #defaultImage {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 4/3;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .effects-panel {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-toggle {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+            align-items: center;
+            padding: 10px;
+            border-radius: 12px;
+            transition: background 0.3s ease;
+        }
+
+        .feature-toggle:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .feature-toggle span {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .faces-table {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            grid-column: 1 / -1;
+        }
+
+        .faces-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .faces-table th, 
+        .faces-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .faces-table th {
+            background: rgba(0, 0, 0, 0.2);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .face-thumbnail {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        button {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.2);
+        }
+
+        button:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .clear-table-btn {
+            background: var(--error);
+            margin-top: 10px;
+        }
+
+        .stats {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .loading::after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 30px;
+            margin: 20px auto 0;
+            border: 3px solid var(--text-secondary);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .error {
+            color: var(--error);
+            margin-top: 15px;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .faces-table {
+                overflow-x: auto;
+            }
+        }
+
+        .gender-male {
+            color: #3b82f6;
+        }
+        .gender-female {
+            color: #ec4899;
+        }
+
+        .popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            color: var(--text-primary);
+            padding: 15px 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+
+        .popup.show {
+            transform: translateX(0);
+        }
+
+        .popup-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .popup-icon {
+            color: #facc15;
+            font-size: 1.2em;
+        }
+
+        .face-row {
+            transition: background-color 0.3s ease;
+        }
+
+        .face-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .timestamp {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        input:checked + .slider {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Updated styles for the mobile warning */
+        #mobileWarningOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 1999;
+            display: none;
+        }
+
+        #mobileWarning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #d32f2f, #b71c1c);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            z-index: 2000;
+            max-width: 95%;
+            width: 450px;
+            color: white;
+            text-align: center;
+            animation: fadeIn 0.4s ease;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        #mobileWarning h3 {
+            margin-bottom: 25px;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        #mobileWarning p {
+            margin-bottom: 30px;
+            font-size: 18px;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .warning-btn {
+            background: white;
+            color: #d32f2f;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .warning-btn:hover {
+            transform: scale(1.05);
+            background: #f5f5f5;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 480px) {
+            #mobileWarning {
+                padding: 30px;
+                width: 90%;
+            }
+
+            #mobileWarning h3 {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+
+            #mobileWarning p {
+                font-size: 16px;
+                margin-bottom: 25px;
+            }
+
+            .warning-btn {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -48%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: auto;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .back-btn {
+                top: 10px;
+                left: 10px;
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Enhanced Loading Screen Styles */
+        .custom-loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--background), #1e1b4b);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease-in-out;
+        }
+
+        .loading-content {
+            text-align: center;
+            position: relative;
+            transform: translateY(0);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .loading-face {
+            width: 120px;
+            height: 120px;
+            border: 4px solid transparent;
+            border-radius: 50%;
+            position: relative;
+            margin: 0 auto 30px;
+            background: linear-gradient(var(--background), var(--background)) padding-box,
+                        linear-gradient(45deg, var(--gradient-start), var(--gradient-end)) border-box;
+            animation: rotate 4s linear infinite;
+        }
+
+        .loading-face::before,
+        .loading-face::after {
+            content: '';
+            position: absolute;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 50%;
+            filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
+            animation: blink 4s ease-in-out infinite;
+        }
+
+        .loading-face::before {
+            width: 20px;
+            height: 20px;
+            top: 35px;
+            left: 25px;
+        }
+
+        .loading-face::after {
+            width: 20px;
+            height: 20px;
+            top: 35px;
+            right: 25px;
+        }
+
+        .loading-smile {
+            width: 60px;
+            height: 30px;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 0 0 30px 30px;
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: pulse 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4));
+        }
+
+        .loading-text {
+            font-size: 24px;
+            background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 20px;
+            font-weight: bold;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        .loading-progress {
+            width: 200px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin: 20px auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--gradient-start),
+                var(--gradient-end)
+            );
+            border-radius: 8px;
+            animation: progressMove 2s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes progressMove {
+            0% {
+                left: -50%;
+                width: 50%;
+            }
+            100% {
+                left: 100%;
+                width: 50%;
+            }
+        }
+
+        @keyframes shimmer {
+            0%, 100% {
+                opacity: 1;
+                filter: brightness(1);
+            }
+            50% {
+                opacity: 0.7;
+                filter: brightness(1.2);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translateX(-50%) scaleX(1);
+                filter: brightness(1);
+            }
+            50% {
+                transform: translateX(-50%) scaleX(1.1);
+                filter: brightness(1.2);
+            }
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+            45% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scaleY(0.1);
+                opacity: 0.5;
+            }
+            55% {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(2deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <button onclick="window.location.href='../index.html'" class="back-btn">&larr; Back</button>
+    
+    <div id="mobileWarningOverlay">
+        <div id="mobileWarning">
+            <h3>&#9888;&#65039; Mobile Device Detected</h3>
+            <p>This face detection application is designed for desktop use and may not work properly on mobile devices. For the best experience, please use a computer.</p>
+            <button class="warning-btn" onclick="acknowledgeMobileWarning()">I Understand</button>
+        </div>
+    </div>
+    
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="popup-icon">&#9888;&#65039;</span>
+            <span>Gender detection is experimental and may not be accurate at this time.</span>
+        </div>
+    </div>
+    
+    <div class="custom-loading" id="customLoading">
+        <div class="loading-content">
+            <div class="loading-face">
+                <div class="loading-smile"></div>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="loading-text">Initializing Face Detection...</div>
+        </div>
+    </div>
+    
+    <div class="main-container">
+        <h1>Advanced Face Detection</h1>
+        <div class="container">
+            <div class="video-container">
+                <div id="stats" class="stats" style="display: none">
+                    Faces detected: <span id="faceCount">0</span><br>
+                    FPS: <span id="fps">0</span>
+                </div>
+                <div id="loading" class="loading" style="display: none">
+                    Loading model...<br>Please wait
+                </div>
+                <video id="video" autoplay playsinline style="display: none"></video>
+                <img id="defaultImage" src="out.jpg">
+                <canvas id="canvas"></canvas>
+            </div>
+
+            <div class="sidebar">
+                <div class="controls">
+                    <button id="startBtn">Start Camera</button>
+                    <button id="screenshotBtn" disabled>Take Screenshot</button>
+                    <div class="effects-panel">
+                        <div class="feature-toggle">
+                            <label class="switch">
+                                <input type="checkbox" id="smoothingToggle" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span>Motion Smoothing</span>
+                        </div>
+                        <div class="feature-toggle">
+                            <label class="switch">
+                                <input type="checkbox" id="genderToggle">
+                                <span class="slider"></span>
+                            </label>
+                            <span>Gender Detection</span>
+                        </div>
+                        <div class="feature-toggle">
+                            <label class="switch">
+                                <input type="checkbox" id="debugToggle">
+                                <span class="slider"></span>
+                            </label>
+                            <span>Debug Info</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="clear-table-btn" id="clearTableBtn">Clear History</button>
+            <div class="faces-table">
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Face ID</th>
+                            <th>Thumbnail</th>
+                            <th>Gender</th>
+                            <th>Last Active</th>
+                        </tr>
+                    </thead>
+                    <tbody id="facesTableBody">
+                        <!-- Faces will be added here dynamically -->
+                    </tbody>
+                </table>
+                
+            </div>
+            
+            <div id="error" class="error" style="display: none"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const startBtn = document.getElementById('startBtn');
+        const screenshotBtn = document.getElementById('screenshotBtn');
+        const statsDiv = document.getElementById('stats');
+        const loadingDiv = document.getElementById('loading');
+        const errorDiv = document.getElementById('error');
+        const faceCountSpan = document.getElementById('faceCount');
+        const fpsSpan = document.getElementById('fps');
+        const defaultImage = document.getElementById('defaultImage');
+        const facesTableBody = document.getElementById('facesTableBody');
+        const clearTableBtn = document.getElementById('clearTableBtn');
+
+        let model = null;
+        let streaming = false;
+        let animationId = null;
+        let lastDrawTime = performance.now();
+        let frameCount = 0;
+        let lastFpsUpdate = performance.now();
+        let previousPredictions = [];
+        const SMOOTHING_FACTOR = 0.7;
+        let faceCounter = 0;
+        let trackedFaces = new Map(); // Store tracked faces
+        const FACE_MEMORY_TIME = 2000; // Reduced from 5000ms to 2000ms for faster cleanup
+        const SIMILARITY_THRESHOLD = 50; // Reduced from 100 to be more strict
+        const MIN_CONFIDENCE = 0.75; // Reduced from 0.97 to detect more faces
+        const MAX_FACES = 5; // Reduced from 10 to focus on fewer, more accurate detections
+        const POSITION_WEIGHT = 0.5; // Adjusted weights for better tracking
+        const SIZE_WEIGHT = 0.3;
+        const CONFIDENCE_WEIGHT = 0.2;
+
+        // Set initial canvas size
+        canvas.width = 640;
+        canvas.height = 480;
+
+        // Update error display function
+        function showError(message) {
+            errorDiv.textContent = message;
+            errorDiv.style.display = message ? 'block' : 'none';
+        }
+
+        // Load model
+        async function loadModel() {
+            const customLoading = document.getElementById('customLoading');
+            const loadingText = customLoading.querySelector('.loading-text');
+            
+            customLoading.style.display = 'flex';
+            loadingDiv.style.display = 'none';
+
+            try {
+                const loadingMessages = [
+                    'Initializing AI...',
+                    'Loading Neural Network...',
+                    'Calibrating Face Detection...',
+                    'Almost Ready...',
+                    'Finalizing Setup...'
+                ];
+
+                let messageIndex = 0;
+                const messageInterval = setInterval(() => {
+                    loadingText.style.opacity = 0;
+                    setTimeout(() => {
+                        loadingText.textContent = loadingMessages[messageIndex % loadingMessages.length];
+                        loadingText.style.opacity = 1;
+                    }, 500);
+                    messageIndex++;
+                }, 2000);
+
+                model = await blazeface.load();
+                
+                // Add a small delay for visual completion
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                clearInterval(messageInterval);
+                customLoading.style.opacity = 0;
+                setTimeout(() => {
+                    customLoading.style.display = 'none';
+                    customLoading.style.opacity = 1;
+                }, 800);
+
+                console.log('Model loaded successfully');
+                startBtn.disabled = false;
+                showError('');
+            } catch (error) {
+                console.error('Error loading model:', error);
+                loadingText.textContent = 'Error loading model. Please refresh the page.';
+                loadingText.style.color = 'var(--error)';
+                showError('Error loading face detection model. Please refresh the page.');
+            }
+        }
+
+        // Initialize
+        loadModel();
+
+        // FPS calculation
+        function updateFPS() {
+            const now = performance.now();
+            const elapsed = now - lastFpsUpdate;
+            if (elapsed >= 1000) { // Update every second
+                const fps = Math.round((frameCount * 1000) / elapsed);
+                fpsSpan.textContent = fps;
+                frameCount = 0;
+                lastFpsUpdate = now;
+            }
+            frameCount++;
+        }
+
+        // Smooth predictions using exponential moving average
+        function smoothPredictions(newPredictions) {
+            if (!previousPredictions.length) {
+                previousPredictions = newPredictions;
+                return newPredictions;
+            }
+
+            return newPredictions.map((pred, i) => {
+                const prevPred = previousPredictions[i];
+                if (!prevPred) return pred;
+
+                return {
+                    ...pred,
+                    topLeft: pred.topLeft.map((val, j) => 
+                        val * (1 - SMOOTHING_FACTOR) + prevPred.topLeft[j] * SMOOTHING_FACTOR
+                    ),
+                    bottomRight: pred.bottomRight.map((val, j) => 
+                        val * (1 - SMOOTHING_FACTOR) + prevPred.bottomRight[j] * SMOOTHING_FACTOR
+                    ),
+                    landmarks: pred.landmarks.map((landmark, k) => 
+                        landmark.map((val, l) => 
+                            val * (1 - SMOOTHING_FACTOR) + prevPred.landmarks[k][l] * SMOOTHING_FACTOR
+                        )
+                    ),
+                    probability: [
+                        pred.probability[0] * (1 - SMOOTHING_FACTOR) + prevPred.probability[0] * SMOOTHING_FACTOR
+                    ]
+                };
+            });
+        }
+
+        // Simple gender detection model (this is a basic example)
+        function predictGender(faceSize, landmarks) {
+            // This is a very basic example using face proportions
+            // In a real application, you'd want to use a proper ML model
+            const jawWidth = Math.abs(landmarks[4][0] - landmarks[5][0]);
+            const faceHeight = faceSize[1];
+            const ratio = jawWidth / faceHeight;
+            
+            // This is a simplified assumption
+            // Males tend to have wider jaw-to-face ratios
+            return ratio > 0.45 ? 'Male' : 'Female';
+        }
+
+        // Function to capture face thumbnail
+        function captureFaceThumbnail(prediction) {
+            const padding = 20; // Extra padding around the face
+            const start = prediction.topLeft;
+            const end = prediction.bottomRight;
+            const width = end[0] - start[0] + (padding * 2);
+            const height = end[1] - start[1] + (padding * 2);
+
+            // Create temporary canvas for the face
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = width;
+            tempCanvas.height = height;
+            const tempCtx = tempCanvas.getContext('2d');
+
+            // Draw the face portion from the video
+            tempCtx.drawImage(
+                video, 
+                start[0] - padding, start[1] - padding, 
+                width, height,
+                0, 0, width, height
+            );
+
+            return tempCanvas.toDataURL('image/jpeg');
+        }
+
+        // Function to calculate center point of a face
+        function getFaceCenter(prediction) {
+            return {
+                x: (prediction.topLeft[0] + prediction.bottomRight[0]) / 2,
+                y: (prediction.topLeft[1] + prediction.bottomRight[1]) / 2
+            };
+        }
+
+        // Function to calculate distance between two points
+        function getDistance(point1, point2) {
+            return Math.sqrt(
+                Math.pow(point1.x - point2.x, 2) + 
+                Math.pow(point1.y - point2.y, 2)
+            );
+        }
+
+        // Improved similarity calculation
+        function calculateSimilarity(prediction1, prediction2) {
+            // Position similarity with improved distance calculation
+            const center1 = getFaceCenter(prediction1);
+            const center2 = getFaceCenter(prediction2);
+            const distance = getDistance(center1, center2);
+            const maxAllowedDistance = canvas.width * 0.1; // 10% of canvas width
+            const positionScore = Math.max(0, 1 - (distance / maxAllowedDistance));
+
+            // Size similarity with more precise calculation
+            const size1 = getFaceSize(prediction1);
+            const size2 = getFaceSize(prediction2);
+            const maxSize = Math.max(size1, size2);
+            const minSize = Math.min(size1, size2);
+            const sizeScore = minSize / maxSize;
+
+            // Confidence similarity
+            const confidenceScore = Math.min(
+                prediction1.probability[0],
+                prediction2.probability[0]
+            );
+
+            // Combined score with adjusted weights
+            return (positionScore * POSITION_WEIGHT) +
+                   (sizeScore * SIZE_WEIGHT) +
+                   (confidenceScore * CONFIDENCE_WEIGHT);
+        }
+
+        // Improved face matching logic
+        function findMatchingFace(prediction) {
+            if (!prediction || prediction.probability[0] < MIN_CONFIDENCE) {
+                return null;
+            }
+
+            const currentTime = Date.now();
+            let bestMatch = { id: null, score: 0.6 }; // Increased threshold for matching
+
+            // Clean up old faces
+            if (streaming) {
+                for (const [id, face] of trackedFaces) {
+                    if (currentTime - face.lastSeen > FACE_MEMORY_TIME) {
+                        trackedFaces.delete(id);
+                        const row = document.querySelector(`tr[data-face-id="${id}"]`);
+                        if (row) {
+                            row.style.animation = 'fadeOut 0.5s';
+                            setTimeout(() => row.remove(), 500);
+                        }
+                    }
+                }
+            }
+
+            // Find best matching face with improved criteria
+            for (const [id, face] of trackedFaces) {
+                if (face.prediction) {
+                    const similarity = calculateSimilarity(prediction, face.prediction);
+                    
+                    // Check if faces are too close to be different people
+                    const distance = getDistance(
+                        getFaceCenter(prediction),
+                        getFaceCenter(face.prediction)
+                    );
+                    
+                    // Minimum distance between faces (20% of face width)
+                    const minDistance = (prediction.bottomRight[0] - prediction.topLeft[0]) * 0.2;
+                    
+                    // If distance is too small, consider it the same face
+                    if (distance < minDistance) {
+                        if (similarity > bestMatch.score) {
+                            bestMatch = { id, score: similarity };
+                        }
+                    } else if (similarity > bestMatch.score && similarity > 0.7) {
+                        // Only match if similarity is very high for distant faces
+                        bestMatch = { id, score: similarity };
+                    }
+                }
+            }
+
+            // Update or create face entry
+            if (bestMatch.id) {
+                const face = trackedFaces.get(bestMatch.id);
+                face.lastSeen = currentTime;
+                face.prediction = prediction;
+                face.center = getFaceCenter(prediction);
+                face.size = getFaceSize(prediction);
+                return bestMatch.id;
+            } else if (trackedFaces.size < MAX_FACES) {
+                const newId = `face_${++faceCounter}`;
+                trackedFaces.set(newId, {
+                    lastSeen: currentTime,
+                    prediction: prediction,
+                    center: getFaceCenter(prediction),
+                    size: getFaceSize(prediction),
+                    thumbnail: captureFaceThumbnail(prediction)
+                });
+                return newId;
+            }
+
+            return null;
+        }
+
+        // Helper function to get face size
+        function getFaceSize(prediction) {
+            const width = prediction.bottomRight[0] - prediction.topLeft[0];
+            const height = prediction.bottomRight[1] - prediction.topLeft[1];
+            return width * height;
+        }
+
+        // Function to check if image data is black
+        function isBlackFrame(prediction) {
+            const start = prediction.topLeft;
+            const end = prediction.bottomRight;
+            const width = end[0] - start[0];
+            const height = end[1] - start[1];
+            
+            const imageData = ctx.getImageData(start[0], start[1], width, height);
+            const data = imageData.data;
+            
+            // Check if all pixels are black or nearly black
+            for (let i = 0; i < data.length; i += 4) {
+                const r = data[i];
+                const g = data[i + 1];
+                const b = data[i + 2];
+                if (r > 10 || g > 10 || b > 10) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Update addFaceToTable function
+        function addFaceToTable(prediction) {
+            if (!streaming || !video.srcObject || isBlackFrame(prediction)) {
+                return;
+            }
+
+            const faceId = findMatchingFace(prediction);
+            if (!faceId) return;
+
+            // Check for existing row
+            const existingRow = document.querySelector(`tr[data-face-id="${faceId}"]`);
+            if (existingRow) {
+                // Update existing row's last active time
+                const timeCell = existingRow.querySelector('.time-cell');
+                timeCell.textContent = 'Active now';
+                return;
+            }
+
+            // Get face data
+            const faceData = trackedFaces.get(faceId);
+            const thumbnail = faceData.thumbnail;
+            const gender = document.getElementById('genderToggle').checked ? 
+                predictGender(
+                    [prediction.bottomRight[0] - prediction.topLeft[0], 
+                     prediction.bottomRight[1] - prediction.topLeft[1]], 
+                    prediction.landmarks
+                ) : 'N/A';
+
+            // Create new row
+            const row = document.createElement('tr');
+            row.className = 'face-row';
+            row.setAttribute('data-face-id', faceId);
+            row.innerHTML = `
+                <td>${faceId}</td>
+                <td><img src="${thumbnail}" class="face-thumbnail" alt="Face ${faceId}"></td>
+                <td class="gender-${gender.toLowerCase()}">${gender}</td>
+                <td class="time-cell">Active now</td>
+            `;
+
+            facesTableBody.insertBefore(row, facesTableBody.firstChild);
+        }
+
+        // Add this new function to update inactive times
+        function updateInactiveTimes() {
+            const currentTime = Date.now();
+            
+            // Update all face rows
+            document.querySelectorAll('.face-row').forEach(row => {
+                const faceId = row.getAttribute('data-face-id');
+                const face = trackedFaces.get(faceId);
+                const timeCell = row.querySelector('.time-cell');
+                
+                if (face) {
+                    const timeDiff = currentTime - face.lastSeen;
+                    
+                    if (timeDiff < 1000) {
+                        timeCell.textContent = 'Active now';
+                    } else if (timeDiff < 60000) {
+                        timeCell.textContent = `${Math.floor(timeDiff / 1000)}s ago`;
+                    } else if (timeDiff < 3600000) {
+                        timeCell.textContent = `${Math.floor(timeDiff / 60000)}m ago`;
+                    } else {
+                        timeCell.textContent = `${Math.floor(timeDiff / 3600000)}h ago`;
+                    }
+                }
+            });
+        }
+
+        // Update drawFaceDetection function
+        async function drawFaceDetection(predictions) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Sort predictions by size (larger faces first) and confidence
+            let validPredictions = predictions
+                .filter(pred => {
+                    const size = (pred.bottomRight[0] - pred.topLeft[0]) * 
+                                (pred.bottomRight[1] - pred.topLeft[1]);
+                    return pred.probability[0] > MIN_CONFIDENCE && size > 1500; // Minimum face size
+                })
+                .sort((a, b) => {
+                    const sizeA = (a.bottomRight[0] - a.topLeft[0]) * (a.bottomRight[1] - a.topLeft[1]);
+                    const sizeB = (b.bottomRight[0] - b.topLeft[0]) * (b.bottomRight[1] - b.topLeft[1]);
+                    return (sizeB * b.probability[0]) - (sizeA * a.probability[0]);
+                })
+                .slice(0, MAX_FACES);
+
+            // Apply smoothing if enabled
+            if (document.getElementById('smoothingToggle').checked) {
+                validPredictions = smoothPredictions(validPredictions);
+                previousPredictions = validPredictions;
+            }
+
+            // Draw predictions
+            for (const prediction of validPredictions) {
+                const start = prediction.topLeft;
+                const end = prediction.bottomRight;
+                const size = [end[0] - start[0], end[1] - start[1]];
+
+                // Only process if face is large enough
+                if (size[0] * size[1] < 1000) continue; // Skip very small detections
+
+                // Draw face box with gradient
+                const gradient = ctx.createLinearGradient(start[0], start[1], end[0], end[1]);
+                gradient.addColorStop(0, `rgba(59, 130, 246, ${prediction.probability[0]})`);
+                gradient.addColorStop(1, `rgba(147, 51, 234, ${prediction.probability[0]})`);
+                
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(start[0], start[1], size[0], size[1]);
+
+                // Gender detection
+                if (document.getElementById('genderToggle').checked) {
+                    const gender = predictGender(size, prediction.landmarks);
+                    
+                    // Draw gender label with background
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                    ctx.fillRect(start[0], start[1] - 35, 60, 25);
+                    
+                    ctx.fillStyle = gender === 'Male' ? '#3b82f6' : '#ec4899';
+                    ctx.font = 'bold 14px Arial';
+                    ctx.fillText(gender, start[0] + 5, start[1] - 18);
+                }
+
+                // Draw debug information
+                if (document.getElementById('debugToggle').checked) {
+                    ctx.fillStyle = 'white';
+                    ctx.font = '12px Arial';
+                    ctx.fillText(`Score: ${(prediction.probability[0] * 100).toFixed(1)}%`, start[0], start[1] - 5);
+                    ctx.fillText(`Size: ${Math.round(size[0])}x${Math.round(size[1])}`, start[0], start[1] - 20);
+                    
+                    // Draw landmark labels
+                    prediction.landmarks.forEach((landmark, i) => {
+                        ctx.fillText(`${i}`, landmark[0], landmark[1]);
+                    });
+                }
+
+                // Enhanced landmark visualization
+                prediction.landmarks.forEach((landmark, i) => {
+                    ctx.shadowColor = '#22c55e';
+                    ctx.shadowBlur = 15;
+                    ctx.fillStyle = '#22c55e';
+                    ctx.beginPath();
+                    ctx.arc(landmark[0], landmark[1], 3, 0, 2 * Math.PI);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                });
+
+                // Only add faces that meet all criteria
+                if (prediction.probability[0] > MIN_CONFIDENCE && size[0] * size[1] >= 1000) {
+                    addFaceToTable(prediction);
+                }
+            }
+
+            // Update stats
+            faceCountSpan.textContent = validPredictions.length;
+            updateFPS();
+        }
+
+        // Start the webcam
+        startBtn.addEventListener('click', async () => {
+            if (!streaming) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            width: 640,
+                            height: 480,
+                            facingMode: 'user'
+                        }
+                    });
+                    video.srcObject = stream;
+                    streaming = true;
+                    startBtn.textContent = 'Stop Camera';
+                    screenshotBtn.disabled = false;
+                    statsDiv.style.display = 'block';
+                    showError(''); // Clear any existing error
+                    
+                    // Show video and hide default image
+                    video.style.display = 'block';
+                    canvas.style.display = 'block';
+                    defaultImage.style.display = 'none';
+                    
+                    video.onloadedmetadata = () => {
+                        video.play();
+                        detectFaces();
+                    };
+                } catch (err) {
+                    console.error('Error accessing camera:', err);
+                    showError('Error accessing camera. Please check permissions.');
+                }
+            } else {
+                stopCamera();
+            }
+        });
+
+        function stopCamera() {
+            // First stop the detection loop
+            streaming = false;
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+
+            // Then stop the video tracks
+            const tracks = video.srcObject?.getTracks();
+            tracks?.forEach(track => track.stop());
+            video.srcObject = null;
+
+            // Update UI
+            startBtn.textContent = 'Start Camera';
+            screenshotBtn.disabled = true;
+            statsDiv.style.display = 'none';
+
+            // Clear and hide canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.style.display = 'none';
+            
+            // Hide video and show default image
+            video.style.display = 'none';
+            defaultImage.style.display = 'block';
+
+            // Don't clear trackedFaces or reset faceCounter
+            // Just mark all faces as recently seen to prevent cleanup
+            const currentTime = Date.now();
+            trackedFaces.forEach(face => {
+                face.lastSeen = currentTime;
+            });
+        }
+
+        // Screenshot functionality
+        screenshotBtn.addEventListener('click', () => {
+            const screenshotCanvas = document.createElement('canvas');
+            screenshotCanvas.width = canvas.width;
+            screenshotCanvas.height = canvas.height;
+            const screenshotCtx = screenshotCanvas.getContext('2d');
+            
+            // Draw video and detection overlay
+            screenshotCtx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            screenshotCtx.drawImage(canvas, 0, 0);
+
+            // Create download link
+            const link = document.createElement('a');
+            link.download = `face-detection-${Date.now()}.png`;
+            link.href = screenshotCanvas.toDataURL();
+            link.click();
+        });
+
+        // Real-time face detection function
+        async function detectFaces() {
+            if (!streaming || !model || !video.srcObject) return;
+
+            try {
+                const predictions = await model.estimateFaces(video, false);
+                
+                // Only process predictions if still streaming
+                if (streaming && video.srcObject) {
+                    await drawFaceDetection(predictions);
+                    updateInactiveTimes();
+                    animationId = requestAnimationFrame(detectFaces);
+                }
+            } catch (error) {
+                console.error('Error in face detection:', error);
+                showError('Error during face detection. Please refresh the page.');
+                stopCamera();
+            }
+        }
+
+        // Handle page visibility change
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden && streaming) {
+                stopCamera();
+            }
+        });
+
+        // Add popup functionality
+        const popup = document.getElementById('popup');
+        const genderToggle = document.getElementById('genderToggle');
+
+        function showPopup() {
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 3000); // Hide after 3 seconds
+        }
+
+        genderToggle.addEventListener('change', function() {
+            if (this.checked) {
+                showPopup();
+            }
+        });
+
+        // Update clearTableBtn click handler
+        clearTableBtn.addEventListener('click', () => {
+            facesTableBody.innerHTML = '';
+            faceCounter = 0;
+            trackedFaces.clear();
+        });
+
+        // Add these new functions
+        function checkMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        function showMobileWarning() {
+            const overlay = document.getElementById('mobileWarningOverlay');
+            overlay.style.display = 'block';
+        }
+
+        function acknowledgeMobileWarning() {
+            const overlay = document.getElementById('mobileWarningOverlay');
+            overlay.style.display = 'none';
+        }
+
+        // Add this to your existing window.onload or add it if you don't have one
+        window.addEventListener('load', () => {
+            if (checkMobileDevice()) {
+                showMobileWarning();
+            }
+        });
+    </script>
+</body>
+</html>

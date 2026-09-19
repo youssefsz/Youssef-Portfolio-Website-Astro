@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="180x180" href="../../apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
+    <link rel="manifest" href="../../site.webmanifest">
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="msapplication-TileColor" content="#4a90e2">
+    <title>Picture Puzzle Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .game-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            color: #fa9600;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+
+        .puzzle-container {
+            display: flex;
+            flex-wrap: wrap;
+            width: 600px;
+            margin: 20px auto;
+            border: 3px solid #fa9600;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(204, 145, 78, 0.3);
+            position: relative;
+        }
+
+        .puzzle-piece {
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: grab;
+            transition: all 0.3s ease;
+            position: relative;
+            user-select: none;
+        }
+
+        .puzzle-piece:active {
+            cursor: grabbing;
+            opacity: 0.8;
+            z-index: 1000;
+        }
+
+        .puzzle-piece.dragging {
+            opacity: 0.8;
+            z-index: 1000;
+            cursor: grabbing;
+        }
+
+        .puzzle-piece.drag-over {
+            border: 2px dashed #ff6b6b;
+            transform: scale(0.95);
+        }
+
+        .puzzle-piece:hover {
+            transform: scale(0.98);
+            box-shadow: 0 0 15px rgba(204, 145, 78, 0.3);
+        }
+
+        .puzzle-piece.selected {
+            border: 2px solid #ff6b6b;
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .controls {
+            margin: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px;
+            font-size: 18px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #fa9600;
+            border: none;
+            border-radius: 25px;
+            color: #1a1a2e;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #b37145;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(204, 145, 78, 0.3);
+        }
+
+        select {
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 25px;
+            background: #232741;
+            color: #fff;
+            border: 2px solid #fa9600;
+            cursor: pointer;
+        }
+
+        .win-message {
+            display: none;
+        }
+
+        /* Image upload area styles */
+        .image-upload {
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px dashed #4ecca3;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .image-upload:hover {
+            background: rgba(78, 204, 163, 0.1);
+        }
+
+        #customImage {
+            display: none;
+        }
+
+        .upload-label {
+            cursor: pointer;
+            padding: 10px 20px;
+            background: #4ecca3;
+            border-radius: 25px;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .upload-label:hover {
+            background: #45b393;
+        }
+
+        /* Add new styles for the reference popup */
+        .reference-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background: rgba(26, 26, 46, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            border: 3px solid #4ecca3;
+            box-shadow: 0 0 30px rgba(78, 204, 163, 0.4);
+            text-align: center;
+        }
+
+        .reference-image {
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            line-height: 1;
+        }
+
+        .close-popup:hover {
+            color: #4ecca3;
+            transform: scale(1.1);
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 999;
+        }
+
+        /* Style for the help button */
+        .help-button {
+            background: #ff6b6b;
+        }
+
+        .help-button:hover {
+            background: #ff5252;
+        }
+
+        /* Add win popup styles */
+        .win-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background: rgba(26, 26, 46, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #4ecca3;
+            box-shadow: 0 0 30px rgba(78, 204, 163, 0.4);
+            text-align: center;
+            animation: popIn 0.5s ease-out;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0.3);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .win-popup h2 {
+            color: #4ecca3;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .win-stats {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(78, 204, 163, 0.1);
+            border-radius: 10px;
+        }
+
+        .win-stats p {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .celebration {
+            font-size: 40px;
+            margin: 20px 0;
+        }
+
+        .play-again-btn {
+            background: #4ecca3;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            color: #1a1a2e;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .play-again-btn:hover {
+            background: #45b393;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 204, 163, 0.4);
+        }
+
+        /* Add start popup styles */
+        .start-popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(26, 26, 46, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #4ecca3;
+            box-shadow: 0 0 30px rgba(78, 204, 163, 0.4);
+            text-align: center;
+            z-index: 1000;
+            animation: popIn 0.5s ease-out;
+        }
+
+        .start-button {
+            background: #4ecca3;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 25px;
+            color: #1a1a2e;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .start-button:hover {
+            background: #45b393;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 204, 163, 0.4);
+        }
+
+        .start-popup h2 {
+            color: #4ecca3;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .start-popup p {
+            color: #fff;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        
+        /* Add these new mobile-friendly styles */
+        @media (max-width: 768px) {
+            .puzzle-container {
+                width: 300px !important;
+                height: 300px !important;
+            }
+
+            .puzzle-piece {
+                /* Adjust touch target size for mobile */
+                touch-action: none;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .controls button {
+                width: 80%;
+                margin: 5px 0;
+            }
+
+            .game-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .reference-popup {
+                width: 90%;
+                max-width: 300px;
+            }
+
+            .reference-image {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .win-popup {
+                width: 90%;
+                max-width: 300px;
+            }
+
+            .image-upload {
+                width: 90%;
+            }
+
+            .start-popup {
+                width: 90%;
+                max-width: 300px;
+                padding: 20px;
+            }
+
+            .start-popup h2 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            .start-popup p {
+                font-size: 14px;
+                margin: 8px 0;
+            }
+
+            .start-popup select {
+                width: 80%;
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .start-button {
+                padding: 12px 30px;
+                font-size: 18px;
+                margin-top: 15px;
+            }
+
+            /* Adjust the margin for the difficulty selection area */
+            .start-popup div[style="margin: 20px 0;"] {
+                margin: 15px 0 !important;
+            }
+        }
+
+        /* Add these styles to improve performance */
+        .puzzle-piece {
+            will-change: transform;
+            -webkit-transform: translateZ(0);
+            -moz-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            -o-transform: translateZ(0);
+            transform: translateZ(0);
+            -webkit-backface-visibility: hidden;
+            -moz-backface-visibility: hidden;
+            -ms-backface-visibility: hidden;
+            backface-visibility: hidden;
+            -webkit-perspective: 1000;
+            -moz-perspective: 1000;
+            -ms-perspective: 1000;
+            perspective: 1000;
+        }
+
+        /* Add back button styles */
+        .back-button {
+            background: #4ecca3;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            color: #1a1a2e;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .back-button:hover {
+            background: #45b393;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 204, 163, 0.4);
+        }
+
+        /* Adjust back button position for mobile */
+        @media (max-width: 768px) {
+            .back-button {
+                position: relative;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Add back button at the top -->
+        <button onclick="window.location.href='../index.html'" style="position: absolute; left: 20px; top: 20px;" class="back-button">Back</button>
+        <h1>Picture Puzzle Challenge</h1>
+        
+        <!-- Add image upload section -->
+        <div class="image-upload">
+            <input type="file" id="customImage" accept="image/*" onchange="handleCustomImage(event)">
+            <label for="customImage" class="upload-label">Upload Custom Image</label>
+            <p>or drag and drop an image here</p>
+        </div>
+
+        <div class="controls">
+            <button onclick="shufflePuzzle()">Shuffle</button>
+            <button class="help-button" onclick="showReference()">Show Reference</button>
+            <button onclick="refreshPage()">New Game</button>
+        </div>
+        <div class="game-info">
+            <div id="timer">Time: 00:00</div>
+            <div id="moves">Moves: 0</div>
+        </div>
+        <div class="puzzle-container" id="puzzleContainer">
+            <!-- Modified start popup -->
+            <div class="start-popup" id="startPopup">
+                <h2>Ready to Play?</h2>
+                <p>Try to arrange the pieces to complete the image</p>
+                <div style="margin: 20px 0;">
+                    <p>Select Difficulty:</p>
+                    <select id="difficulty" onchange="changeDifficulty()" style="margin: 10px 0;">
+                        <option value="2">Easy (2x2)</option>
+                        <option value="3" selected>Medium (3x3)</option>
+                        <option value="4">Hard (4x4)</option>
+                        <option value="5">Expert (5x5)</option>
+                    </select>
+                </div>
+                <button class="start-button" onclick="startGame()">Start Game</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add reference popup -->
+    <div class="overlay" id="overlay" onclick="hideReference()"></div>
+    <div class="reference-popup" id="referencePopup">
+        <button class="close-popup" onclick="hideReference()">×</button>
+        <img class="reference-image" id="referenceImage" alt="Reference Image">
+        <p style="color: #fff;">This is how the completed puzzle should look</p>
+    </div>
+
+    <!-- Add win popup -->
+    <div class="overlay" id="winOverlay"></div>
+    <div class="win-popup" id="winPopup">
+        <h2>🎉 Congratulations! 🎉</h2>
+        <div class="celebration">
+            🏆
+        </div>
+        <div class="win-stats">
+            <p id="winTime">Time: 00:00</p>
+            <p id="winMoves">Moves: 0</p>
+            <p>Difficulty: <span id="winDifficulty">Medium</span></p>
+        </div>
+        <button class="play-again-btn" onclick="handlePlayAgain()">Play Again</button>
+    </div>
+
+    <script>
+
+function refreshPage() {
+            window.location.reload();
+        }
+        let puzzleSize = 3;
+        let pieces = [];
+        let selectedPiece = null;
+        let moves = 0;
+        let timer = 0;
+        let timerInterval;
+        let imageUrl = 'https://picsum.photos/600/600';
+        let currentImageUrl = null; // Store the current image URL
+
+        function updateTimer() {
+            timer++;
+            const minutes = Math.floor(timer / 60).toString().padStart(2, '0');
+            const seconds = (timer % 60).toString().padStart(2, '0');
+            document.getElementById('timer').textContent = `Time: ${minutes}:${seconds}`;
+        }
+
+        function changeDifficulty() {
+            puzzleSize = parseInt(document.getElementById('difficulty').value);
+            // Update difficulty text in start popup
+            document.getElementById('startDifficulty').textContent = 
+                document.getElementById('difficulty').options[
+                    document.getElementById('difficulty').selectedIndex
+                ].text;
+            
+            // If game hasn't started yet, just update the difficulty text
+            if (document.getElementById('startPopup').style.display !== 'none') {
+                return;
+            }
+            
+            // Otherwise restart the game with new difficulty
+            restartGame();
+        }
+
+        function startGame() {
+            // Hide start popup
+            document.getElementById('startPopup').style.display = 'none';
+            
+            // Get new random image and start game
+            currentImageUrl = `https://picsum.photos/600/600?random=${Math.random()}`;
+            imageUrl = currentImageUrl;
+            resetGameState();
+            initializePuzzle();
+        }
+
+        function restartGame() {
+            // Use existing image URL when restarting
+            imageUrl = currentImageUrl || `https://picsum.photos/600/600?random=${Math.random()}`;
+            resetGameState();
+            initializePuzzle();
+        }
+
+        function resetGameState() {
+            clearInterval(timerInterval);
+            timer = 0;
+            moves = 0;
+            document.getElementById('moves').textContent = 'Moves: 0';
+            document.getElementById('timer').textContent = 'Time: 00:00';
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function initializePuzzle() {
+            const container = document.getElementById('puzzleContainer');
+            container.innerHTML = '';
+            pieces = [];
+            selectedPiece = null;
+
+            // Determine container size based on screen width
+            const isMobile = window.innerWidth <= 768;
+            const containerSize = isMobile ? 300 : 600;
+            const pieceSize = containerSize / puzzleSize;
+            
+            container.style.width = `${containerSize}px`;
+            container.style.height = `${containerSize}px`;
+
+            for (let i = 0; i < puzzleSize * puzzleSize; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'puzzle-piece';
+                piece.dataset.correctPosition = i;
+                piece.dataset.currentPosition = i;
+                piece.draggable = true;
+                piece.style.backgroundImage = `url(${imageUrl})`;
+                piece.style.backgroundSize = `${puzzleSize * 100}%`;
+                piece.style.width = `${pieceSize}px`;
+                piece.style.height = `${pieceSize}px`;
+                
+                const row = Math.floor(i / puzzleSize);
+                const col = i % puzzleSize;
+                piece.style.backgroundPosition = `-${col * pieceSize}px -${row * pieceSize}px`;
+
+                // Optimize touch event listeners
+                piece.addEventListener('touchstart', handleTouchStart, { passive: false });
+                piece.addEventListener('touchmove', handleTouchMove, { passive: false });
+                piece.addEventListener('touchend', handleTouchEnd);
+                piece.addEventListener('touchcancel', handleTouchEnd);
+                
+                // Keep existing mouse events
+                piece.addEventListener('dragstart', handleDragStart);
+                piece.addEventListener('dragend', handleDragEnd);
+                piece.addEventListener('dragover', handleDragOver);
+                piece.addEventListener('drop', handleDrop);
+                piece.addEventListener('dragenter', handleDragEnter);
+                piece.addEventListener('dragleave', handleDragLeave);
+                piece.addEventListener('click', () => handlePieceClick(piece));
+                
+                container.appendChild(piece);
+                pieces.push(piece);
+            }
+
+            shufflePuzzle();
+        }
+
+        let draggedPiece = null;
+
+        function handleDragStart(e) {
+            draggedPiece = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+            pieces.forEach(piece => piece.classList.remove('drag-over'));
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDragEnter(e) {
+            this.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            if (draggedPiece !== this) {
+                moves++;
+                document.getElementById('moves').textContent = `Moves: ${moves}`;
+
+                const tempBackground = draggedPiece.style.backgroundPosition;
+                const tempDataset = draggedPiece.dataset.correctPosition;
+
+                draggedPiece.style.backgroundPosition = this.style.backgroundPosition;
+                draggedPiece.dataset.correctPosition = this.dataset.correctPosition;
+
+                this.style.backgroundPosition = tempBackground;
+                this.dataset.correctPosition = tempDataset;
+
+                checkWin();
+            }
+            this.classList.remove('drag-over');
+        }
+
+        function handlePieceClick(piece) {
+            if (!selectedPiece) {
+                selectedPiece = piece;
+                piece.classList.add('selected');
+            } else {
+                moves++;
+                document.getElementById('moves').textContent = `Moves: ${moves}`;
+
+                const tempBackground = selectedPiece.style.backgroundPosition;
+                const tempDataset = selectedPiece.dataset.correctPosition;
+
+                selectedPiece.style.backgroundPosition = piece.style.backgroundPosition;
+                selectedPiece.dataset.correctPosition = piece.dataset.correctPosition;
+
+                piece.style.backgroundPosition = tempBackground;
+                piece.dataset.correctPosition = tempDataset;
+
+                selectedPiece.classList.remove('selected');
+                selectedPiece = null;
+
+                // Auto-check win after each move
+                checkWin();
+            }
+        }
+
+        function shufflePuzzle() {
+            for (let i = pieces.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const tempBackground = pieces[i].style.backgroundPosition;
+                const tempDataset = pieces[i].dataset.correctPosition;
+
+                pieces[i].style.backgroundPosition = pieces[j].style.backgroundPosition;
+                pieces[i].dataset.correctPosition = pieces[j].dataset.correctPosition;
+
+                pieces[j].style.backgroundPosition = tempBackground;
+                pieces[j].dataset.correctPosition = tempDataset;
+            }
+        }
+
+        function checkWin() {
+            const isWin = pieces.every((piece, index) => {
+                return parseInt(piece.dataset.correctPosition) === index;
+            });
+
+            if (isWin) {
+                clearInterval(timerInterval);
+                showWinPopup();
+            }
+        }
+
+        function showWinPopup() {
+            // Update win statistics
+            document.getElementById('winTime').textContent = document.getElementById('timer').textContent;
+            document.getElementById('winMoves').textContent = document.getElementById('moves').textContent;
+            
+            // Get difficulty text from the current puzzle size
+            let difficultyText;
+            switch(puzzleSize) {
+                case 2: difficultyText = "Easy (2x2)"; break;
+                case 3: difficultyText = "Medium (3x3)"; break;
+                case 4: difficultyText = "Hard (4x4)"; break;
+                case 5: difficultyText = "Expert (5x5)"; break;
+                default: difficultyText = "Medium (3x3)";
+            }
+            document.getElementById('winDifficulty').textContent = difficultyText;
+
+            // Show popup with overlay
+            document.getElementById('winOverlay').style.display = 'block';
+            document.getElementById('winPopup').style.display = 'block';
+
+            // Add celebration animation
+            const celebration = document.querySelector('.celebration');
+            celebration.style.animation = 'popIn 0.5s ease-out';
+        }
+
+        function handlePlayAgain() {
+            // Hide win popup
+            document.getElementById('winOverlay').style.display = 'none';
+            document.getElementById('winPopup').style.display = 'none';
+            
+            // Show start popup
+            document.getElementById('startPopup').style.display = 'block';
+        }
+
+        // Add drag and drop functionality for image upload
+        const imageUpload = document.querySelector('.image-upload');
+        
+        imageUpload.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            imageUpload.style.background = 'rgba(78, 204, 163, 0.2)';
+        });
+
+        imageUpload.addEventListener('dragleave', () => {
+            imageUpload.style.background = '';
+        });
+
+        imageUpload.addEventListener('drop', (e) => {
+            e.preventDefault();
+            imageUpload.style.background = '';
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handleCustomImage({ target: { files: [file] } });
+            }
+        });
+
+        function handleCustomImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentImageUrl = e.target.result;
+                    imageUrl = currentImageUrl;
+                    restartGame();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function showReference() {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('referencePopup').style.display = 'block';
+            document.getElementById('referenceImage').src = currentImageUrl || imageUrl;
+        }
+
+        function hideReference() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('referencePopup').style.display = 'none';
+        }
+
+        // Update keyboard event listener to handle win popup as well
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                hideReference();
+                document.getElementById('winOverlay').style.display = 'none';
+                document.getElementById('winPopup').style.display = 'none';
+            }
+        });
+
+        // Modify window.onload to show start popup instead of starting game directly
+        window.onload = function() {
+            // Initialize puzzle container without pieces
+            const container = document.getElementById('puzzleContainer');
+            container.style.width = '600px';
+            container.style.height = '600px';
+            
+            // Show start popup with current difficulty
+            document.getElementById('startDifficulty').textContent = 
+                document.getElementById('difficulty').options[
+                    document.getElementById('difficulty').selectedIndex
+                ].text;
+        };
+
+        // Optimized touch event handling functions
+        let touchStartX, touchStartY;
+        let touchedPiece = null;
+        let lastTouchTime = 0;
+        const DOUBLE_TAP_DELAY = 300; // milliseconds
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTouchTime;
+
+            if (tapLength < DOUBLE_TAP_DELAY && tapLength > 0) {
+                // Double tap detected - handle as a click
+                handlePieceClick(this);
+                touchedPiece = null;
+                return;
+            }
+
+            lastTouchTime = currentTime;
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+            touchedPiece = this;
+            
+            // Add visual feedback immediately
+            this.style.opacity = '0.8';
+            this.style.zIndex = '1000';
+            this.classList.add('dragging');
+        }
+
+        function handleTouchMove(e) {
+            if (!touchedPiece) return;
+            e.preventDefault();
+            
+            const touch = e.touches[0];
+            const moveX = touch.clientX - touchStartX;
+            const moveY = touch.clientY - touchStartY;
+            
+            // Use transform3d for better performance
+            touchedPiece.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+            
+            // Highlight potential drop targets
+            const elements = document.elementsFromPoint(touch.clientX, touch.clientY);
+            const dropTarget = elements.find(el => 
+                el.classList.contains('puzzle-piece') && el !== touchedPiece
+            );
+
+            // Remove highlight from all pieces
+            pieces.forEach(piece => piece.classList.remove('drag-over'));
+            
+            // Add highlight to current drop target
+            if (dropTarget) {
+                dropTarget.classList.add('drag-over');
+            }
+        }
+
+        function handleTouchEnd(e) {
+            if (!touchedPiece) return;
+            
+            const touch = e.changedTouches[0];
+            const elements = document.elementsFromPoint(touch.clientX, touch.clientY);
+            const dropTarget = elements.find(el => 
+                el.classList.contains('puzzle-piece') && el !== touchedPiece
+            );
+            
+            if (dropTarget) {
+                // Swap pieces immediately without animation
+                moves++;
+                document.getElementById('moves').textContent = `Moves: ${moves}`;
+
+                const tempBackground = touchedPiece.style.backgroundPosition;
+                const tempDataset = touchedPiece.dataset.correctPosition;
+
+                touchedPiece.style.backgroundPosition = dropTarget.style.backgroundPosition;
+                touchedPiece.dataset.correctPosition = dropTarget.dataset.correctPosition;
+
+                dropTarget.style.backgroundPosition = tempBackground;
+                dropTarget.dataset.correctPosition = tempDataset;
+
+                checkWin();
+            }
+            
+            // Reset piece styles immediately
+            touchedPiece.style.transform = '';
+            touchedPiece.style.opacity = '1';
+            touchedPiece.style.zIndex = '';
+            touchedPiece.classList.remove('dragging');
+            
+            // Remove highlights from all pieces
+            pieces.forEach(piece => piece.classList.remove('drag-over'));
+            
+            touchedPiece = null;
+        }
+    </script>
+</body>
+</html>

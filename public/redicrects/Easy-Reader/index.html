@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Reader - All Your Documents in One Place</title>
+    <meta name="description" content="Easy Reader is the ultimate document management app. Read PDFs, Word docs, Excel files, and more. Premium features include unlimited bookmarks, offline reading, and ad-free experience.">
+    <meta name="keywords" content="document reader, PDF reader, Word reader, Excel viewer, file manager, mobile app">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo/splash.png">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Preload critical images -->
+    <link rel="preload" as="image" href="logo/splash.png">
+    <link rel="preload" as="image" href="imgs/dark_mode/home.jpg">
+</head>
+<body data-theme="dark">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" onclick="window.location.reload(); return false;">
+                <img src="logo/splash.png" alt="Easy Reader Logo" class="logo-img" loading="eager">
+                <span class="logo-text">Easy Reader</span>
+            </a>
+            
+            <div class="nav-menu">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#screens" class="nav-link">App Preview</a>
+                <a href="#tools" class="nav-link">Tools</a>
+                <a href="#premium" class="nav-link">Premium</a>
+                
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-sun light-icon"></i>
+                    <i class="fas fa-moon dark-icon"></i>
+                </button>
+                
+                <!-- Download Button -->
+                <a href="#download" class="btn btn-primary download-btn">
+                    <i class="fas fa-download"></i>
+                    Download Now
+                </a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-star"></i>
+                    <span>All Your Documents in One Place</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    The Ultimate <span class="gradient-text">Document Reader</span> for Your Mobile Device
+                </h1>
+                
+                <p class="hero-description">
+                    Experience seamless document reading with Easy Reader. Support for PDF, Word, Excel, PowerPoint, and more. 
+                    Advanced tools, dark mode, and premium features for the ultimate document management experience.
+                </p>
+                
+                <div class="hero-buttons">
+                    <a href="#download" class="btn btn-primary btn-large">
+                        <i class="fab fa-google-play"></i>
+                        Download for Android
+                    </a>
+                    <a href="#screens" class="btn btn-secondary btn-large">
+                        <i class="fas fa-play"></i>
+                        See App Preview
+                    </a>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">File Formats</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">PDF Tools</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">∞</div>
+                        <div class="stat-label">Bookmarks</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="hero-image-container">
+                    <div class="image-placeholder" data-loaded="false">
+                        <img src="imgs/dark_mode/home.jpg" alt="Easy Reader Home Screen" class="hero-screenshot lazy-image loaded" id="heroScreenshot" data-light="imgs/light_mode/home.jpg" data-dark="imgs/dark_mode/home.jpg" loading="eager">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+                
+                <div class="floating-elements">
+                    <div class="floating-icon pdf">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="floating-icon word">
+                        <i class="fas fa-file-word"></i>
+                    </div>
+                    <div class="floating-icon excel">
+                        <i class="fas fa-file-excel"></i>
+                    </div>
+                    <div class="floating-icon ppt">
+                        <i class="fas fa-file-powerpoint"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Powerful Features for Every Document Need</h2>
+                <p class="section-description">
+                    Easy Reader combines cutting-edge technology with intuitive design to deliver 
+                    the most comprehensive document reading experience on mobile.
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Universal File Support</h3>
+                    <p class="feature-description">
+                        Read PDF, Word, Excel, PowerPoint, TXT, Images, Videos, and code files. 
+                        All your documents in one powerful app.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="feature-title">Smart Search</h3>
+                    <p class="feature-description">
+                        Find any document instantly with intelligent search across file names, 
+                        content, and metadata. Filter by type and date.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                    <h3 class="feature-title">Smart Bookmarks</h3>
+                    <p class="feature-description">
+                        Never lose your place. Create unlimited bookmarks and sync across 
+                        all your devices with premium features.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <h3 class="feature-title">Dark Mode</h3>
+                    <p class="feature-description">
+                        Easy on the eyes with beautiful dark mode. Automatic theme switching 
+                        based on system preferences or manual control.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="feature-title">Multi-Language</h3>
+                    <p class="feature-description">
+                        Available in multiple languages. Seamless localization for users 
+                        around the world with intuitive interface.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                                        <div class="feature-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3 class="feature-title">Offline Reading</h3>
+                    <p class="feature-description">
+                        Access your documents anywhere, anytime. Premium offline reading 
+                        ensures you're never without your files.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Screens Section -->
+    <section class="app-screens" id="screens">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Experience the Interface</h2>
+                <p class="section-description">
+                    Clean, intuitive design that makes document management effortless. 
+                    See how Easy Reader transforms your mobile document experience.
+                </p>
+            </div>
+            
+            <div class="screens-showcase">
+                <div class="screen-item active" data-screen="home">
+                    <div class="screen-mockup">
+                        <div class="image-placeholder" data-loaded="false">
+                            <img data-src="imgs/dark_mode/home.jpg" alt="Home Screen" class="screen-img lazy-image" data-light="imgs/light_mode/home.jpg" data-dark="imgs/dark_mode/home.jpg" loading="lazy">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                    <div class="screen-info">
+                        <h3 class="screen-title">Home Dashboard</h3>
+                        <p class="screen-description">
+                            Your document hub with categorized file access, storage insights, 
+                            and powerful tools. Quick access to recent files and favorites.
+                        </p>
+                        <ul class="screen-features">
+                            <li><i class="fas fa-check"></i> File categorization</li>
+                            <li><i class="fas fa-check"></i> Storage analytics</li>
+                            <li><i class="fas fa-check"></i> Quick tools access</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="screen-item" data-screen="recent">
+                    <div class="screen-info">
+                        <h3 class="screen-title">Recent Files</h3>
+                        <p class="screen-description">
+                            Never lose track of your documents. Advanced filtering by file type, 
+                            search functionality, and detailed file information.
+                        </p>
+                        <ul class="screen-features">
+                            <li><i class="fas fa-check"></i> Tabbed file filtering</li>
+                            <li><i class="fas fa-check"></i> Advanced search</li>
+                            <li><i class="fas fa-check"></i> File metadata display</li>
+                        </ul>
+                    </div>
+                    <div class="screen-mockup">
+                        <div class="image-placeholder" data-loaded="false">
+                            <img data-src="imgs/dark_mode/recent.jpg" alt="Recent Screen" class="screen-img lazy-image" data-light="imgs/light_mode/recent.jpg" data-dark="imgs/dark_mode/recent.jpg" loading="lazy">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="screen-item" data-screen="settings">
+                    <div class="screen-mockup">
+                        <div class="image-placeholder" data-loaded="false">
+                            <img data-src="imgs/dark_mode/settings.jpg" alt="Settings Screen" class="screen-img lazy-image" data-light="imgs/light_mode/settings.jpg" data-dark="imgs/dark_mode/settings.jpg" loading="lazy">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                    <div class="screen-info">
+                        <h3 class="screen-title">Settings & Customization</h3>
+                        <p class="screen-description">
+                            Complete control over your reading experience. Theme selection, 
+                            language preferences, and advanced app configuration.
+                        </p>
+                        <ul class="screen-features">
+                            <li><i class="fas fa-check"></i> Theme customization</li>
+                            <li><i class="fas fa-check"></i> Language selection</li>
+                            <li><i class="fas fa-check"></i> Privacy controls</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="screen-item" data-screen="premium">
+                    <div class="screen-info">
+                        <h3 class="screen-title">Premium Features</h3>
+                        <p class="screen-description">
+                            Unlock the full potential with premium features. Ad-free experience, 
+                            unlimited bookmarks, and priority support.
+                        </p>
+                        <ul class="screen-features">
+                            <li><i class="fas fa-check"></i> No advertisements</li>
+                            <li><i class="fas fa-check"></i> Unlimited bookmarks</li>
+                            <li><i class="fas fa-check"></i> Premium support</li>
+                        </ul>
+                    </div>
+                    <div class="screen-mockup">
+                        <div class="image-placeholder" data-loaded="false">
+                            <img data-src="imgs/dark_mode/premium.jpg" alt="Premium Screen" class="screen-img lazy-image" data-light="imgs/light_mode/premium.jpg" data-dark="imgs/dark_mode/premium.jpg" loading="lazy">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Screen Navigation -->
+            <div class="screen-nav">
+                <button class="screen-nav-btn active" data-target="home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </button>
+                <button class="screen-nav-btn" data-target="recent">
+                    <i class="fas fa-clock"></i>
+                    <span>Recent</span>
+                </button>
+                <button class="screen-nav-btn" data-target="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </button>
+                <button class="screen-nav-btn" data-target="premium">
+                    <i class="fas fa-crown"></i>
+                    <span>Premium</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PDF Tools Section -->
+    <section class="pdf-tools" id="tools">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Powerful PDF Tools</h2>
+                <p class="section-description">
+                    Advanced PDF manipulation tools built right into the app. 
+                    No need for separate apps or online converters.
+                </p>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <h3 class="tool-title">Image to PDF</h3>
+                    <p class="tool-description">
+                        Convert multiple images into a single PDF document. 
+                        Perfect for scanning documents or creating photo albums.
+                    </p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3 class="tool-title">Scan to PDF</h3>
+                    <p class="tool-description">
+                        Use your camera to scan documents directly into PDF format. 
+                        Auto-enhancement for perfect scan quality.
+                    </p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                    <h3 class="tool-title">Edit PDF</h3>
+                    <p class="tool-description">
+                        Annotate, highlight, and draw on PDF documents. 
+                        Professional editing tools at your fingertips.
+                    </p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-font"></i>
+                    </div>
+                    <h3 class="tool-title">Add Text to PDF</h3>
+                    <p class="tool-description">
+                        Insert text annotations anywhere on your PDF. 
+                        Customizable fonts, sizes, and colors.
+                    </p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-file-image"></i>
+                    </div>
+                    <h3 class="tool-title">PDF to Image</h3>
+                    <p class="tool-description">
+                        Extract pages from PDF as high-quality images. 
+                        Save individual pages or entire documents.
+                    </p>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon">
+                        <i class="fas fa-trash-restore"></i>
+                    </div>
+                    <h3 class="tool-title">Recycle Bin</h3>
+                    <p class="tool-description">
+                        Safely manage deleted files with built-in recycle bin. 
+                        Restore accidentally deleted documents.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Section -->
+    <section class="premium" id="premium">
+        <div class="container">
+            <div class="premium-content">
+                <div class="premium-info">
+                    <div class="premium-badge">
+                        <i class="fas fa-crown"></i>
+                        <span>PREMIUM</span>
+                    </div>
+                    
+                    <h2 class="premium-title">Unlock the Full Experience</h2>
+                    <p class="premium-description">
+                        Get the most out of Easy Reader with premium features designed 
+                        for power users and professionals.
+                    </p>
+                    
+                    <div class="premium-features">
+                        <div class="premium-feature">
+                            <i class="fas fa-ban"></i>
+                            <div class="feature-content">
+                                <h4>No Advertisements</h4>
+                                <p>Enjoy a clean, distraction-free reading experience</p>
+                            </div>
+                        </div>
+                        
+                        <div class="premium-feature">
+                            <i class="fas fa-bookmark"></i>
+                            <div class="feature-content">
+                                <h4>Unlimited Bookmarks</h4>
+                                <p>Save unlimited bookmarks across all your documents</p>
+                            </div>
+                        </div>
+                        
+                        <div class="premium-feature">
+                            <i class="fas fa-wifi"></i>
+                            <div class="feature-content">
+                                <h4>Offline Reading</h4>
+                                <p>Access your documents without internet connection</p>
+                            </div>
+                        </div>
+                        
+                        <div class="premium-feature">
+                            <i class="fas fa-headset"></i>
+                            <div class="feature-content">
+                                <h4>Premium Support</h4>
+                                <p>Get priority support from our dedicated team</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="premium-pricing">
+                        <div class="price">
+                            <span class="currency">$</span>
+                            <span class="amount">4.99</span>
+                            <span class="period">lifetime</span>
+                        </div>
+                        <p class="price-note">One-time purchase, no subscriptions</p>
+                    </div>
+                    
+                    <a href="#download" class="btn btn-premium">
+                        <i class="fas fa-crown"></i>
+                        Get Premium
+                    </a>
+                </div>
+                
+                <div class="premium-visual">
+                    <div class="premium-mockup">
+                        <div class="image-placeholder" data-loaded="false">
+                            <img data-src="imgs/dark_mode/premium.jpg" alt="Premium Features" class="premium-img lazy-image" data-light="imgs/light_mode/premium.jpg" data-dark="imgs/dark_mode/premium.jpg" loading="lazy">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download" id="download">
+        <div class="container">
+            <div class="download-content">
+                <h2 class="download-title">Ready to Transform Your Document Experience?</h2>
+                <p class="download-description">
+                    Join thousands of users who have already made Easy Reader their go-to document app. 
+                    Download now and experience the difference.
+                </p>
+                
+                <div class="download-buttons">
+                    <a href="https://play.google.com/store/apps/details?id=com.dczt.easyreader" class="download-btn google-play" target="_blank">
+                        <div class="image-placeholder" data-loaded="false">
+                            <img data-src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play" class="lazy-image" loading="lazy">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </a>
+                    <!-- iOS App Store -->
+                    <a href="https://apps.apple.com/app/easy-reader" class="download-btn app-store" target="_blank">
+                        <div class="image-placeholder" data-loaded="false">
+                            <img data-src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" alt="Download on the App Store" class="lazy-image" loading="lazy">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="download-stats">
+                    <div class="stat">
+                        <div class="stat-number">4.8</div>
+                        <div class="stat-label">★ Rating</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Downloads</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">99%</div>
+                        <div class="stat-label">Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <a href="#" class="footer-logo" onclick="window.location.reload(); return false;" style="text-decoration: none;">
+                        <img src="logo/splash.png" alt="Easy Reader Logo" class="footer-logo-img" loading="lazy">
+                        <span class="footer-logo-text">Easy Reader</span>
+                    </a>
+                    <p class="footer-description">
+                        The ultimate document reading experience on mobile. 
+                        All your files, tools, and features in one powerful app.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title">Features</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Document Reading</a></li>
+                        <li><a href="#tools">PDF Tools</a></li>
+                        <li><a href="#premium">Premium Features</a></li>
+                        <li><a href="#screens">App Screenshots</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:david.kolp97@gmail.com">Contact Us</a></li>
+                        <li><a href="https://dczt.dev/faq.html">FAQ</a></li>
+                        <li><a href="https://dczt.dev/changelog.html">Feature Request</a></li>
+                        
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 class="footer-title">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://dczt.dev/app-privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="https://dczt.dev/eula-terms-of-use.html">Terms of Use</a></li>
+                        
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    © 2025 Easy Reader. All rights reserved.
+                </p>
+                <div class="footer-social">
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html> 
