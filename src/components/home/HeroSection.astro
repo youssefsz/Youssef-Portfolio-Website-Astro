@@ -4,6 +4,12 @@ import { Image } from "astro:assets";
 import profileImage from "../../assets/profile/ysf.jpg";
 import ResumeButton from "../ResumeButton.astro";
 import TopRatedPlus from "../TopRatedPlus.astro";
+import type { Locale } from "../../i18n/content";
+import { siteContent } from "../../i18n/content";
+
+interface Props { locale?: Locale }
+const { locale = "en" } = Astro.props;
+const t = siteContent[locale];
 ---
 
 <section
@@ -29,7 +35,7 @@ import TopRatedPlus from "../TopRatedPlus.astro";
                         <span class="w-2 h-2 bg-accent animate-pulse"></span>
                         <span
                             class="text-sm uppercase tracking-[0.2em] text-muted"
-                            >Hello, I'm</span
+                            >{t.heroHello}</span
                         >
                     </div>
                 </div>
@@ -38,7 +44,7 @@ import TopRatedPlus from "../TopRatedPlus.astro";
                 <noscript>
                     <h1 class="display-xl mb-6">Youssef Dhibi</h1>
                     <p class="text-xl md:text-2xl text-muted max-w-xl mb-12 leading-relaxed">
-                        I build full-stack applications across web, mobile, desktop, and CLI. Top Rated Plus on Upwork with 100% Job Success.
+                        {t.heroIntro} Top Rated Plus {t.heroUpwork} Upwork, {t.jobSuccess}.
                     </p>
                 </noscript>
                 <h1
@@ -56,17 +62,17 @@ import TopRatedPlus from "../TopRatedPlus.astro";
                 </h1>
 
                 <div class="text-xl md:text-2xl text-muted max-w-xl mb-12 leading-relaxed mx-auto lg:mx-0 lg:justify-start justify-center text-center lg:text-left">
-                    I build full-stack applications across web, mobile, desktop, and CLI.{" "}
+                    {t.heroIntro}{" "}
                     <TopRatedPlus />
-                    {" "}on <a
+                    {" "}{t.heroUpwork}{" "}<a
                         class="upwork-word"
                         href="https://www.upwork.com/freelancers/youssefsz"
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label="View Youssef Dhibi's Upwork profile"
-                    >Upwork</a> with{" "}
+                        aria-label={locale === "fr" ? "Voir le profil Upwork de Youssef Dhibi" : "View Youssef Dhibi's Upwork profile"}
+                    >Upwork</a>{locale === "en" ? " with " : ", avec "}
                     <span class="success-mark">
-                        100% Job Success
+                        {t.jobSuccess}
                         <svg
                             class="success-mark__underline"
                             viewBox="0 0 240 18"
@@ -96,7 +102,7 @@ import TopRatedPlus from "../TopRatedPlus.astro";
                             class="btn-primary"
                             id="hero-cta-primary"
                         >
-                            <span>View My Work</span>
+                            <span>{t.viewWork}</span>
                             <svg
                                 class="w-4 h-4"
                                 fill="none"
@@ -110,7 +116,7 @@ import TopRatedPlus from "../TopRatedPlus.astro";
                                     d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </a>
-                        <ResumeButton />
+                        <ResumeButton locale={locale} />
                     </div>
                 </div>
             </div>
@@ -162,16 +168,29 @@ import TopRatedPlus from "../TopRatedPlus.astro";
                             </div>
                         </div>
 
-                        <!-- Name Tag -->
+                        <!-- Location Tag -->
                         <div
                             class="absolute -bottom-6 left-0 right-0 flex justify-center"
                         >
                             <div
-                                class="px-6 py-3 bg-black border border-white/10"
+                                class="flex items-center gap-2.5 px-5 py-3 bg-black border border-white/10"
                             >
+                                <svg
+                                    class="h-4 w-4 shrink-0 text-accent"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.7"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"></path>
+                                    <circle cx="12" cy="10" r="2.5"></circle>
+                                </svg>
                                 <span
-                                    class="text-xs uppercase tracking-[0.3em] text-muted"
-                                    >Youssef Dhibi</span
+                                    class="text-[0.65rem] sm:text-xs uppercase tracking-[0.18em] sm:tracking-[0.22em] text-muted whitespace-nowrap"
+                                    >{locale === "fr" ? "Basé en Tunisie" : "Based in Tunisia"}</span
                                 >
                             </div>
                         </div>
@@ -185,7 +204,7 @@ import TopRatedPlus from "../TopRatedPlus.astro";
     <div
         class="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 scroll-indicator"
     >
-        <span class="text-xs uppercase tracking-widest text-muted">Scroll</span>
+        <span class="text-xs uppercase tracking-widest text-muted">{t.scroll}</span>
         <svg
             class="w-4 h-4 text-muted"
             fill="none"

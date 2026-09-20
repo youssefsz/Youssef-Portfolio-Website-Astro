@@ -1,6 +1,7 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { ProjectCard } from "./CarouselProjectCard";
-import { cn } from "../../lib/utils";
+import { CarouselControls } from "./CarouselControls";
+import { useSnapCarousel } from "./useSnapCarousel";
 
 interface Project {
   title: string;
@@ -14,49 +15,55 @@ interface Project {
 
 interface ProjectCarouselProps {
   projects: Project[];
+  locale?: "en" | "fr";
 }
 
-export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const handleScroll = () => {
-    if (!scrollContainerRef.current) return;
-    const { scrollLeft, clientWidth } = scrollContainerRef.current;
-    const index = Math.round(scrollLeft / clientWidth);
-    setActiveIndex(index);
-  };
-
-  const scrollTo = (index: number) => {
-    if (!scrollContainerRef.current) return;
-    const width = scrollContainerRef.current.clientWidth;
-    scrollContainerRef.current.scrollTo({
-      left: width * index,
-      behavior: "smooth",
-    });
-  };
-
-  const handlePrev = () => {
-    scrollTo(Math.max(0, activeIndex - 1));
-  };
-
-  const handleNext = () => {
-    scrollTo(Math.min(projects.length - 1, activeIndex + 1));
-  };
+export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects, locale = "en" }) => {
+  const labels = locale === "fr"
+    ? { controls: "Navigation des projets", previous: "Projet précédent", next: "Projet suivant", position: (current: number, total: number) => `Projet ${current} sur ${total}` }
+    : { controls: "Project carousel controls", previous: "Previous project", next: "Next project", position: (current: number, total: number) => `Project ${current} of ${total}` };
+  const {
+    activeIndex,
+    handleNext,
+    handlePrevious,
+    handleScroll,
+    scrollContainerRef,
+  } = useSnapCarousel(projects.length);
+  const trackId = "project-carousel-track";
 
   return (
-    <div className="relative w-full">
-      {/* Carousel Container */}
+    <div className="relative w-full min-w-0 max-w-full">
+      <CarouselControls
+        activeIndex={activeIndex}
+        total={projects.length}
+        onPrevious={handlePrevious}
+        onNext={handleNext}
+        previousLabel={labels.previous}
+        nextLabel={labels.next}
+        positionLabel={labels.position(activeIndex + 1, projects.length)}
+        controlsId={trackId}
+        ariaLabel={labels.controls}
+        className="mb-5"
+      />
+
       <div
+        id={trackId}
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="flex w-full snap-x snap-mandatory overflow-x-auto scrollbar-hide pb-4"
+        className="flex w-full min-w-0 max-w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scrollbar-hide pb-4"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        role="region"
+        aria-roledescription="carousel"
+        aria-label={locale === "fr" ? "Projets sélectionnés" : "Selected projects"}
       >
         {projects.map((project, index) => (
           <div
             key={index}
-            className="w-full flex-shrink-0 snap-center px-4 sm:px-0"
+            className="box-border w-full min-w-0 basis-full flex-shrink-0 select-none snap-start [scroll-snap-stop:always]"
+            data-carousel-slide
+            role="group"
+            aria-roledescription="slide"
+            aria-label={labels.position(index + 1, projects.length)}
           >
             <div className="h-full w-full">
               <ProjectCard
@@ -68,79 +75,13 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects }) =>
                 sizes={project.sizes}
                 link={project.link}
                 className="h-full w-full"
+                locale={locale}
               />
             </div>
           </div>
         ))}
       </div>
 
-      {/* Controls */}
-      <div className="mt-4 flex items-center justify-between px-4">
-        {/* Dots */}
-        <div className="flex items-center gap-1">
-          {projects.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => scrollTo(index)}
-              className="flex min-h-[48px] min-w-8 items-center justify-center px-1"
-              aria-label={`Go to project slide ${index + 1}`}
-            >
-              <span
-                className={cn(
-                  "block h-1.5 rounded-full transition-all duration-300",
-                  index === activeIndex
-                    ? "w-8 bg-accent"
-                    : "w-1.5 bg-white/20 hover:bg-white/40"
-                )}
-              />
-            </button>
-          ))}
-        </div>
-
-        {/* Arrows */}
-        <div className="flex space-x-3">
-          <button
-            onClick={handlePrev}
-            disabled={activeIndex === 0}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition-colors hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed"
-            aria-label="Previous slide"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-          <button
-            onClick={handleNext}
-            disabled={activeIndex === projects.length - 1}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white transition-colors hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed"
-            aria-label="Next slide"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
     </div>
   );
 };

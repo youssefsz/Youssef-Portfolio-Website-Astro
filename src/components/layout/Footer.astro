@@ -1,5 +1,11 @@
 ---
 const currentYear = new Date().getFullYear();
+import type { Locale } from "../../i18n/content";
+import { siteContent } from "../../i18n/content";
+
+interface Props { locale?: Locale }
+const { locale = "en" } = Astro.props;
+const t = siteContent[locale];
 ---
 
 <footer class="py-20 relative border-t border-white/5">
@@ -99,7 +105,7 @@ const currentYear = new Date().getFullYear();
             class="flex flex-col md:flex-row items-center justify-center gap-4"
         >
             <p class="text-xs text-muted text-center">
-                © {currentYear} Youssef Dhibi. All rights reserved.
+                © {currentYear} Youssef Dhibi. {t.footerRights}
             </p>
             <span class="hidden md:block h-4 w-[1px] bg-white/10"></span>
             <a
@@ -119,7 +125,7 @@ const currentYear = new Date().getFullYear();
                 </svg>
                 <span
                     class="text-[10px] uppercase tracking-wider font-medium text-white/70 group-hover:text-white transition-colors"
-                    >Open Source</span
+                    >{t.sourceCode}</span
                 >
             </a>
         </div>

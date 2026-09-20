@@ -1,0 +1,60 @@
+---
+import type { Locale } from "../i18n/content";
+import { getProjects, siteContent } from "../i18n/content";
+import Layout from "../layouts/Layout.astro";
+import Footer from "./layout/Footer.astro";
+import ProjectCard from "./ProjectCard.astro";
+import LanguageToggle from "./layout/LanguageToggle.astro";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = siteContent[locale];
+const copy = t.allProjects;
+const projects = getProjects(locale);
+---
+
+<Layout title={copy.title} description={copy.description} lang={locale} alternatePath={t.alternateProjectsPath} jobTitle={t.jobTitle}>
+  <main class="min-h-screen">
+    <section class="pt-24 pb-16 relative">
+      <div class="absolute inset-0 grid-bg opacity-20"></div>
+      <div class="container-main relative z-10">
+        <div class="flex items-center justify-between gap-4 mb-12">
+          <a href={t.homePath} class="inline-flex items-center gap-2 text-muted text-sm hover:text-accent transition-colors group">
+            <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            <span>{copy.back}</span>
+          </a>
+          <LanguageToggle locale={locale} englishPath="/projects/" frenchPath="/fr/projects/" />
+        </div>
+        <div class="text-center">
+          <div class="number-display mb-4">// {projects.length} {copy.count}</div>
+          <h1 class="display-lg mb-6">
+            <span class="block">{copy.top}</span>
+            <span class="text-outline-hover"><span class="outline-text">{copy.bottom}</span><span class="filled-text" aria-hidden="true">{copy.bottom}</span></span>
+          </h1>
+          <p class="text-muted text-lg max-w-2xl mx-auto">{copy.intro}</p>
+        </div>
+      </div>
+    </section>
+    <section class="py-20 relative">
+      <div class="container-main relative z-10">
+        <h2 class="sr-only">{copy.catalog}</h2>
+        <noscript>
+          <div class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {projects.map((project) => <div class="p-6 border rounded-lg"><h2 class="text-xl font-bold mb-2"><a href={project.link}>{project.title}</a></h2><p class="mb-4">{project.description}</p><span class="text-sm text-gray-500">{project.category}</span></div>)}
+          </div>
+        </noscript>
+        <div class="projects-grid-full">
+          {projects.map((project) => <div class="project-card-wrapper"><ProjectCard {...project} locale={locale} /></div>)}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer locale={locale} />
+</Layout>
+
+<style>
+  .projects-grid-full { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; }
+  .projects-grid-full :global(.project-card-wrapper) { flex: 0 1 400px; max-width: 450px; min-width: min(100%, 320px); }
+  .projects-grid-full :global(.project-card-wrapper > article) { height: 100%; width: 100%; }
+  @media (max-width: 640px) { .projects-grid-full :global(.project-card-wrapper) { flex: 1 1 100%; max-width: 100%; } }
+</style>

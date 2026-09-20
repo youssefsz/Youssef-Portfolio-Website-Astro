@@ -1,8 +1,15 @@
 ---
 import ProjectCard from "../ProjectCard.astro";
-import { projects, MAX_HOMEPAGE_PROJECTS } from "../../data/projects";
+import { MAX_HOMEPAGE_PROJECTS } from "../../data/projects";
 import { ProjectCarousel } from "../ui/ProjectCarousel";
 import { getImage } from "astro:assets";
+import type { Locale } from "../../i18n/content";
+import { getProjects, siteContent } from "../../i18n/content";
+
+interface Props { locale?: Locale }
+const { locale = "en" } = Astro.props;
+const t = siteContent[locale];
+const projects = getProjects(locale);
 
 // Show only up to MAX_HOMEPAGE_PROJECTS on homepage
 const displayedProjects = projects.slice(0, MAX_HOMEPAGE_PROJECTS);
@@ -41,11 +48,11 @@ const carouselProjects = await Promise.all(
 
             <h2 class="display-lg mb-6">
                 <div>
-                    <span class="block">My</span>
+                    <span class="block">{t.sections.projectsTop}</span>
                     <span class="text-outline-hover">
-                        <span class="outline-text">Projects</span>
+                        <span class="outline-text">{t.sections.projectsBottom}</span>
                         <span class="filled-text" aria-hidden="true"
-                            >Projects</span
+                            >{t.sections.projectsBottom}</span
                         >
                     </span>
                 </div>
@@ -53,8 +60,7 @@ const carouselProjects = await Promise.all(
 
             <div>
                 <p class="text-muted text-lg max-w-2xl mx-auto">
-                    A collection of mobile and web applications built for impact.
-                    Click any project to learn more.
+                    {t.sections.projectsIntro}
                 </p>
             </div>
         </div>
@@ -62,7 +68,7 @@ const carouselProjects = await Promise.all(
         <!-- Mobile Carousel - Visible only on small screens -->
         <div class="block md:hidden mb-8">
             <div>
-                <ProjectCarousel client:visible projects={carouselProjects} />
+                <ProjectCarousel client:visible projects={carouselProjects} locale={locale} />
             </div>
         </div>
 
@@ -92,6 +98,7 @@ const carouselProjects = await Promise.all(
                                 category={project.category}
                                 image={project.image}
                                 link={project.link}
+                                locale={locale}
                             />
                         </div>
                     ))
@@ -104,11 +111,11 @@ const carouselProjects = await Promise.all(
             hasMoreProjects && (
                 <div class="mt-12 text-center flex justify-center w-full">
                     <div class="w-full sm:w-auto">
-                        <a href="/projects" class="btn-secondary group w-full py-3 px-4 text-xs sm:w-auto sm:py-4 sm:px-8 sm:text-sm">
+                        <a href={t.projectsPath} class="btn-secondary group w-full py-3 px-4 text-xs sm:w-auto sm:py-4 sm:px-8 sm:text-sm">
                             <span>
-                                Show All Projects{" "}
+                                {t.showAll}{" "}
                                 <span class="text-accent">
-                                    (+{remainingCount} more)
+                                    (+{remainingCount} {t.more})
                                 </span>
                             </span>
                             <svg

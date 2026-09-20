@@ -2,10 +2,15 @@
 // Contact Section - Simple CTA buttons
 import { Image } from "astro:assets";
 import upworkIcon from "../../assets/icons/upwork.svg";
+import type { Locale } from "../../i18n/content";
+import { siteContent } from "../../i18n/content";
 
 const email = "dhibi.ywsf@gmail.com";
 const phone = "+216 27 084 318";
 const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
+interface Props { locale?: Locale }
+const { locale = "en" } = Astro.props;
+const t = siteContent[locale];
 ---
 
 <section class="py-32 relative" id="contact">
@@ -18,10 +23,10 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
 
             <h2 class="display-lg mb-6">
                 <div>
-                    <span class="block">Get In</span>
+                    <span class="block">{t.sections.contactTop}</span>
                     <span class="text-outline-hover">
-                        <span class="outline-text">Touch</span>
-                        <span class="filled-text" aria-hidden="true">Touch</span
+                        <span class="outline-text">{t.sections.contactBottom}</span>
+                        <span class="filled-text" aria-hidden="true">{t.sections.contactBottom}</span
                         >
                     </span>
                 </div>
@@ -29,8 +34,7 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
 
             <div>
                 <p class="text-muted text-lg max-w-xl mx-auto">
-                    Ready to get started? Reach out through any of these
-                    channels.
+                    {t.sections.contactIntro}
                 </p>
             </div>
         </div>
@@ -57,7 +61,7 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
                     </svg>
                 </div>
                 <div class="text-xs uppercase tracking-wider text-muted mb-2">
-                    Email
+                    {t.contact.email}
                 </div>
                 <div class="contact-value-row">
                     <a
@@ -75,9 +79,12 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
                         type="button"
                         class="copy-button"
                         data-copy-value={email}
-                        data-copy-label="Email address"
-                        aria-label="Copy email address"
-                        title="Copy email address"
+                        data-copy-label={t.contact.emailAddress}
+                        data-copy-default={t.contact.copyEmail}
+                        data-copy-success={locale === "fr" ? "Adresse e-mail copiée" : "Email address copied"}
+                        data-copy-error={locale === "fr" ? "Impossible de copier l’adresse e-mail" : "Could not copy email address"}
+                        aria-label={t.contact.copyEmail}
+                        title={t.contact.copyEmail}
                     >
                         <svg
                             class="copy-icon"
@@ -128,7 +135,7 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
                     </svg>
                 </div>
                 <div class="text-xs uppercase tracking-wider text-muted mb-2">
-                    Phone
+                    {t.contact.phone}
                 </div>
                 <div class="contact-value-row">
                     <a
@@ -146,9 +153,12 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
                         type="button"
                         class="copy-button"
                         data-copy-value={phone}
-                        data-copy-label="Phone number"
-                        aria-label="Copy phone number"
-                        title="Copy phone number"
+                        data-copy-label={t.contact.phoneNumber}
+                        data-copy-default={t.contact.copyPhone}
+                        data-copy-success={locale === "fr" ? "Numéro de téléphone copié" : "Phone number copied"}
+                        data-copy-error={locale === "fr" ? "Impossible de copier le numéro de téléphone" : "Could not copy phone number"}
+                        aria-label={t.contact.copyPhone}
+                        title={t.contact.copyPhone}
                     >
                         <svg
                             class="copy-icon"
@@ -207,7 +217,7 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
                     <div
                         class="text-white font-medium group-hover:text-accent transition-colors flex items-center gap-2"
                     >
-                        Visit Profile
+                        {t.contact.visitProfile}
                         <svg
                             class="w-4 h-4"
                             fill="none"
@@ -409,6 +419,9 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
                 button.addEventListener("click", async () => {
                     const value = button.dataset.copyValue;
                     const label = button.dataset.copyLabel ?? "Contact detail";
+                    const defaultLabel = button.dataset.copyDefault ?? `Copy ${label.toLowerCase()}`;
+                    const successLabel = button.dataset.copySuccess ?? `${label} copied`;
+                    const errorLabel = button.dataset.copyError ?? `Could not copy ${label.toLowerCase()}`;
                     const status = button.querySelector<HTMLElement>(
                         "[data-copy-status]",
                     );
@@ -417,9 +430,9 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
                     try {
                         await copyText(value);
                         button.classList.add("is-copied");
-                        button.setAttribute("aria-label", `${label} copied`);
-                        button.title = `${label} copied`;
-                        if (status) status.textContent = `${label} copied`;
+                        button.setAttribute("aria-label", successLabel);
+                        button.title = successLabel;
+                        if (status) status.textContent = successLabel;
 
                         const activeTimer = resetTimers.get(button);
                         if (activeTimer) window.clearTimeout(activeTimer);
@@ -430,19 +443,19 @@ const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
                                 button.classList.remove("is-copied");
                                 button.setAttribute(
                                     "aria-label",
-                                    `Copy ${label.toLowerCase()}`,
+                                    defaultLabel,
                                 );
-                                button.title = `Copy ${label.toLowerCase()}`;
+                                button.title = defaultLabel;
                                 if (status) status.textContent = "";
                             }, 1800),
                         );
                     } catch {
                         button.setAttribute(
                             "aria-label",
-                            `Could not copy ${label.toLowerCase()}`,
+                            errorLabel,
                         );
                         if (status) {
-                            status.textContent = `Could not copy ${label.toLowerCase()}`;
+                            status.textContent = errorLabel;
                         }
                     }
                 });

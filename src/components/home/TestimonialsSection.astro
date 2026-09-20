@@ -1,5 +1,12 @@
 ---
 import { TestimonialsMarquee } from "../ui/TestimonialsMarquee";
+import type { Locale } from "../../i18n/content";
+import { getTestimonials, siteContent } from "../../i18n/content";
+
+interface Props { locale?: Locale }
+const { locale = "en" } = Astro.props;
+const t = siteContent[locale];
+const testimonials = getTestimonials(locale);
 ---
 
 <section class="py-32 relative overflow-hidden" id="testimonials">
@@ -15,23 +22,23 @@ import { TestimonialsMarquee } from "../ui/TestimonialsMarquee";
 
       <h2 class="display-lg mb-6">
         <div>
-          <span class="block">Client</span>
+          <span class="block">{t.sections.testimonialsTop}</span>
           <span class="text-outline-hover">
-            <span class="outline-text">Testimonials</span>
-            <span class="filled-text" aria-hidden="true">Testimonials</span>
+            <span class="outline-text">{t.sections.testimonialsBottom}</span>
+            <span class="filled-text" aria-hidden="true">{t.sections.testimonialsBottom}</span>
           </span>
         </div>
       </h2>
 
       <div>
         <p class="text-muted text-lg max-w-2xl mx-auto">
-          What my clients say about working with me.
+          {t.sections.testimonialsIntro}
         </p>
       </div>
     </div>
 
     <div>
-      <TestimonialsMarquee client:visible />
+      <TestimonialsMarquee client:visible testimonials={testimonials} locale={locale} />
     </div>
   </div>
 </section>

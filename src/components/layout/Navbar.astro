@@ -1,6 +1,14 @@
 ---
 // Navbar Component - Clean minimal navigation
 import Logo from "./Logo.astro";
+import LanguageToggle from "./LanguageToggle.astro";
+import type { Locale } from "../../i18n/content";
+import { siteContent } from "../../i18n/content";
+
+interface Props { locale?: Locale }
+const { locale = "en" } = Astro.props;
+const t = siteContent[locale];
+const [home, projects, skills, experience, testimonials, contact] = t.nav;
 ---
 
 <nav
@@ -10,86 +18,78 @@ import Logo from "./Logo.astro";
         <div class="flex items-center justify-between h-20">
             <!-- Logo -->
             <a
-                href="/"
+                href={t.homePath}
                 class="flex items-center gap-2 group"
                 id="nav-logo"
-                aria-label="YD — Home"
+                aria-label={`YD — ${home}`}
             >
                 <Logo />
             </a>
 
             <!-- Navigation Links - Desktop -->
-            <div class="hidden lg:flex items-center gap-8">
+            <div class="hidden xl:flex items-center gap-7">
                 <a
                     href="#home"
                     class="link-hover text-sm uppercase tracking-wider font-medium"
                     id="nav-home"
                 >
-                    Home
+                    {home}
                 </a>
                 <a
                     href="#projects"
                     class="link-hover text-sm uppercase tracking-wider font-medium"
                     id="nav-projects"
                 >
-                    Projects
+                    {projects}
                 </a>
                 <a
                     href="#skills"
                     class="link-hover text-sm uppercase tracking-wider font-medium"
                     id="nav-skills"
                 >
-                    Skills
+                    {skills}
                 </a>
                 <a
                     href="#experience"
                     class="link-hover text-sm uppercase tracking-wider font-medium"
                     id="nav-experience"
                 >
-                    Experience
+                    {experience}
                 </a>
                 <a
                     href="#testimonials"
                     class="link-hover text-sm uppercase tracking-wider font-medium"
                     id="nav-testimonials"
                 >
-                    Testimonials
+                    {testimonials}
                 </a>
                 <a
                     href="#contact"
                     class="link-hover text-sm uppercase tracking-wider font-medium"
                     id="nav-contact"
                 >
-                    Contact
+                    {contact}
                 </a>
             </div>
 
-            <!-- CTA Button -->
-            <a
-                href="#projects"
-                class="btn-secondary hidden lg:inline-flex text-xs py-3 px-6"
-                id="nav-cta"
-            >
-                <span>Explore Projects</span>
-            </a>
-
-            <!-- Mobile Menu Button -->
-            <button
-                class="lg:hidden w-10 h-10 flex items-center justify-center border border-white/10"
-                id="mobile-menu-btn"
-                aria-label="Toggle menu"
-                aria-controls="mobile-menu-drawer"
-                aria-expanded="false"
-            >
-                <div class="space-y-1.5">
-                    <span
-                        class="block w-5 h-0.5 bg-white transition-all"
-                        id="menu-line-1"></span>
-                    <span
-                        class="block w-5 h-0.5 bg-white transition-all"
-                        id="menu-line-2"></span>
-                </div>
-            </button>
+            <div class="flex items-center gap-2 xl:gap-3">
+                <LanguageToggle locale={locale} englishPath="/" frenchPath="/fr/" />
+                <a href="#projects" class="btn-secondary hidden xl:inline-flex text-xs py-3 px-6" id="nav-cta">
+                    <span>{t.exploreProjects}</span>
+                </a>
+                <button
+                    class="xl:hidden w-10 h-10 flex items-center justify-center border border-white/10"
+                    id="mobile-menu-btn"
+                    aria-label={t.toggleMenu}
+                    aria-controls="mobile-menu-drawer"
+                    aria-expanded="false"
+                >
+                    <div class="space-y-1.5">
+                        <span class="block w-5 h-0.5 bg-white transition-all" id="menu-line-1"></span>
+                        <span class="block w-5 h-0.5 bg-white transition-all" id="menu-line-2"></span>
+                    </div>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -110,12 +110,12 @@ import Logo from "./Logo.astro";
             class="p-6 flex justify-between items-center border-b border-white/5"
         >
             <span class="text-xl font-bold uppercase tracking-wider text-white"
-                >Menu</span
+                >{t.menu}</span
             >
             <button
                 id="close-menu-btn"
                 class="p-2 text-white/70 hover:text-white transition-colors"
-                aria-label="Close menu"
+                aria-label={t.closeMenu}
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -138,32 +138,32 @@ import Logo from "./Logo.astro";
             <a
                 href="#home"
                 class="mobile-nav-link text-2xl font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors"
-                >Home</a
+                >{home}</a
             >
             <a
                 href="#projects"
                 class="mobile-nav-link text-2xl font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors"
-                >Projects</a
+                >{projects}</a
             >
             <a
                 href="#skills"
                 class="mobile-nav-link text-2xl font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors"
-                >Skills</a
+                >{skills}</a
             >
             <a
                 href="#experience"
                 class="mobile-nav-link text-2xl font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors"
-                >Experience</a
+                >{experience}</a
             >
             <a
                 href="#testimonials"
                 class="mobile-nav-link text-2xl font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors"
-                >Testimonials</a
+                >{testimonials}</a
             >
             <a
                 href="#contact"
                 class="mobile-nav-link text-2xl font-bold uppercase tracking-widest text-white/80 hover:text-white transition-colors"
-                >Contact</a
+                >{contact}</a
             >
         </nav>
 
@@ -270,7 +270,7 @@ import Logo from "./Logo.astro";
                 href="#contact"
                 class="mobile-nav-link btn-primary w-full text-center flex items-center justify-center gap-2"
             >
-                <span>Let's Talk</span>
+                <span>{t.letsTalk}</span>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"

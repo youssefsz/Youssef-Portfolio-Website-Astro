@@ -1,0 +1,45 @@
+---
+import type { Locale } from "../i18n/content";
+import { siteContent } from "../i18n/content";
+import Layout from "../layouts/Layout.astro";
+import Navbar from "./layout/Navbar.astro";
+import HeroSection from "./home/HeroSection.astro";
+import ProjectsSection from "./home/ProjectsSection.astro";
+import SkillsSection from "./home/SkillsSection.astro";
+import ExperienceSection from "./home/ExperienceSection.astro";
+import TestimonialsSection from "./home/TestimonialsSection.astro";
+import ContactSection from "./home/ContactSection.astro";
+import Footer from "./layout/Footer.astro";
+import ScrollTop from "./layout/ScrollTop.astro";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const content = siteContent[locale];
+---
+
+<Layout title={content.title} description={content.description} lang={locale} alternatePath={content.alternateHomePath} jobTitle={content.jobTitle}>
+  <Navbar locale={locale} />
+  <main>
+    <HeroSection locale={locale} />
+    <div class="section-divider"></div>
+    <ProjectsSection locale={locale} />
+    <div class="section-divider"></div>
+    <SkillsSection locale={locale} />
+    <div class="section-divider"></div>
+    <ExperienceSection locale={locale} />
+    <div class="section-divider"></div>
+    <TestimonialsSection locale={locale} />
+    <div class="section-divider"></div>
+    <ContactSection locale={locale} />
+  </main>
+  <ScrollTop locale={locale} />
+  <Footer locale={locale} />
+</Layout>
+
+<style is:global>
+  html { scroll-behavior: smooth; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+</style>

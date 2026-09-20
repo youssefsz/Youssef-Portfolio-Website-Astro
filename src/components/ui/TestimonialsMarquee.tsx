@@ -1,12 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/ui/marquee";
 import { TestimonialCarousel } from "@/components/ui/TestimonialCarousel";
-import { testimonials, type Testimonial } from "@/data/testimonials";
-
-const firstRow = testimonials.slice(0, testimonials.length / 2);
-const secondRow = testimonials.slice(testimonials.length / 2);
-const thirdRow = testimonials.slice(0, testimonials.length / 2);
-const fourthRow = testimonials.slice(testimonials.length / 2);
+import type { Testimonial } from "@/data/testimonials";
 
 const ReviewCard = ({
   img,
@@ -66,7 +61,11 @@ const ReviewCard = ({
   );
 };
 
-export function TestimonialsMarquee() {
+export function TestimonialsMarquee({ testimonials, locale = "en" }: { testimonials: Testimonial[]; locale?: "en" | "fr" }) {
+  const firstRow = testimonials.slice(0, testimonials.length / 2);
+  const secondRow = testimonials.slice(testimonials.length / 2);
+  const thirdRow = testimonials.slice(0, testimonials.length / 2);
+  const fourthRow = testimonials.slice(testimonials.length / 2);
   return (
     <>
       {/* Desktop View - Vertical Marquees */}
@@ -101,8 +100,8 @@ export function TestimonialsMarquee() {
       </div>
 
       {/* Mobile View - Carousel */}
-      <div className="relative flex w-full flex-col items-center justify-center gap-4 overflow-hidden md:hidden py-10">
-        <TestimonialCarousel testimonials={testimonials} />
+      <div className="relative flex w-full min-w-0 max-w-full flex-col items-center justify-center gap-4 py-10 md:hidden">
+        <TestimonialCarousel testimonials={testimonials} locale={locale} />
       </div>
     </>
   );

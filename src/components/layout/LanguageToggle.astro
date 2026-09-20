@@ -1,0 +1,150 @@
+---
+import type { Locale } from "../../i18n/content";
+
+interface Props {
+    locale: Locale;
+    englishPath: string;
+    frenchPath: string;
+    class?: string;
+}
+
+const { locale, englishPath, frenchPath, class: className = "" } = Astro.props;
+const isFrench = locale === "fr";
+const targetPath = isFrench ? englishPath : frenchPath;
+const targetLanguage = isFrench ? "en" : "fr";
+const ariaLabel = isFrench ? "Passer en anglais" : "Switch to French";
+---
+
+<a
+    href={targetPath}
+    hreflang={targetLanguage}
+    lang={targetLanguage}
+    aria-label={ariaLabel}
+    title={ariaLabel}
+    data-astro-prefetch
+    class:list={["language-toggle", { "is-french": isFrench }, className]}
+>
+    <svg class="language-toggle__icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <circle cx="12" cy="12" r="9"></circle>
+        <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path>
+    </svg>
+    <span class="language-toggle__track" aria-hidden="true">
+        <span class:list={["language-toggle__label", { "is-active": !isFrench }]}>EN</span>
+        <span class:list={["language-toggle__label", { "is-active": isFrench }]}>FR</span>
+        <span class="language-toggle__thumb" transition:name="language-toggle-thumb"></span>
+    </span>
+</a>
+
+<style>
+    .language-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        min-height: 2.5rem;
+        padding: 0.25rem 0.3rem 0.25rem 0.6rem;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.04);
+        color: rgba(255, 255, 255, 0.58);
+        cursor: pointer;
+        user-select: none;
+        white-space: nowrap;
+        transition: border-color 160ms ease, background-color 160ms ease;
+    }
+
+    .language-toggle:hover {
+        border-color: rgba(255, 255, 255, 0.28);
+        background: rgba(255, 255, 255, 0.07);
+    }
+
+    .language-toggle:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+    }
+
+    .language-toggle__icon {
+        width: 1rem;
+        height: 1rem;
+        flex: 0 0 auto;
+    }
+
+    .language-toggle__track {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(2, 2rem);
+        height: 2rem;
+        align-items: center;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.05);
+        overflow: hidden;
+    }
+
+    .language-toggle__label {
+        position: relative;
+        z-index: 2;
+        display: inline-flex;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.55);
+        font-size: 0.66rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        line-height: 1;
+        transition: color 240ms ease;
+    }
+
+    .language-toggle__label.is-active {
+        color: #000;
+    }
+
+    .language-toggle__thumb {
+        position: absolute;
+        z-index: 1;
+        top: 0.15rem;
+        left: 0.15rem;
+        width: 1.7rem;
+        height: 1.7rem;
+        border-radius: 999px;
+        background: #fff;
+        box-shadow: 0 1px 8px rgba(255, 255, 255, 0.15);
+        transform: translateX(0);
+        transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .language-toggle.is-french .language-toggle__thumb {
+        transform: translateX(2rem);
+    }
+
+    :global(::view-transition-group(language-toggle-thumb)) {
+        animation-duration: 260ms;
+        animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @media (max-width: 380px) {
+        .language-toggle {
+            gap: 0.25rem;
+            padding-left: 0.4rem;
+        }
+
+        .language-toggle__track {
+            grid-template-columns: repeat(2, 1.85rem);
+        }
+
+        .language-toggle.is-french .language-toggle__thumb {
+            transform: translateX(1.85rem);
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .language-toggle,
+        .language-toggle__label,
+        .language-toggle__thumb {
+            transition: none;
+        }
+
+        :global(::view-transition-group(language-toggle-thumb)) {
+            animation-duration: 1ms;
+        }
+    }
+</style>

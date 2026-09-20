@@ -1,6 +1,12 @@
 ---
-import { experience, education } from "../../data/experience";
 import TopRatedPlus from "../TopRatedPlus.astro";
+import type { Locale } from "../../i18n/content";
+import { getExperience, siteContent } from "../../i18n/content";
+
+interface Props { locale?: Locale }
+const { locale = "en" } = Astro.props;
+const t = siteContent[locale];
+const { experience, education } = getExperience(locale);
 ---
 
 <section class="py-32 relative" id="experience">
@@ -16,17 +22,17 @@ import TopRatedPlus from "../TopRatedPlus.astro";
 
       <h2 class="display-lg mb-6">
         <div>
-          <span class="block">Experience &</span>
+          <span class="block">{t.sections.experienceTop}</span>
           <span class="text-outline-hover">
-            <span class="outline-text">Education</span>
-            <span class="filled-text" aria-hidden="true">Education</span>
+            <span class="outline-text">{t.sections.experienceBottom}</span>
+            <span class="filled-text" aria-hidden="true">{t.sections.experienceBottom}</span>
           </span>
         </div>
       </h2>
 
       <div>
         <p class="text-muted text-lg max-w-2xl mx-auto">
-          My professional journey and academic background.
+          {t.sections.experienceIntro}
         </p>
       </div>
     </div>
@@ -36,7 +42,7 @@ import TopRatedPlus from "../TopRatedPlus.astro";
       <div class="flex flex-col gap-10">
         <div>
           <h3 class="text-2xl font-bold mb-6 flex items-center justify-center gap-3">
-            <span class="text-accent">//</span> Experience
+            <span class="text-accent">//</span> {t.sections.experienceLabel}
           </h3>
         </div>
 
@@ -91,7 +97,7 @@ import TopRatedPlus from "../TopRatedPlus.astro";
                                 rel="noopener noreferrer"
                                 class="inline-flex items-center gap-2 text-sm font-medium text-accent hover:text-white transition-colors group/link"
                             >
-                                <span>View Profile</span>
+                                <span>{t.sections.viewProfile}</span>
                                 <svg
                                     class="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform"
                                     fill="none"
@@ -119,7 +125,7 @@ import TopRatedPlus from "../TopRatedPlus.astro";
       <div class="flex flex-col gap-10">
         <div>
             <h3 class="text-2xl font-bold mb-6 flex items-center justify-center gap-3">
-                <span class="text-accent">//</span> Education
+                <span class="text-accent">//</span> {t.sections.educationLabel}
             </h3>
         </div>
 

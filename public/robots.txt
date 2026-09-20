@@ -1,6 +1,7 @@
 # Allow all crawlers, including AI and LLM agents (GPTBot, CCBot, Google-Extended, etc.)
 User-agent: *
 Allow: /
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 
 # Sitemap
 Sitemap: https://youssef.tn/sitemap-index.xml

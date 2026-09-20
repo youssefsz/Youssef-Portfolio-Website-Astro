@@ -9,19 +9,27 @@ interface Props {
     title?: string;
     description?: string;
     image?: string;
+    lang?: "en" | "fr";
+    alternatePath?: string;
+    jobTitle?: string;
 }
 
 const {
     title = "Youssef Dhibi | Full-Stack Developer",
     description = "Youssef Dhibi is a full-stack developer in Tunisia building web, mobile, desktop, and CLI applications. Top Rated Plus on Upwork with 100% Job Success.",
     image = "/og-img.png",
+    lang = "en",
+    alternatePath,
+    jobTitle = "Full-Stack Developer",
 } = Astro.props;
 
 const siteUrl = "https://youssef.tn";
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const alternateLang = lang === "en" ? "fr" : "en";
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -48,8 +56,11 @@ const siteUrl = "https://youssef.tn";
         <!-- Canonical URL -->
         <link
             rel="canonical"
-            href={new URL(Astro.url.pathname, siteUrl).href}
+            href={canonicalUrl}
         />
+        {alternatePath && <link rel="alternate" hreflang={lang} href={canonicalUrl} />}
+        {alternatePath && <link rel="alternate" hreflang={alternateLang} href={new URL(alternatePath, siteUrl).href} />}
+        {alternatePath && <link rel="alternate" hreflang="x-default" href={new URL(lang === "en" ? Astro.url.pathname : alternatePath, siteUrl).href} />}
 
         <!-- SEO Meta Tags -->
         <title>{title}</title>
@@ -61,11 +72,12 @@ const siteUrl = "https://youssef.tn";
         <meta property="og:type" content="website" />
         <meta
             property="og:url"
-            content={new URL(Astro.url.pathname, siteUrl).href}
+            content={canonicalUrl}
         />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:site_name" content="Youssef Dhibi" />
+        <meta property="og:locale" content={lang === "fr" ? "fr_FR" : "en_US"} />
         <meta property="og:image" content={new URL(image, siteUrl).href} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -95,12 +107,33 @@ const siteUrl = "https://youssef.tn";
                         url: siteUrl,
                         description: description,
                         image: new URL(image, siteUrl).href,
+                        inLanguage: lang,
                     },
                     {
                         "@type": "Person",
                         name: "Youssef Dhibi",
                         url: siteUrl,
-                        jobTitle: "Full-Stack Developer",
+                        jobTitle,
+                        knowsLanguage: ["English", "French", "Arabic"],
+                        address: {
+                            "@type": "PostalAddress",
+                            addressCountry: "TN",
+                        },
+                        areaServed: ["Tunisia", "Worldwide"],
+                        knowsAbout: [
+                            "Full-stack development",
+                            "Web application development",
+                            "Mobile application development",
+                            "Desktop application development",
+                            "Command-line tools",
+                            "AI integrations",
+                            "Flutter",
+                            "SwiftUI",
+                            "React",
+                            "Astro",
+                            "Node.js",
+                            "Rust",
+                        ],
                         image: new URL(image, siteUrl).href,
                         sameAs: [
                             "https://github.com/youssefsz",

@@ -1,5 +1,11 @@
 ---
-import { skills } from "../../data/skills";
+import type { Locale } from "../../i18n/content";
+import { getSkills, siteContent } from "../../i18n/content";
+
+interface Props { locale?: Locale }
+const { locale = "en" } = Astro.props;
+const t = siteContent[locale];
+const skills = getSkills(locale);
 ---
 
 <section class="py-32 relative" id="skills">
@@ -15,17 +21,17 @@ import { skills } from "../../data/skills";
 
       <h2 class="display-lg mb-6">
         <div>
-          <span class="block">My</span>
+          <span class="block">{t.sections.skillsTop}</span>
           <span class="text-outline-hover">
-            <span class="outline-text">Skills</span>
-            <span class="filled-text" aria-hidden="true">Skills</span>
+            <span class="outline-text">{t.sections.skillsBottom}</span>
+            <span class="filled-text" aria-hidden="true">{t.sections.skillsBottom}</span>
           </span>
         </div>
       </h2>
 
       <div>
         <p class="text-muted text-lg max-w-2xl mx-auto">
-          A comprehensive toolkit I use to build high-quality software solutions.
+          {t.sections.skillsIntro}
         </p>
       </div>
     </div>
@@ -52,12 +58,12 @@ import { skills } from "../../data/skills";
                     target="_blank" 
                     rel="noopener noreferrer"
                     class="flex items-center gap-3 group/skill cursor-pointer"
-                    aria-label={`Visit ${skill.name} website`}
+                    aria-label={locale === "fr" ? `Visiter le site de ${skill.name}` : `Visit ${skill.name} website`}
                   >
                     <div class="image-skeleton is-loading relative w-10 h-10 flex-shrink-0 flex items-center justify-center transition-transform duration-300 group-hover/skill:scale-110">
                       <img 
                         src={skill.icon} 
-                        alt={`${skill.name} logo`} 
+                        alt={locale === "fr" ? `Logo ${skill.name}` : `${skill.name} logo`}
                         class={`w-8 h-8 object-contain ${skill.className || ''}`}
                         loading="lazy"
                         width="32"

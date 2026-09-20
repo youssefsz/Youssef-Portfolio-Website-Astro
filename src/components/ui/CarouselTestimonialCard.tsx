@@ -17,14 +17,14 @@ export const CarouselTestimonialCard: React.FC<CarouselTestimonialCardProps> = (
   return (
     <figure
       className={cn(
-        "group relative h-full w-full cursor-pointer overflow-hidden rounded-xl border p-6 transition-all duration-300",
-        "bg-white/5 border-white/10 hover:border-blue-500/30 hover:bg-blue-500/5 backdrop-blur-sm",
+        "group relative h-full w-full min-w-0 max-w-full cursor-pointer overflow-hidden rounded-xl border p-4 transition-all duration-300 sm:p-6",
+        "bg-white/5 border-white/10 hover:border-blue-500/30 hover:bg-blue-500/5",
         className
       )}
     >
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-blue-400/5 to-transparent -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       
-      <figcaption className="flex flex-row items-center gap-3">
+      <figcaption className="flex min-w-0 flex-row items-center gap-3">
         <span className="image-skeleton is-loading h-10 w-10 shrink-0 rounded-full border border-white/10 bg-gray-800">
           <img
             className="h-full w-full rounded-full object-cover"
@@ -40,11 +40,11 @@ export const CarouselTestimonialCard: React.FC<CarouselTestimonialCardProps> = (
             }}
           />
         </span>
-        <div className="flex flex-col">
-          <span className="text-base font-bold text-white tracking-tight">
+        <div className="flex min-w-0 flex-col">
+          <span className="break-words text-base font-bold leading-tight text-white tracking-tight">
             {name}
           </span>
-          <p className="text-xs font-medium text-white/50">{project}</p>
+          <p className="break-words text-xs font-medium text-white/50">{project}</p>
         </div>
       </figcaption>
       <div className="mt-3 flex items-center gap-1">
@@ -61,7 +61,7 @@ export const CarouselTestimonialCard: React.FC<CarouselTestimonialCardProps> = (
             </svg>
         ))}
       </div>
-      <blockquote className="mt-4 text-sm leading-relaxed text-gray-300">{text}</blockquote>
+      <blockquote className="mt-4 break-words text-sm leading-relaxed text-gray-300 [overflow-wrap:anywhere]">{text}</blockquote>
     </figure>
   );
 };

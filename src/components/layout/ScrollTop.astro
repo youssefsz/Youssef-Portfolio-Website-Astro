@@ -1,11 +1,15 @@
 ---
 // Scroll to Top Component
+import type { Locale } from "../../i18n/content";
+import { siteContent } from "../../i18n/content";
+interface Props { locale?: Locale }
+const { locale = "en" } = Astro.props;
 ---
 
 <button
     id="scroll-to-top"
     class="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 z-[100] translate-y-20 opacity-0 transition-all duration-500 pointer-events-none group border border-white/80 bg-black flex items-center justify-center w-12 h-12 cursor-pointer"
-    aria-label="Scroll to top"
+    aria-label={siteContent[locale].scrollTop}
 >
     <div class="relative z-10">
         <svg

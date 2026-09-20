@@ -10,6 +10,7 @@ interface ProjectCardProps {
   sizes?: string;
   link?: string;
   className?: string;
+  locale?: "en" | "fr";
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -21,11 +22,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   sizes,
   link,
   className,
+  locale = "en",
 }) => {
+  const labels = locale === "fr" ? { view: "Voir le projet", more: "En savoir plus" } : { view: "View Project", more: "Learn More" };
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col overflow-hidden rounded-none border border-white/10 bg-black transition-all duration-300 hover:border-white/20",
+        "group relative flex h-full w-full min-w-0 max-w-full flex-col overflow-hidden rounded-none border border-white/10 bg-black transition-all duration-300 hover:border-white/20",
         className
       )}
     >
@@ -70,9 +73,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex w-full items-center justify-center gap-2 border border-white/10 bg-white/5 px-4 py-3 text-xs font-medium uppercase tracking-wider text-white transition-colors hover:bg-white/10 sm:w-auto"
-              aria-label={`View Project — ${title}`}
+              aria-label={`${labels.view}: ${title}`}
             >
-              <span>View Project</span>
+              <span>{labels.view}</span>
               <svg
                 className="h-4 w-4 transition-transform group-hover:translate-x-1"
                 fill="none"
@@ -92,7 +95,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               href="#contact"
               className="inline-flex w-full items-center justify-center gap-2 border border-white/10 bg-white/5 px-4 py-3 text-xs font-medium uppercase tracking-wider text-white transition-colors hover:bg-white/10 sm:w-auto"
             >
-              <span>Learn More</span>
+              <span>{labels.more}</span>
               <svg
                 className="h-4 w-4 transition-transform group-hover:translate-x-1"
                 fill="none"
