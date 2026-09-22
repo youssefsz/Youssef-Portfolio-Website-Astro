@@ -1,3 +1,4 @@
+import { ImageSkeleton } from "./ImageSkeleton";
 import React from "react";
 import { cn } from "../../lib/utils"; // Assuming utils exists, otherwise I'll just use template literals or classnames
 
@@ -37,7 +38,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-white/10 to-white/0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
       {/* Image Container */}
-      <div className="image-skeleton is-loading relative aspect-[16/10] w-full overflow-hidden bg-white/5">
+      <ImageSkeleton className="relative aspect-[16/10] w-full overflow-hidden bg-white/5">
         <img
           src={image}
           srcSet={srcSet}
@@ -50,7 +51,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
-      </div>
+      </ImageSkeleton>
 
       {/* Content */}
       <div className="flex flex-1 flex-col p-6">

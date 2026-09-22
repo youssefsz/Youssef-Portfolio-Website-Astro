@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import { projects } from "../data/projects";
 
 export const prerender = true;
 
@@ -9,12 +10,12 @@ export const GET: APIRoute = () => new Response(`# Youssef Dhibi
 ## English
 
 - [Portfolio](https://youssef.tn/): Profile, selected projects, skills, experience, education, client testimonials, and contact details.
-- [All projects](https://youssef.tn/projects/): Complete catalog of 20 web, mobile, desktop, and CLI projects.
+- [All projects](https://youssef.tn/projects/): Complete catalog of ${projects.length} web, mobile, desktop, and CLI projects.
 
 ## Français
 
 - [Portfolio en français](https://youssef.tn/fr/): Profil, projets, compétences, expérience, formation, témoignages clients et coordonnées.
-- [Tous les projets](https://youssef.tn/fr/projects/): Catalogue complet de 20 projets web, mobiles, de bureau et en ligne de commande.
+- [Tous les projets](https://youssef.tn/fr/projects/): Catalogue complet de ${projects.length} projets web, mobiles, de bureau et en ligne de commande.
 
 ## Extended content
 

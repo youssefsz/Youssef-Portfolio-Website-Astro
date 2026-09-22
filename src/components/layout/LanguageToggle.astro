@@ -1,5 +1,5 @@
 ---
-import type { Locale } from "../../i18n/content";
+import { siteContent, type Locale } from "../../i18n/content";
 
 interface Props {
     locale: Locale;
@@ -12,13 +12,12 @@ const { locale, englishPath, frenchPath, class: className = "" } = Astro.props;
 const isFrench = locale === "fr";
 const targetPath = isFrench ? englishPath : frenchPath;
 const targetLanguage = isFrench ? "en" : "fr";
-const ariaLabel = isFrench ? "Passer en anglais" : "Switch to French";
+const ariaLabel = siteContent[locale].languageSwitch;
 ---
 
 <a
     href={targetPath}
     hreflang={targetLanguage}
-    lang={targetLanguage}
     aria-label={ariaLabel}
     title={ariaLabel}
     data-astro-prefetch
@@ -29,7 +28,7 @@ const ariaLabel = isFrench ? "Passer en anglais" : "Switch to French";
         <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path>
     </svg>
     <span class="language-toggle__track" aria-hidden="true">
-        <span class:list={["language-toggle__label", { "is-active": !isFrench }]}>EN</span>
+        <span class:list={["language-toggle__label", { "is-active": !isFrench }]}>EN</span>{" "}
         <span class:list={["language-toggle__label", { "is-active": isFrench }]}>FR</span>
         <span class="language-toggle__thumb" transition:name="language-toggle-thumb"></span>
     </span>

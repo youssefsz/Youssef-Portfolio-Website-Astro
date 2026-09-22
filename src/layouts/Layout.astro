@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css";
+import interFont from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import displayFont from "@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url";
 import { ClientRouter } from "astro:transitions";
 import NavigationProgress from "../components/layout/NavigationProgress.astro";
 import ImageSkeletons from "../components/layout/ImageSkeletons.astro";
@@ -32,6 +34,8 @@ const alternateLang = lang === "en" ? "fr" : "en";
 <html lang={lang}>
     <head>
         <meta charset="UTF-8" />
+        <link rel="preload" href={interFont} as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
             rel="apple-touch-icon"
@@ -119,7 +123,6 @@ const alternateLang = lang === "en" ? "fr" : "en";
                             "@type": "PostalAddress",
                             addressCountry: "TN",
                         },
-                        areaServed: ["Tunisia", "Worldwide"],
                         knowsAbout: [
                             "Full-stack development",
                             "Web application development",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { CarouselTestimonialCard } from "./CarouselTestimonialCard";
 import { CarouselControls } from "./CarouselControls";
 import { useSnapCarousel } from "./useSnapCarousel";
@@ -7,9 +7,11 @@ import type { Testimonial } from "../../data/testimonials";
 interface TestimonialCarouselProps {
   testimonials: Testimonial[];
   locale?: "en" | "fr";
+  triggerLabel: string;
+  onActivate: (review: Testimonial, trigger: HTMLButtonElement) => void;
 }
 
-export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials, locale = "en" }) => {
+export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials, locale = "en", triggerLabel, onActivate }) => {
   const labels = locale === "fr"
     ? { controls: "Navigation des témoignages", previous: "Témoignage précédent", next: "Témoignage suivant", position: (current: number, total: number) => `Témoignage ${current} sur ${total}` }
     : { controls: "Testimonial carousel controls", previous: "Previous testimonial", next: "Next testimonial", position: (current: number, total: number) => `Testimonial ${current} of ${total}` };
@@ -20,6 +22,14 @@ export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testim
     handleScroll,
     scrollContainerRef,
   } = useSnapCarousel(testimonials.length);
+  // Keep native touch scrolling; reject the click a browser may emit after a drag.
+  const gesture = useRef<{ id: number; x: number; y: number; scrollLeft: number; blocked: boolean } | null>(null);
+  const checkDrag = (event: React.PointerEvent<HTMLDivElement>) => {
+    const current = gesture.current;
+    if (current && current.id === event.pointerId && Math.hypot(event.clientX - current.x, event.clientY - current.y) > 8) {
+      current.blocked = true;
+    }
+  };
   const trackId = "testimonial-carousel-track";
 
   return (
@@ -28,7 +38,16 @@ export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testim
       <div
         id={trackId}
         ref={scrollContainerRef}
-        onScroll={handleScroll}
+        onPointerDownCapture={(event) => {
+          gesture.current = { id: event.pointerId, x: event.clientX, y: event.clientY, scrollLeft: event.currentTarget.scrollLeft, blocked: !event.isPrimary || event.button !== 0 };
+        }}
+        onPointerMoveCapture={checkDrag}
+        onPointerUpCapture={checkDrag}
+        onPointerCancelCapture={() => { if (gesture.current) gesture.current.blocked = true; }}
+        onScroll={() => {
+          if (gesture.current) gesture.current.blocked = true;
+          handleScroll();
+        }}
         className="flex w-full min-w-0 max-w-full snap-x snap-mandatory gap-4 overflow-x-auto overscroll-x-contain scrollbar-hide pb-4"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         role="region"
@@ -47,6 +66,13 @@ export const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testim
             <div className="h-full w-full">
               <CarouselTestimonialCard
                 {...testimonial}
+                triggerLabel={triggerLabel.replace("{name}", testimonial.name)}
+                onActivate={(event) => {
+                  const current = gesture.current;
+                  const scrolled = current && scrollContainerRef.current?.scrollLeft !== current.scrollLeft;
+                  if (event.detail !== 0 && (current?.blocked || scrolled)) return;
+                  onActivate(testimonial, event.currentTarget);
+                }}
                 className="h-full w-full"
               />
             </div>

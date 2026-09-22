@@ -73,6 +73,7 @@ export const CarouselControls: React.FC<CarouselControlsProps> = ({
         <div
           className="h-1 min-w-0 flex-1 overflow-hidden rounded-full bg-white/10"
           role="progressbar"
+          aria-label={ariaLabel}
           aria-valuemin={1}
           aria-valuemax={total}
           aria-valuenow={current}

@@ -11,7 +11,7 @@ const testimonials = getTestimonials(locale);
 
 <section class="py-32 relative overflow-hidden" id="testimonials">
   <!-- Section Background -->
-  <div class="absolute inset-0 grid-bg opacity-30"></div>
+  <div class="pointer-events-none absolute inset-0 grid-bg opacity-30"></div>
 
   <div class="container-main relative z-10">
     <!-- Section Header - Centered -->
@@ -20,7 +20,7 @@ const testimonials = getTestimonials(locale);
         <div class="number-display mb-4">// 04</div>
       </div>
 
-      <h2 class="display-lg mb-6">
+      <h2 id="testimonials-heading" tabindex="-1" class="display-lg mb-6">
         <div>
           <span class="block">{t.sections.testimonialsTop}</span>
           <span class="text-outline-hover">
@@ -38,7 +38,7 @@ const testimonials = getTestimonials(locale);
     </div>
 
     <div>
-      <TestimonialsMarquee client:visible testimonials={testimonials} locale={locale} />
+      <TestimonialsMarquee client:visible testimonials={testimonials} labels={t.testimonialDialog} locale={locale} />
     </div>
   </div>
 </section>

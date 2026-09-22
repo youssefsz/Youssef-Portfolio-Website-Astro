@@ -34,7 +34,6 @@ ${t.description}
 - ${t.jobTitle} ${fr ? "basé en Tunisie" : "based in Tunisia"}
 - ${fr ? "Applications web, mobiles, de bureau et outils en ligne de commande" : "Web, mobile, desktop, and CLI applications"}
 - Top Rated Plus ${fr ? "sur Upwork avec 100 % de réussite" : "on Upwork with 100% Job Success"}
-- ${fr ? "Disponible pour des missions freelance et des collaborations à distance" : "Available for freelance projects and remote collaboration"}
 
 ## ${t.sections.projectsBottom}
 
@@ -56,7 +55,7 @@ ${timeline.education.map((item) => `### ${item.degree}, ${item.school}\n\n${item
 
 ## ${t.sections.testimonialsBottom}
 
-${testimonials.map((item) => `> ${item.text}\n>\n> ${item.name}, ${item.project} (${item.rating}/5)`).join("\n\n")}
+${t.testimonialDialog.translation ? `${t.testimonialDialog.translation}\n\n` : ""}${testimonials.map((item) => `> ${item.text}\n>\n> ${item.name}, ${item.project} (${item.rating}/5)`).join("\n\n")}
 
 ## ${fr ? "Contact et profils vérifiables" : "Contact and verifiable profiles"}
 

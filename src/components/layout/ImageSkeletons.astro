@@ -4,7 +4,7 @@
 
     const markLoaded = (image: HTMLImageElement) => {
         const skeleton = image.closest<HTMLElement>(".image-skeleton");
-        if (!skeleton) return;
+        if (!skeleton || skeleton.hasAttribute("data-react-skeleton")) return;
 
         skeleton.classList.remove("is-loading", "has-error");
         skeleton.classList.add("is-loaded");
@@ -13,7 +13,7 @@
 
     const markError = (image: HTMLImageElement) => {
         const skeleton = image.closest<HTMLElement>(".image-skeleton");
-        if (!skeleton) return;
+        if (!skeleton || skeleton.hasAttribute("data-react-skeleton")) return;
 
         skeleton.classList.remove("is-loading");
         skeleton.classList.add("has-error");
@@ -21,6 +21,8 @@
     };
 
     const prepareSkeleton = (skeleton: HTMLElement) => {
+        // React components manage their own image state, including hydration.
+        if (skeleton.hasAttribute("data-react-skeleton")) return;
         const image = skeleton.querySelector<HTMLImageElement>("img");
         if (!image || skeleton.dataset.skeletonReady === "true") return;
 

@@ -1,9 +1,13 @@
+import { ImageSkeleton } from "./ImageSkeleton";
 import React from "react";
+import { TestimonialTrigger } from "./TestimonialTrigger";
 import { cn } from "../../lib/utils";
 import type { Testimonial } from "../../data/testimonials";
 
 interface CarouselTestimonialCardProps extends Testimonial {
   className?: string;
+  triggerLabel: string;
+  onActivate: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 export const CarouselTestimonialCard: React.FC<CarouselTestimonialCardProps> = ({
@@ -13,19 +17,21 @@ export const CarouselTestimonialCard: React.FC<CarouselTestimonialCardProps> = (
   text,
   rating,
   className,
+  triggerLabel,
+  onActivate,
 }) => {
   return (
     <figure
       className={cn(
-        "group relative h-full w-full min-w-0 max-w-full cursor-pointer overflow-hidden rounded-xl border p-4 transition-all duration-300 sm:p-6",
+        "group relative h-full w-full min-w-0 max-w-full cursor-pointer overflow-hidden rounded-xl border p-4 transition-all duration-300 motion-reduce:transition-none sm:p-6",
         "bg-white/5 border-white/10 hover:border-blue-500/30 hover:bg-blue-500/5",
         className
       )}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-blue-400/5 to-transparent -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/10 via-blue-400/5 to-transparent -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 motion-reduce:transition-none"></div>
       
       <figcaption className="flex min-w-0 flex-row items-center gap-3">
-        <span className="image-skeleton is-loading h-10 w-10 shrink-0 rounded-full border border-white/10 bg-gray-800">
+        <ImageSkeleton as="span" className="h-10 w-10 shrink-0 rounded-full border border-white/10 bg-gray-800">
           <img
             className="h-full w-full rounded-full object-cover"
             alt={name}
@@ -39,7 +45,7 @@ export const CarouselTestimonialCard: React.FC<CarouselTestimonialCardProps> = (
               target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random&color=fff`;
             }}
           />
-        </span>
+        </ImageSkeleton>
         <div className="flex min-w-0 flex-col">
           <span className="break-words text-base font-bold leading-tight text-white tracking-tight">
             {name}
@@ -62,6 +68,7 @@ export const CarouselTestimonialCard: React.FC<CarouselTestimonialCardProps> = (
         ))}
       </div>
       <blockquote className="mt-4 break-words text-sm leading-relaxed text-gray-300 [overflow-wrap:anywhere]">{text}</blockquote>
+      <TestimonialTrigger label={triggerLabel} onClick={onActivate} />
     </figure>
   );
 };

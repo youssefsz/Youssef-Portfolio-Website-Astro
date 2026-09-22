@@ -21,6 +21,7 @@ export const siteContent = {
     exploreProjects: "Explore Projects",
     letsTalk: "Let's Talk",
     languageLabel: "Français",
+    languageSwitch: "EN FR: switch to French",
     heroHello: "Hello, I'm",
     heroIntro: "I build full-stack applications across web, mobile, desktop, and CLI.",
     heroUpwork: "on",
@@ -37,6 +38,12 @@ export const siteContent = {
       format: "PDF Format",
       ukFlag: "United Kingdom flag",
       franceFlag: "France flag",
+    },
+    testimonialDialog: {
+      open: "Read the full testimonial from {name}",
+      close: "Close testimonial",
+      rating: "Rated {rating} out of 5",
+      translation: "",
     },
     sections: {
       projectsTop: "My",
@@ -100,6 +107,7 @@ export const siteContent = {
     exploreProjects: "Voir les projets",
     letsTalk: "Me contacter",
     languageLabel: "English",
+    languageSwitch: "EN FR : passer en anglais",
     heroHello: "Bonjour, je suis",
     heroIntro: "Je conçois des applications full-stack pour le web, le mobile, les ordinateurs et la ligne de commande.",
     heroUpwork: "sur",
@@ -116,6 +124,12 @@ export const siteContent = {
       format: "Format PDF",
       ukFlag: "Drapeau du Royaume-Uni",
       franceFlag: "Drapeau de la France",
+    },
+    testimonialDialog: {
+      open: "Lire le témoignage complet de {name}",
+      close: "Fermer le témoignage",
+      rating: "Note : {rating} sur 5",
+      translation: "Témoignage traduit de l’anglais.",
     },
     sections: {
       projectsTop: "Mes",
@@ -228,3 +242,5 @@ export function getTestimonials(locale: Locale) {
   if (locale === "en") return testimonials;
   return testimonials.map((testimonial) => ({ ...testimonial, ...testimonialTranslations[testimonial.name] }));
 }
+
+export type TestimonialDialogLabels = (typeof siteContent)[Locale]["testimonialDialog"];
