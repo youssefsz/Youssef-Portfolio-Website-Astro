@@ -130,7 +130,7 @@ export const projects: Project[] = [
             "AI-powered financial chart analysis for smarter, faster trading insights.",
         category: "Mobile App",
         image: chartAiImage,
-        link: "https://youssef.tn/ChartAI",
+        link: "https://youssef.tn/ChartAI/",
         slug: "chart-ai",
     },
     {
