@@ -9,11 +9,12 @@ interface Props {
     description: string;
     category: string;
     image: ImageMetadata;
+    imageAlt?: string;
     link?: string;
     locale?: Locale;
 }
 
-const { title, description, category, image, link, locale = "en" } = Astro.props;
+const { title, description, category, image, imageAlt = title, link, locale = "en" } = Astro.props;
 const t = siteContent[locale].cards;
 ---
 
@@ -22,7 +23,7 @@ const t = siteContent[locale].cards;
     <div class="image-container image-skeleton is-loading">
         <Image
             src={image}
-            alt={title}
+            alt={imageAlt}
             widths={[320, 480, 640, 800, 960]}
             sizes="(max-width: 640px) calc(100vw - 2rem), (max-width: 1023px) calc(50vw - 3rem), 420px"
             class="project-image"

@@ -1,3 +1,4 @@
+import { MAX_HOMEPAGE_PROJECTS } from "../data/projects";
 import type { Locale } from "../i18n/content";
 import { getExperience, getProjects, getSkills, getTestimonials, siteContent } from "../i18n/content";
 
@@ -11,7 +12,7 @@ const contact = {
 
 export function buildHomeMarkdown(locale: Locale) {
   const t = siteContent[locale];
-  const projects = getProjects(locale).slice(0, 6);
+  const projects = getProjects(locale).slice(0, MAX_HOMEPAGE_PROJECTS);
   const skills = getSkills(locale);
   const timeline = getExperience(locale);
   const testimonials = getTestimonials(locale);

@@ -7,6 +7,7 @@ interface ProjectCardProps {
   description: string;
   category: string;
   image: string;
+  imageAlt?: string;
   srcSet?: string;
   sizes?: string;
   link?: string;
@@ -19,6 +20,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   category,
   image,
+  imageAlt = title,
   srcSet,
   sizes,
   link,
@@ -43,7 +45,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           src={image}
           srcSet={srcSet}
           sizes={sizes}
-          alt={title}
+          alt={imageAlt}
           className="h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
           width={640}
           height={400}

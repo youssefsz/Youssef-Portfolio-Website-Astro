@@ -1,5 +1,6 @@
 import { education, experience } from "../data/experience";
 import { projects } from "../data/projects";
+import type { Project } from "../data/projects";
 import { skills } from "../data/skills";
 import { testimonials } from "../data/testimonials";
 
@@ -22,7 +23,6 @@ export const siteContent = {
     letsTalk: "Let's Talk",
     languageLabel: "Français",
     languageSwitch: "EN FR: switch to French",
-    heroHello: "Hello, I'm",
     heroIntro: "I build full-stack applications across web, mobile, desktop, and CLI.",
     heroUpwork: "on",
     jobSuccess: "100% Job Success",
@@ -108,7 +108,6 @@ export const siteContent = {
     letsTalk: "Me contacter",
     languageLabel: "English",
     languageSwitch: "EN FR : passer en anglais",
-    heroHello: "Bonjour, je suis",
     heroIntro: "Je conçois des applications full-stack pour le web, le mobile, les ordinateurs et la ligne de commande.",
     heroUpwork: "sur",
     jobSuccess: "100 % de réussite",
@@ -180,7 +179,12 @@ export const siteContent = {
   },
 } as const;
 
-const projectTranslations: Record<string, { description: string; category: string }> = {
+const projectTranslations: Record<string, Pick<Project, "description" | "category" | "imageAlt">> = {
+  "looks-done": { description: "Transformez les commentaires laissés directement sur un site en tâches accompagnées d’une capture d’écran et d’informations sur le navigateur.", category: "Plateforme web", imageAlt: "Page d’accueil de LooksDone avec son titre et sa démonstration de révision d’un site web." },
+  "fitness-tracker": { description: "Notez vos répétitions, vos charges et vos séries chronométrées hors ligne. Retrouvez votre historique et vos records personnels sans créer de compte.", category: "Application mobile", imageAlt: "Écran de progression de Fitness Tracker à côté d’un graphique de résultats fictifs." },
+  "local-chat": { description: "Échangez des messages, des liens et du code entre ordinateurs sur le même réseau local. Disponible sur macOS, Windows et Linux.", category: "Application de bureau", imageAlt: "Fenêtre de Local Chat avec la liste des salons et une conversation contenant un extrait de code." },
+  relay: { description: "Modèle de page de présentation interactive pour un produit d’automatisation, avec des animations et un exemple de processus automatisé.", category: "Modèle de site web", imageAlt: "Page d’accueil de Relay avec son titre sur une grande fleur rouge." },
+  "the-daily-good": { description: "Concept de site éditorial pour une lettre d’information, avec un journal et un formulaire d’inscription simulé.", category: "Concept de site web", imageAlt: "Page d’accueil de The Daily Good avec son titre sur une photo de bureau ensoleillé." },
   "velocare-ai": { description: "Contrôles de vélo assistés par IA, planification de l’entretien et suivi GPS des sorties dans une application native pour iPhone et iPad.", category: "Application mobile" },
   "widget-ai": { description: "Des widgets IA simples à intégrer. Le comportement, le design et l’emplacement de l’assistant se configurent avec une seule balise script.", category: "Plateforme web" },
   invox: { description: "Créez et envoyez des factures professionnelles en quelques secondes, gérez vos clients et suivez les paiements.", category: "Application mobile" },
@@ -195,7 +199,6 @@ const projectTranslations: Record<string, { description: string; category: strin
   "github-stats-extractor": { description: "Explorez les statistiques d’un profil GitHub, ses contributions et ses dépôts.", category: "Plateforme web" },
   plangpt: { description: "Transformez de simples demandes en instructions détaillées pour l’IA grâce à des modèles prêts à l’emploi.", category: "Application mobile" },
   urlx: { description: "Des outils gratuits pour raccourcir des liens, créer des QR codes, nettoyer des URL et inspecter des métadonnées.", category: "Plateforme web" },
-  allersnap: { description: "Détecteur d’allergènes assisté par IA : prenez un repas en photo ou scannez un code-barres pour identifier les risques.", category: "Application mobile" },
   "ecommerce-store": { description: "Boutique en ligne multilingue avec recherche, catégories, filtres avancés, pagination et panier.", category: "Plateforme web" },
   gitread: { description: "Transformez votre CV en README GitHub professionnel avec l’IA, en mettant en valeur vos compétences et votre expérience.", category: "Plateforme web" },
   uptime: { description: "Surveillance en temps réel de la disponibilité et de l’état des serveurs.", category: "Plateforme web" },

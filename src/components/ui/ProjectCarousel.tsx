@@ -8,6 +8,7 @@ interface Project {
   description: string;
   category: string;
   image: string;
+  imageAlt?: string;
   srcSet?: string;
   sizes?: string;
   link?: string;
@@ -71,6 +72,7 @@ export const ProjectCarousel: React.FC<ProjectCarouselProps> = ({ projects, loca
                 description={project.description}
                 category={project.category}
                 image={project.image}
+                imageAlt={project.imageAlt}
                 srcSet={project.srcSet}
                 sizes={project.sizes}
                 link={project.link}
