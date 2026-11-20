@@ -1,6 +1,6 @@
 import { education, experience } from "../data/experience";
-import { projects } from "../data/projects";
-import type { Project } from "../data/projects";
+import { projectCategoryGroups, projects } from "../data/projects";
+import type { Project, ProjectGroup } from "../data/projects";
 import { skills } from "../data/skills";
 import { testimonials } from "../data/testimonials";
 
@@ -15,12 +15,7 @@ export const siteContent = {
     projectsPath: "/projects/",
     alternateHomePath: "/fr/",
     alternateProjectsPath: "/fr/projects/",
-    nav: ["Home", "Projects", "Skills", "Experience", "Testimonials", "Contact"],
-    menu: "Menu",
-    closeMenu: "Close menu",
-    toggleMenu: "Toggle menu",
-    exploreProjects: "Explore Projects",
-    letsTalk: "Let's Talk",
+    nav: ["Home", "Projects"],
     languageLabel: "Français",
     languageSwitch: "EN FR: switch to French",
     heroIntro: "I build full-stack applications across web, mobile, desktop, and CLI.",
@@ -81,11 +76,16 @@ export const siteContent = {
       title: "All Projects | Youssef Dhibi",
       description: "Explore web, mobile, desktop, and CLI applications built by Youssef Dhibi with a focus on performance, usability, and reliable software.",
       back: "Back to Home",
-      count: "Projects Available",
-      top: "All",
-      bottom: "Projects",
-      intro: "A showcase of my work in mobile and web development. Browse the complete catalog.",
+      heading: "All Projects",
+      intro: "Web, mobile, desktop, and command-line projects I've built.",
       catalog: "Project catalog",
+      search: "Search projects",
+      filterLabel: "Project type",
+      filters: { all: "All", web: "Web", mobile: "Mobile", desktop: "Desktop", cli: "CLI" } satisfies Record<"all" | ProjectGroup, string>,
+      count: { one: "{count} project", other: "{count} projects" },
+      clearFilters: "Clear filters",
+      noResults: "No matching projects",
+      noResultsHint: "Try another search or choose a different project type.",
     },
     footerRights: "All rights reserved.",
     sourceCode: "Open Source",
@@ -100,12 +100,7 @@ export const siteContent = {
     projectsPath: "/fr/projects/",
     alternateHomePath: "/",
     alternateProjectsPath: "/projects/",
-    nav: ["Accueil", "Projets", "Compétences", "Expérience", "Témoignages", "Contact"],
-    menu: "Menu",
-    closeMenu: "Fermer le menu",
-    toggleMenu: "Ouvrir le menu",
-    exploreProjects: "Voir les projets",
-    letsTalk: "Me contacter",
+    nav: ["Accueil", "Projets"],
     languageLabel: "English",
     languageSwitch: "EN FR : passer en anglais",
     heroIntro: "Je conçois des applications full-stack pour le web, le mobile, les ordinateurs et la ligne de commande.",
@@ -166,11 +161,16 @@ export const siteContent = {
       title: "Tous les projets | Youssef Dhibi",
       description: "Découvrez les applications web, mobiles, de bureau et en ligne de commande conçues par Youssef Dhibi, avec une attention particulière portée à la performance et à la fiabilité.",
       back: "Retour à l’accueil",
-      count: "projets disponibles",
-      top: "Tous mes",
-      bottom: "Projets",
-      intro: "Découvrez l’ensemble de mes projets web et mobiles.",
+      heading: "Tous mes projets",
+      intro: "Mes projets web, mobiles, de bureau et en ligne de commande.",
       catalog: "Catalogue des projets",
+      search: "Rechercher des projets",
+      filterLabel: "Type de projet",
+      filters: { all: "Tous", web: "Web", mobile: "Mobile", desktop: "Bureau", cli: "Terminal" } satisfies Record<"all" | ProjectGroup, string>,
+      count: { one: "{count} projet", other: "{count} projets" },
+      clearFilters: "Effacer les filtres",
+      noResults: "Aucun projet trouvé",
+      noResultsHint: "Essayez une autre recherche ou changez de type de projet.",
     },
     footerRights: "Tous droits réservés.",
     sourceCode: "Code source",
@@ -179,7 +179,7 @@ export const siteContent = {
   },
 } as const;
 
-const projectTranslations: Record<string, Pick<Project, "description" | "category" | "imageAlt">> = {
+const projectTranslations: Record<string, Pick<Project, "description" | "imageAlt"> & { category: string }> = {
   "looks-done": { description: "Transformez les commentaires laissés directement sur un site en tâches accompagnées d’une capture d’écran et d’informations sur le navigateur.", category: "Plateforme web", imageAlt: "Page d’accueil de LooksDone avec son titre et sa démonstration de révision d’un site web." },
   "fitness-tracker": { description: "Notez vos répétitions, vos charges et vos séries chronométrées hors ligne. Retrouvez votre historique et vos records personnels sans créer de compte.", category: "Application mobile", imageAlt: "Écran de progression de Fitness Tracker à côté d’un graphique de résultats fictifs." },
   "local-chat": { description: "Échangez des messages, des liens et du code entre ordinateurs sur le même réseau local. Disponible sur macOS, Windows et Linux.", category: "Application de bureau", imageAlt: "Fenêtre de Local Chat avec la liste des salons et une conversation contenant un extrait de code." },
@@ -200,15 +200,17 @@ const projectTranslations: Record<string, Pick<Project, "description" | "categor
   plangpt: { description: "Transformez de simples demandes en instructions détaillées pour l’IA grâce à des modèles prêts à l’emploi.", category: "Application mobile" },
   urlx: { description: "Des outils gratuits pour raccourcir des liens, créer des QR codes, nettoyer des URL et inspecter des métadonnées.", category: "Plateforme web" },
   "ecommerce-store": { description: "Boutique en ligne multilingue avec recherche, catégories, filtres avancés, pagination et panier.", category: "Plateforme web" },
-  gitread: { description: "Transformez votre CV en README GitHub professionnel avec l’IA, en mettant en valeur vos compétences et votre expérience.", category: "Plateforme web" },
   uptime: { description: "Surveillance en temps réel de la disponibilité et de l’état des serveurs.", category: "Plateforme web" },
   "mkv-player-macos": { description: "Lecteur vidéo macOS natif conçu avec AppKit et libmpv, avec accélération matérielle pour les fichiers MKV et d’autres formats courants.", category: "Application macOS" },
   "sys-monitor": { description: "Moniteur système rapide et minimal conçu en Rust pour suivre en temps réel le processeur, la mémoire et les processus dans le terminal.", category: "Outil en ligne de commande" },
 };
 
 export function getProjects(locale: Locale) {
-  if (locale === "en") return projects;
-  return projects.map((project) => ({ ...project, ...(project.slug ? projectTranslations[project.slug] : {}) }));
+  return projects.map((project) => ({
+    ...project,
+    ...(locale === "fr" && project.slug ? projectTranslations[project.slug] : {}),
+    group: projectCategoryGroups[project.category],
+  }));
 }
 
 export function getSkills(locale: Locale) {

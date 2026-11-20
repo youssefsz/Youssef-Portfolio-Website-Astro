@@ -79,7 +79,7 @@ language: "${locale}"
 author: "Youssef Dhibi"
 ---
 
-# ${t.allProjects.top} ${t.allProjects.bottom}
+# ${t.allProjects.heading}
 
 ${t.allProjects.intro}
 

@@ -1,60 +1,352 @@
 ---
 import type { Locale } from "../i18n/content";
 import { getProjects, siteContent } from "../i18n/content";
+import searchEmptyArt from "../assets/projects/search-empty.webp";
 import Layout from "../layouts/Layout.astro";
 import Footer from "./layout/Footer.astro";
+import Navbar from "./layout/Navbar.astro";
 import ProjectCard from "./ProjectCard.astro";
-import LanguageToggle from "./layout/LanguageToggle.astro";
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 const t = siteContent[locale];
 const copy = t.allProjects;
 const projects = getProjects(locale);
+const total = projects.length;
+const initialCount = (total === 1 ? copy.count.one : copy.count.other).replace("{count}", String(total));
 ---
 
 <Layout title={copy.title} description={copy.description} lang={locale} alternatePath={t.alternateProjectsPath} jobTitle={t.jobTitle}>
-  <main class="min-h-screen">
-    <section class="pt-24 pb-16 relative">
-      <div class="absolute inset-0 grid-bg opacity-20"></div>
-      <div class="container-main relative z-10">
-        <div class="flex items-center justify-between gap-4 mb-12">
-          <a href={t.homePath} class="inline-flex items-center gap-2 text-muted text-sm hover:text-accent transition-colors group">
-            <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-            <span>{copy.back}</span>
-          </a>
-          <LanguageToggle locale={locale} englishPath="/projects/" frenchPath="/fr/projects/" />
-        </div>
-        <div class="text-center">
-          <div class="number-display mb-4">// {projects.length} {copy.count}</div>
-          <h1 class="display-lg mb-6">
-            <span class="block">{copy.top}</span>
-            <span class="text-outline-hover"><span class="outline-text">{copy.bottom}</span><span class="filled-text" aria-hidden="true">{copy.bottom}</span></span>
-          </h1>
-          <p class="text-muted text-lg max-w-2xl mx-auto">{copy.intro}</p>
-        </div>
+  <Navbar locale={locale} page="projects" />
+  <main class="min-h-screen pb-16 md:pb-24">
+    <header class="relative pt-28 pb-7 md:pt-32 md:pb-8">
+      <div class="catalog-grid-bg absolute inset-0 grid-bg opacity-25 pointer-events-none" aria-hidden="true"></div>
+      <div class="container-main relative">
+        <h1 class="display-md mb-3">{copy.heading}</h1>
+        <p class="text-white/65 max-w-xl">{copy.intro}</p>
       </div>
-    </section>
-    <section class="py-20 relative">
-      <div class="container-main relative z-10">
-        <h2 class="sr-only">{copy.catalog}</h2>
-        <noscript>
-          <div class="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => <div class="p-6 border rounded-lg"><h2 class="text-xl font-bold mb-2"><a href={project.link}>{project.title}</a></h2><p class="mb-4">{project.description}</p><span class="text-sm text-gray-500">{project.category}</span></div>)}
+    </header>
+    <section class="container-main" aria-labelledby="project-catalog-heading">
+      <h2 id="project-catalog-heading" class="sr-only">{copy.catalog}</h2>
+      <project-catalog class="block">
+        <form role="search" aria-label={copy.catalog} autocomplete="off" hidden>
+          <div class="catalog-toolbar">
+            <label class="catalog-search">
+              <svg class="size-5 shrink-0 text-white/65" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+                <circle cx="11" cy="11" r="6.5"></circle>
+                <path d="m16 16 4 4"></path>
+              </svg>
+              <span class="sr-only">{copy.search}</span>
+              <input type="search" name="q" placeholder={copy.search} />
+            </label>
+            <fieldset class="flex min-w-0 flex-wrap gap-2">
+              <legend class="sr-only">{copy.filterLabel}</legend>
+              {Object.entries(copy.filters).map(([value, label]) => (
+                <label class="catalog-filter">
+                  <input class="sr-only" type="radio" name="category" value={value} checked={value === "all"} />
+                  <span>{label}</span>
+                </label>
+              ))}
+            </fieldset>
           </div>
-        </noscript>
-        <div class="projects-grid-full">
-          {projects.map((project) => <div class="project-card-wrapper"><ProjectCard {...project} locale={locale} /></div>)}
+        </form>
+        <div class="flex min-h-11 items-center justify-between gap-3 text-sm">
+          <p class="text-white/65 tabular-nums" role="status" data-count-one={copy.count.one} data-count-other={copy.count.other}>{initialCount}</p>
+          <button class="catalog-clear" type="button" data-clear-filters hidden>{copy.clearFilters}</button>
         </div>
-      </div>
+        <div class="catalog-results">
+          <div data-live-results>
+            <div class="px-2 pt-5 pb-10 md:pt-8 md:pb-16" data-empty hidden>
+              <div class="flex flex-col items-center justify-center gap-3 text-center sm:flex-row sm:gap-7 sm:text-left">
+                <img
+                  src={searchEmptyArt.src}
+                  width={searchEmptyArt.width}
+                  height={searchEmptyArt.height}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  fetchpriority="low"
+                  class="h-auto w-36 shrink-0 sm:w-48"
+                />
+                <div class="max-w-xs">
+                  <h3 class="mb-2 text-xl sm:text-2xl">{copy.noResults}</h3>
+                  <p class="mb-4 text-sm leading-relaxed text-white/65 sm:text-base">{copy.noResultsHint}</p>
+                  <button class="catalog-empty-clear" type="button">{copy.clearFilters}</button>
+                </div>
+              </div>
+            </div>
+            <ul class="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3" role="list">
+              {projects.map((project) => (
+                <li class="min-w-0" data-group={project.group} data-search={`${project.title} ${project.description} ${project.category} ${copy.filters[project.group]}`}>
+                  <ProjectCard {...project} locale={locale} stableImagePlaceholder />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </project-catalog>
     </section>
   </main>
   <Footer locale={locale} />
 </Layout>
 
+<script>
+  function normalizeSearch(value: string) {
+    return value.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase()
+      .replace(/[^\p{L}\p{N}]+/gu, " ").trim();
+  }
+
+  function fadePreviousResults(results: HTMLElement) {
+    const top = results.getBoundingClientRect().top;
+    if (top >= window.innerHeight) return;
+
+    const snapshot = results.cloneNode(true);
+    if (!(snapshot instanceof HTMLElement)) return;
+    snapshot.removeAttribute("data-live-results");
+    snapshot.querySelectorAll("[hidden]").forEach((item) => item.remove());
+    snapshot.querySelectorAll("[data-group]").forEach((item) => {
+      item.removeAttribute("data-group");
+      item.removeAttribute("data-search");
+    });
+    snapshot.querySelector("[data-empty]")?.removeAttribute("data-empty");
+
+    const outgoing = document.createElement("div");
+    outgoing.dataset.outgoingResults = "";
+    outgoing.setAttribute("aria-hidden", "true");
+    outgoing.inert = true;
+    outgoing.style.height = `${window.innerHeight - top}px`;
+    outgoing.append(snapshot);
+
+    // An in-flight fade stays above a newer one, preserving the current blend.
+    results.after(outgoing);
+    const fade = outgoing.animate([{ opacity: 1 }, { opacity: 0 }], {
+      duration: 240,
+      easing: "ease-in-out",
+      fill: "forwards",
+    });
+    const remove = () => outgoing.remove();
+    fade.finished.then(remove, remove);
+  }
+
+  class ProjectCatalog extends HTMLElement {
+    private listeners?: AbortController;
+    private searchTimer?: number;
+
+    connectedCallback() {
+      const form = this.querySelector("form");
+      const search = form?.querySelector<HTMLInputElement>('input[type="search"]');
+      const clear = this.querySelector<HTMLButtonElement>("[data-clear-filters]");
+      const count = this.querySelector<HTMLElement>('[role="status"]');
+      const results = this.querySelector<HTMLElement>("[data-live-results]");
+      const empty = results?.querySelector<HTMLElement>("[data-empty]");
+      const emptyClear = empty?.querySelector("button");
+      const emptyArt = empty?.querySelector("img");
+      if (!form || !search || !clear || !count || !results || !empty || !emptyClear) return;
+
+      this.listeners = new AbortController();
+      const { signal } = this.listeners;
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const cards = Array.from(results.querySelectorAll<HTMLElement>("[data-group]"), (card) => ({
+        card,
+        group: card.dataset.group,
+        text: normalizeSearch(card.dataset.search ?? ""),
+      }));
+
+      const updateResults = (animate = true) => {
+        window.clearTimeout(this.searchTimer);
+        const group = new FormData(form).get("category");
+        const terms = normalizeSearch(search.value).split(" ");
+        const matches = cards.map(({ card, group: cardGroup, text }) => ({
+          card,
+          visible: (group === "all" || group === cardGroup) && terms.every((term) => text.includes(term)),
+        }));
+        const changes = matches.filter(({ card, visible }) => card.hidden === visible);
+
+        if (changes.length && animate && !reducedMotion.matches) {
+          fadePreviousResults(results);
+        }
+        for (const { card, visible } of changes) card.hidden = !visible;
+
+        const visibleCount = matches.filter(({ visible }) => visible).length;
+        const template = visibleCount === 1 ? count.dataset.countOne : count.dataset.countOther;
+        const message = template?.replace("{count}", String(visibleCount));
+        if (message && count.textContent !== message) count.textContent = message;
+        clear.hidden = visibleCount === 0 || (group === "all" && search.value === "");
+        empty.hidden = visibleCount > 0;
+      };
+
+      const scheduleSearch = () => {
+        window.clearTimeout(this.searchTimer);
+        this.searchTimer = window.setTimeout(updateResults, 300);
+      };
+
+      search.addEventListener("focus", () => {
+        if (emptyArt) emptyArt.loading = "eager";
+      }, { once: true, signal });
+      search.addEventListener("input", (event) => {
+        if (event.isComposing) {
+          window.clearTimeout(this.searchTimer);
+          return;
+        }
+        scheduleSearch();
+      }, { signal });
+      search.addEventListener("compositionend", scheduleSearch, { signal });
+      form.addEventListener("change", (event) => {
+        if (event.target !== search) updateResults();
+      }, { signal });
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        updateResults();
+      }, { signal });
+      const resetFilters = () => {
+        form.reset();
+        updateResults();
+        search.focus();
+      };
+      clear.addEventListener("click", resetFilters, { signal });
+      emptyClear.addEventListener("click", resetFilters, { signal });
+
+      updateResults(false);
+      form.hidden = false;
+    }
+
+    disconnectedCallback() {
+      this.listeners?.abort();
+      window.clearTimeout(this.searchTimer);
+    }
+  }
+
+  customElements.define("project-catalog", ProjectCatalog);
+</script>
+
 <style>
-  .projects-grid-full { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; }
-  .projects-grid-full :global(.project-card-wrapper) { flex: 0 1 400px; max-width: 450px; min-width: min(100%, 320px); }
-  .projects-grid-full :global(.project-card-wrapper > article) { height: 100%; width: 100%; }
-  @media (max-width: 640px) { .projects-grid-full :global(.project-card-wrapper) { flex: 1 1 100%; max-width: 100%; } }
+  .catalog-results {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .catalog-results > :global([data-outgoing-results]) {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 1;
+    overflow: clip;
+    background: var(--background);
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .catalog-results > :global([data-outgoing-results]) {
+      display: none;
+    }
+  }
+
+  .catalog-grid-bg {
+    mask-image: linear-gradient(#000 55%, transparent);
+  }
+
+  .catalog-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgb(255 255 255 / 0.14);
+  }
+
+  .catalog-search {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-width: 0;
+    padding-inline: 0.75rem;
+    border: 1px solid rgb(255 255 255 / 0.2);
+    background: rgb(255 255 255 / 0.04);
+    cursor: text;
+  }
+
+  .catalog-search:focus-within {
+    border-color: var(--accent);
+    outline: 2px solid var(--accent-light);
+    outline-offset: 2px;
+  }
+
+  .catalog-search input {
+    width: 100%;
+    min-width: 0;
+    min-height: 2.6875rem;
+    outline: none;
+    caret-color: var(--accent-light);
+  }
+
+  .catalog-search input::placeholder {
+    color: rgb(255 255 255 / 0.65);
+  }
+
+  .catalog-filter {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .catalog-filter span {
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+    border: 1px solid rgb(255 255 255 / 0.18);
+    color: rgb(255 255 255 / 0.78);
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .catalog-filter:hover span {
+    border-color: rgb(255 255 255 / 0.5);
+    color: var(--foreground);
+  }
+
+  .catalog-filter input:checked + span {
+    border-color: var(--accent);
+    color: var(--accent-light);
+    background: rgb(59 130 246 / 0.1);
+  }
+
+  .catalog-filter input:focus-visible + span {
+    outline: 2px solid var(--accent-light);
+    outline-offset: 2px;
+  }
+
+  .catalog-clear {
+    min-height: 2.75rem;
+    color: var(--accent-light);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .catalog-empty-clear {
+    min-height: 2.75rem;
+    padding-inline: 0.875rem;
+    border: 1px solid rgb(255 255 255 / 0.24);
+    color: var(--foreground);
+    cursor: pointer;
+    font-family: var(--font-display);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .catalog-empty-clear:hover {
+    border-color: var(--accent);
+    color: var(--accent-light);
+  }
+
+  @media (min-width: 64rem) {
+    .catalog-toolbar {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .catalog-search {
+      flex: 0 1 23rem;
+    }
+  }
 </style>

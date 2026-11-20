@@ -12,15 +12,16 @@ interface Props {
     imageAlt?: string;
     link?: string;
     locale?: Locale;
+    stableImagePlaceholder?: boolean;
 }
 
-const { title, description, category, image, imageAlt = title, link, locale = "en" } = Astro.props;
+const { title, description, category, image, imageAlt = title, link, locale = "en", stableImagePlaceholder = false } = Astro.props;
 const t = siteContent[locale].cards;
 ---
 
 <article class="project-card content-card group">
     <!-- Image Container -->
-    <div class="image-container image-skeleton is-loading">
+    <div class:list={["image-container", !stableImagePlaceholder && "image-skeleton is-loading"]}>
         <Image
             src={image}
             alt={imageAlt}
@@ -235,6 +236,19 @@ const t = siteContent[locale].cards;
 
         .card-title {
             font-size: 1.25rem;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .project-card,
+        .project-card::after,
+        .project-image,
+        .card-title {
+            transition: none;
+        }
+
+        .project-card:hover .project-image {
+            transform: none;
         }
     }
 </style>

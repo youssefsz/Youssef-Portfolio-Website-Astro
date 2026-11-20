@@ -49,7 +49,7 @@ DNS-based AI Discovery is intentionally not published. The current draft targets
 
 Requirements:
 
-- Node.js 22.12 or newer
+- Node.js 22.23.4 or newer
 - pnpm 12.3.4
 
 Install dependencies and start the development server:
@@ -68,6 +68,8 @@ pnpm verify
 ```
 
 This runs `astro check` and creates a production build. The generated files are written to `dist/`.
+
+Run `pnpm build --timings` to see how long each build phase takes.
 
 ## Production checks
 

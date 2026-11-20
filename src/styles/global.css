@@ -133,6 +133,22 @@ html {
     -moz-osx-font-smoothing: grayscale;
   }
 
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
   body {
     font-family: var(--font-body);
     background-color: var(--background);

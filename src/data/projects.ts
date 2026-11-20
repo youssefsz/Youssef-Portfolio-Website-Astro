@@ -17,7 +17,6 @@ import humidscanImage from '../assets/projects/humidscan.png';
 import uptimeImage from '../assets/projects/uptime.png';
 import productTrackerImage from '../assets/projects/product-tracker.webp';
 import githubExtractorImage from '../assets/projects/github-extractor.png';
-import gitReadImage from '../assets/projects/gitread.png';
 import sysMonitorImage from '../assets/projects/sys-monitor.png';
 import quranlakeImage from '../assets/projects/quranlake.png';
 import docscannerImage from '../assets/projects/docscanner.png';
@@ -30,10 +29,23 @@ import localChatImage from '../assets/projects/local-chat.webp';
 import relayImage from '../assets/projects/relay.webp';
 import theDailyGoodImage from '../assets/projects/the-daily-good.webp';
 
+export const projectCategoryGroups = {
+    "Web Platform": "web",
+    "Website": "web",
+    "Website Template": "web",
+    "Website Concept": "web",
+    "Mobile App": "mobile",
+    "Desktop App": "desktop",
+    "macOS App": "desktop",
+    "CLI Tool": "cli",
+} as const;
+
+export type ProjectGroup = (typeof projectCategoryGroups)[keyof typeof projectCategoryGroups];
+
 export interface Project {
     title: string;
     description: string;
-    category: string;
+    category: keyof typeof projectCategoryGroups;
     image: ImageMetadata;
     imageAlt?: string;
     link?: string;
@@ -112,7 +124,7 @@ export const projects: Project[] = [
             "Restaurant website for Apostrophe in Olsene, Belgium, showcasing fine dining, seasonal menus, and local ingredients.",
         category: "Website",
         image: apostropheImage,
-        link: "https://youssef.tn/apostrophe-restaurant",
+        link: "https://hemelslekker.be/",
         slug: "brasserie-restaurant",
     },
     {
@@ -224,15 +236,6 @@ export const projects: Project[] = [
         image: githubExtractorImage,
         link: "https://youssef.tn/git-hub-stats-extractor",
         slug: "github-stats-extractor",
-    },
-    {
-        title: "GitRead",
-        description:
-            "Turn your CV into a polished GitHub README with AI, highlighting your skills and experience.",
-        category: "Web Platform",
-        image: gitReadImage,
-        link: "https://youssef.tn/gitread",
-        slug: "gitread",
     },
     {
         title: "MKV Player",
