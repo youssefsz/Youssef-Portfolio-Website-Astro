@@ -1,0 +1,86 @@
+/*! iPhone 14 Pro subset of Devices.css v0.2.0 | MIT | github.com/picturepan2/devices.css */
+.device {
+  position: relative;
+  transform: scale(1);
+  z-index: 1;
+}
+.device .device-frame {
+  z-index: 1;
+}
+.device .device-screen {
+  background-color: #000;
+  background-position: center center;
+  background-size: cover;
+  object-fit: cover;
+  position: relative;
+}
+.device-iphone-14-pro {
+  height: 883.496px;
+  width: 428px;
+}
+.device-iphone-14-pro .device-frame {
+  background: #010101;
+  border: 1px solid #1b1721;
+  border-radius: 68px;
+  box-shadow:
+    inset 0 0 4px 2px #c0b7cd,
+    inset 0 0 0 6px #342c3f;
+  height: 883.496px;
+  padding: 19px;
+  width: 428px;
+}
+.device-iphone-14-pro .device-screen {
+  border-radius: 49px;
+  height: 845.496px;
+  width: 390px;
+}
+.device-iphone-14-pro .device-btns {
+  background: #1b1721;
+  border-radius: 2px;
+  height: 32px;
+  left: -2px;
+  position: absolute;
+  top: 115px;
+  width: 3px;
+}
+.device-iphone-14-pro .device-btns::after,
+.device-iphone-14-pro .device-btns::before {
+  background: #1b1721;
+  border-radius: 2px;
+  content: "";
+  height: 62px;
+  left: 0;
+  position: absolute;
+  width: 3px;
+}
+.device-iphone-14-pro .device-btns::after {
+  top: 60px;
+}
+.device-iphone-14-pro .device-btns::before {
+  top: 140px;
+}
+.device-iphone-14-pro .device-power {
+  background: #1b1721;
+  border-radius: 2px;
+  height: 100px;
+  position: absolute;
+  right: -2px;
+  top: 200px;
+  width: 3px;
+}
+.device-iphone-14-pro.device-black .device-frame {
+  border-color: #5c5956;
+  box-shadow:
+    inset 0 0 4px 2px white,
+    inset 0 0 0 6px #76726f;
+}
+.device-iphone-14-pro.device-black .device-btns {
+  background: #5c5956;
+}
+.device-iphone-14-pro.device-black .device-btns::after,
+.device-iphone-14-pro.device-black .device-btns::before {
+  background: #5c5956;
+}
+.device-iphone-14-pro.device-black .device-power {
+  background: #5c5956;
+}

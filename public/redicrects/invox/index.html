@@ -1,228 +1,447 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#171717" />
+    <title>Invox | Professional invoices from your phone</title>
+    <meta
+      name="description"
+      content="Create and share PDF invoices, save clients, and track paid and unpaid invoices with Invox for iPhone and iPad. Free to download, with in-app purchases."
+    />
+    <link rel="canonical" href="https://youssef.tn/invox/" />
+    <link rel="icon" type="image/png" sizes="144x144" href="assets/icon.png" />
+    <link
+      rel="preload"
+      href="assets/inter-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="device.css?v=3" />
+    <link rel="stylesheet" href="style.css?v=10" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Primary Meta Tags -->
-    <title>Invoice Maker: PDF by Invox | Mobile Invoicing App</title>
-    <meta name="title" content="Invoice Maker: PDF by Invox | Mobile Invoicing App">
-    <meta name="description"
-        content="Create and send professional invoices in seconds. Manage clients, items, and track payments with Invox on iOS.">
-    <meta name="keywords"
-        content="invoice maker, invoice app, create invoice, billing app, small business, invoicing, estimate maker, PDF invoice, business accounting">
-    <meta name="author" content="Youssef Dhibi">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="English">
-    <meta name="revisit-after" content="7 days">
-
-    <!--css-->
-    <link rel="stylesheet" href="styles/index.css">
-
-    <!-- Favicons -->
-    <link rel="icon" type="image/x-icon" href="favicons/favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="favicons/android-chrome-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="favicons/android-chrome-512x512.png">
-    <link rel="manifest" href="favicons/site.webmanifest">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Invoice Maker: PDF by Invox">
-    <meta property="og:description"
-        content="Create and send professional invoices in seconds. Manage clients, items, and track payments with Invox.">
-    <meta property="og:image" content="https://youssef.tn/invox/splash.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:url" content="https://youssef.tn/invox/">
-    <meta property="og:site_name" content="Invoice Maker: PDF by Invox">
-    <meta property="og:locale" content="en_US">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Invoice Maker: PDF by Invox">
-    <meta name="twitter:description"
-        content="Create and send professional invoices in seconds. Manage clients, items, and track payments with Invox.">
-    <meta name="twitter:image" content="https://youssef.tn/invox/splash.png">
-    <meta name="twitter:creator" content="@youssefsz">
-
-    <!-- Theme Color -->
-    <meta name="theme-color" content="#FAFAFA">
-    <meta name="msapplication-TileColor" content="#FAFAFA">
-
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://youssef.tn/invox/">
-
-    <!-- Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
-        rel="stylesheet">
-
-    <!-- Prevent flickering by setting theme before body renders -->
-    <script>
-        (function () {
-            const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            document.documentElement.setAttribute('data-theme', theme);
-            document.documentElement.classList.add(theme);
-        })();
+    <script src="script.js?v=9" defer></script>
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Invox | Professional invoices from your phone"
+    />
+    <meta
+      property="og:description"
+      content="Create and share PDF invoices, save clients, and track paid and unpaid invoices with Invox for iPhone and iPad. Free to download, with in-app purchases."
+    />
+    <meta property="og:image" content="https://youssef.tn/invox/splash.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="https://youssef.tn/invox/" />
+    <meta property="og:site_name" content="Invoice Maker: PDF by Invox" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Invox | Professional invoices from your phone"
+    />
+    <meta
+      name="twitter:description"
+      content="Create and share PDF invoices, save clients, and track paid and unpaid invoices with Invox for iPhone and iPad. Free to download, with in-app purchases."
+    />
+    <meta name="twitter:image" content="https://youssef.tn/invox/splash.png" />
+    <meta name="twitter:creator" content="@youssefsz" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Invoice Maker: PDF by Invox",
+        "alternateName": "Invox",
+        "url": "https://youssef.tn/invox/",
+        "downloadUrl": "https://apps.apple.com/app/id6757089247",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "iOS, iPadOS",
+        "offers": {
+          "@type": "Offer",
+          "price": 0,
+          "priceCurrency": "USD"
+        }
+      }
     </script>
-
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Invoice Maker: PDF by Invox",
-    "alternateName": "Invox",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "iOS",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "description": "Create and send professional invoices in seconds. Manage clients, items, and track payments with Invox.",
-    "screenshot": [
-      "screenshots/light/home.png",
-      "screenshots/light/new-invoice.png",
-      "screenshots/light/settings.png"
-    ],
-    "author": {
-      "@type": "Person",
-      "name": "Youssef Dhibi"
-    },
-    "downloadUrl": "https://apps.apple.com/app/id6757089247",
-    "softwareVersion": "2.0.6"
-  }
-  </script>
-
-    <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Invoice Maker: PDF by Invox",
-    "alternateName": "Invox",
-    "description": "Create professional invoices and manage clients, items, and payments with Invox.",
-    "url": "https://youssef.tn/invox/",
-    "author": {
-      "@type": "Person",
-      "name": "Youssef Dhibi"
-    },
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "",
-      "query-input": "required name=search_term_string"
-    }
-  }
-  </script>
-</head>
-
-<body>
-    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode">
-        <svg id="themeIcon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M12 18C15.3137 18 18 15.3137 18 12C18 8.68629 15.3137 6 12 6C8.68629 6 6 8.68629 6 12C6 15.3137 8.68629 18 12 18Z"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path
-                d="M12 2V4M12 20V22M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07M2 12H4M20 12H22M6.34 17.66L4.93 19.07M19.07 4.93L17.66 6.34"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-    </button>
-
-    <main class="landing">
-        <header class="hero">
-            <div class="logo">
-                <img src="logo/logo.png" alt="Invox app icon">
-            </div>
-
-            <div class="hero-copy">
-                <h1>Invoice Maker: PDF by Invox</h1>
-                <p class="subtitle">Create professional invoices in seconds. Manage clients, items, and payments from
-                    your device.</p>
-            </div>
-
-            <div class="store-actions" aria-label="Download and source links">
-                <a href="https://apps.apple.com/app/id6757089247" class="store-button app-store-button"
-                    aria-label="Download Invox on the App Store" target="_blank" rel="noopener noreferrer">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="currentColor"
-                            d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.79 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.53 4.09ZM12.03 7.25C11.88 5.02 13.69 3.18 15.77 3c.29 2.58-2.34 4.5-3.74 4.25Z">
-                        </path>
-                    </svg>
-                    <span class="button-copy">
-                        <span class="button-kicker">Download on the</span>
-                        <span class="button-label">App Store</span>
-                    </span>
-                </a>
-
-                <a href="https://github.com/youssefsz/Invoice-Maker-Mobile-App-Public"
-                    class="store-button github-button" aria-label="View the Invox source on GitHub" target="_blank"
-                    rel="noopener noreferrer">
-                    <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="currentColor"
-                            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.748-1.026 2.748-1.026.546 1.378.203 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.339 4.695-4.566 4.943.359.309.678.92.678 1.854 0 1.336-.012 2.415-.012 2.743 0 .268.18.58.688.481A10.019 10.019 0 0 0 22 12.017C22 6.484 17.523 2 12 2Z">
-                        </path>
-                    </svg>
-                    <span class="button-copy">
-                        <span class="button-kicker">View the source</span>
-                        <span class="button-label">GitHub</span>
-                    </span>
-                </a>
-            </div>
-        </header>
-
-        <section class="app-showcase" aria-label="Invox app preview">
-            <div class="showcase-glow showcase-glow-top" aria-hidden="true"></div>
-            <div class="showcase-glow showcase-glow-bottom" aria-hidden="true"></div>
-            <div class="phone-frame">
-                <span class="phone-side-control phone-action-button" aria-hidden="true"></span>
-                <span class="phone-side-control phone-volume-up-button" aria-hidden="true"></span>
-                <span class="phone-side-control phone-volume-down-button" aria-hidden="true"></span>
-                <span class="phone-side-control phone-power-button" aria-hidden="true"></span>
-                <span class="phone-camera-control" aria-hidden="true"></span>
-                <span class="dynamic-island" aria-hidden="true"></span>
-                <div class="image-container">
-                    <img id="homeImg" src="screenshots/light/home.png" alt="Invox invoice dashboard"
-                        class="app-demo-img active">
-                    <img id="savedImg" src="screenshots/light/new-invoice.png"
-                        alt="Creating a new invoice in Invox" class="app-demo-img" aria-hidden="true">
-                    <img id="previewImg" src="screenshots/light/invoice-preview.png"
-                        alt="Previewing an invoice PDF in Invox" class="app-demo-img" aria-hidden="true">
-                    <img id="settingsImg" src="screenshots/light/settings.png" alt="Invox settings"
-                        class="app-demo-img" aria-hidden="true">
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="header">
+      <a href="#" class="brand" aria-label="Invox home"
+        ><img src="assets/icon.png" width="38" height="38" alt="" /><span
+          >invox</span
+        ></a
+      >
+      <a
+        class="button nav-download"
+        href="https://apps.apple.com/app/id6757089247"
+        target="_blank"
+        rel="noopener"
+        >Get Invox
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 17 17 7M7 7h10v10" /></svg
+      ></a>
+    </header>
+    <main id="main">
+      <section class="hero" id="screens">
+        <div class="hero-copy">
+          <h1>Invoicing, from<br />your phone.</h1>
+          <p class="lead reveal">
+            Create and share professional PDF invoices. Keep clients, items and
+            payment status together, wherever you work.
+          </p>
+          <div>
+            <a
+              class="app-store-badge"
+              href="https://apps.apple.com/app/id6757089247"
+              target="_blank"
+              rel="noopener"
+              ><img
+                src="assets/app-store-badge.svg"
+                width="180"
+                height="60"
+                alt="Download on the App Store"
+            /></a>
+          </div>
+          <p class="small reveal">
+            Free to download. For iPhone and iPad. In-app purchases.
+          </p>
+        </div>
+        <div class="product-showcase reveal">
+          <div
+            data-ui
+            class="screen-tabs"
+            role="tablist"
+            aria-label="Explore the app"
+          >
+            <button
+              type="button"
+              id="tab-track"
+              role="tab"
+              aria-selected="false"
+              aria-controls="screen-track"
+              tabindex="-1"
+              data-screen="track"
+            >
+              Track invoices
+            </button>
+            <button
+              type="button"
+              id="tab-create"
+              role="tab"
+              aria-selected="true"
+              aria-controls="screen-create"
+              tabindex="0"
+              data-screen="create"
+            >
+              Create
+            </button>
+            <button
+              type="button"
+              id="tab-send"
+              role="tab"
+              aria-selected="false"
+              aria-controls="screen-send"
+              tabindex="-1"
+              data-screen="send"
+            >
+              Preview &amp; send
+            </button>
+          </div>
+          <div class="screen-stage">
+            <figure
+              id="screen-track"
+              class="app-screen"
+              role="tabpanel"
+              aria-labelledby="tab-track"
+              tabindex="0"
+              data-screen="track"
+            >
+              <div class="phone-slot">
+                <div class="device device-iphone-14-pro device-black">
+                  <div class="device-frame">
+                    <img
+                      class="device-screen"
+                      src="assets/home-example.webp"
+                      fetchpriority="low"
+                      width="852"
+                      height="1846"
+                      alt="Illustrative Invox preview with sample unpaid invoices and a balance due"
+                    />
+                  </div>
+                  <div class="device-btns" aria-hidden="true"></div>
+                  <div class="device-power" aria-hidden="true"></div>
                 </div>
+              </div>
+            </figure>
+            <figure
+              id="screen-create"
+              class="app-screen selected"
+              role="tabpanel"
+              aria-labelledby="tab-create"
+              tabindex="0"
+              data-screen="create"
+            >
+              <div class="phone-slot">
+                <div class="device device-iphone-14-pro device-black">
+                  <div class="device-frame">
+                    <img
+                      class="device-screen"
+                      src="assets/create.webp"
+                      fetchpriority="high"
+                      width="1179"
+                      height="2556"
+                      alt="The Invox invoice editor with client, items, tax and due date controls"
+                    />
+                  </div>
+                  <div class="device-btns" aria-hidden="true"></div>
+                  <div class="device-power" aria-hidden="true"></div>
+                </div>
+              </div>
+            </figure>
+            <figure
+              id="screen-send"
+              class="app-screen"
+              role="tabpanel"
+              aria-labelledby="tab-send"
+              tabindex="0"
+              data-screen="send"
+            >
+              <div class="phone-slot">
+                <div class="device device-iphone-14-pro device-black">
+                  <div class="device-frame">
+                    <img
+                      class="device-screen"
+                      src="assets/preview.webp"
+                      fetchpriority="low"
+                      width="1179"
+                      height="2556"
+                      alt="Invox invoice PDF preview with Share and Print controls"
+                    />
+                  </div>
+                  <div class="device-btns" aria-hidden="true"></div>
+                  <div class="device-power" aria-hidden="true"></div>
+                </div>
+              </div>
+            </figure>
+          </div>
+          <p
+            id="screen-description"
+            class="screen-description"
+            aria-live="polite"
+          >
+            Choose a client, add your work and set the details for your invoice.
+          </p>
+          <p class="screenshot-note">
+            App previews. Invoice data is illustrative.
+          </p>
+        </div>
+      </section>
+      <section class="workflow" id="workflow">
+        <div class="section-intro">
+          <h2>From finished work<br />to sent invoice.</h2>
+          <p>
+            For freelancers, contractors and small businesses. A short path from
+            the job you did to the invoice your client receives.
+          </p>
+        </div>
+        <ol class="steps">
+          <li>
+            <h3>Make it yours.</h3>
+            <p>
+              Add your business details, logo and signature. Set them up once so
+              your next invoice starts with the right information.
+            </p>
+          </li>
+          <li>
+            <h3>Add the work.</h3>
+            <p>
+              Choose a client, add items, quantities and prices, then set taxes,
+              discounts and a due date.
+            </p>
+          </li>
+          <li>
+            <h3>Check it. Send it.</h3>
+            <p>
+              Preview the PDF and share it by email or messaging app. Print it
+              when you need a paper copy.
+            </p>
+          </li>
+          <li>
+            <h3>Keep payment in view.</h3>
+            <p>
+              Mark an invoice as paid when payment arrives. Review your billing
+              history and see what is still outstanding.
+            </p>
+          </li>
+        </ol>
+      </section>
+      <section class="saved">
+        <div class="settings-showcase">
+          <div class="settings-crop">
+            <img
+              src="assets/settings.webp"
+              loading="lazy"
+              width="1179"
+              height="2556"
+              alt="Invox settings, including Business Profile, Clients and Saved Items"
+            />
+          </div>
+        </div>
+        <div class="saved-copy">
+          <h2>Less to type.<br />More ready to go.</h2>
+          <p>Your next invoice doesn't need to start from scratch.</p>
+          <dl>
+            <div>
+              <dt>Save clients and items.</dt>
+              <dd>
+                Reuse contact details and the work you bill for regularly.
+              </dd>
             </div>
-            <div class="carousel-controls" role="group" aria-label="Choose app screenshot">
-                <button class="carousel-control" type="button" aria-label="Show invoice dashboard"
-                    aria-current="true" data-slide="0"><span aria-hidden="true"></span></button>
-                <button class="carousel-control" type="button" aria-label="Show new invoice"
-                    aria-current="false" data-slide="1"><span aria-hidden="true"></span></button>
-                <button class="carousel-control" type="button" aria-label="Show invoice preview"
-                    aria-current="false" data-slide="2"><span aria-hidden="true"></span></button>
-                <button class="carousel-control" type="button" aria-label="Show settings"
-                    aria-current="false" data-slide="3"><span aria-hidden="true"></span></button>
+            <div>
+              <dt>Work across borders.</dt>
+              <dd>
+                Use currencies including USD, EUR, GBP and TND. Export invoices
+                and receipts in English or French.
+              </dd>
             </div>
-            <p class="carousel-caption" aria-live="polite" aria-atomic="true">Invox invoice dashboard</p>
-        </section>
-
-        <footer class="site-footer">
-            <nav class="footer-links" aria-label="Footer">
-                <a href="privacy-policy.html">Privacy Policy</a>
-                <a href="https://github.com/youssefsz/Invoice-Maker-Mobile-App-Public" target="_blank"
-                    rel="noopener noreferrer">Open Source</a>
-                <a href="mailto:dhibi.ywsf@gmail.com">Support</a>
-            </nav>
-            <p>Created with ❤️ by <a href="https://youssef.tn" target="_blank"
-                    rel="noopener noreferrer">Youssef Dhibi</a></p>
-            <p class="copyright">© 2026 Invox. All rights reserved.</p>
-        </footer>
+            <div>
+              <dt>Keep your data your way.</dt>
+              <dd>
+                Use Invox without an account. Business data stays on your device
+                by default, with optional cloud sync through Invox Pro.
+              </dd>
+            </div>
+          </dl>
+          <a class="text-link reveal" href="privacy-policy.html"
+            >Read the privacy policy</a
+          >
+        </div>
+      </section>
+      <section class="questions" id="questions">
+        <h2>A few quick answers.</h2>
+        <div class="faq-list">
+          <details>
+            <summary>Is Invox free?</summary>
+            <div class="faq-body">
+              <p>
+                Invox is free to download, with ads in the free version and
+                optional in-app purchases. Invox Pro includes cloud sync, an
+                ad-free experience and extra customization. Check the app for
+                current pricing.
+              </p>
+            </div>
+          </details>
+          <details>
+            <summary>Do I need to create an account?</summary>
+            <div class="faq-body">
+              <p>
+                No. You can create invoices without signing up. Your data is
+                stored locally by default. An account is needed if you choose
+                cloud sync.
+              </p>
+            </div>
+          </details>
+          <details>
+            <summary>Can I send invoices as PDFs?</summary>
+            <div class="faq-body">
+              <p>
+                Yes. Preview your invoice, share it by email or messaging apps,
+                or print it from the app. You can also generate receipts.
+              </p>
+            </div>
+          </details>
+          <details>
+            <summary>Does it work on iPad?</summary>
+            <div class="faq-body">
+              <p>
+                Yes. Invox is available for iPhone and iPad, with layouts
+                designed for larger screens. It requires iOS or iPadOS 13.0 or
+                later.
+              </p>
+            </div>
+          </details>
+          <details>
+            <summary>Does Invox collect payments?</summary>
+            <div class="faq-body">
+              <p>
+                Invox creates invoices and tracks their payment status. You mark
+                an invoice as paid after receiving payment through your usual
+                method.
+              </p>
+            </div>
+          </details>
+          <details>
+            <summary>Where can I get support?</summary>
+            <div class="faq-body">
+              <p>
+                Email
+                <a href="mailto:dhibi.ywsf@gmail.com">dhibi.ywsf@gmail.com</a>
+                for help or feedback.
+              </p>
+            </div>
+          </details>
+        </div>
+      </section>
+      <section class="closing" aria-labelledby="closing-title">
+        <div class="closing-card">
+          <div class="closing-copy">
+            <img
+              src="assets/icon.png"
+              width="48"
+              height="48"
+              alt="Invox app icon"
+            />
+            <h2 id="closing-title">Ready for your<br />next invoice?</h2>
+            <p>Start with Invox on your iPhone or iPad.</p>
+          </div>
+          <div class="closing-action">
+            <a
+              class="app-store-badge"
+              href="https://apps.apple.com/app/id6757089247"
+              target="_blank"
+              rel="noopener"
+              ><img
+                src="assets/app-store-badge.svg"
+                width="180"
+                height="60"
+                alt="Download on the App Store"
+            /></a>
+            <p class="small">Free to download. In-app purchases.</p>
+          </div>
+        </div>
+      </section>
     </main>
-
-    <script src="js/index.js"></script>
-</body>
-
+    <footer>
+      <div class="footer-top">
+        <a class="brand" href="#" aria-label="Invox home">invox</a>
+        <p>
+          Built by
+          <a href="https://youssef.tn" target="_blank" rel="noopener"
+            >Youssef Dhibi</a
+          >.
+        </p>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Invox</span>
+        <nav aria-label="Footer">
+          <a href="privacy-policy.html">Privacy</a
+          ><a
+            href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+            target="_blank"
+            rel="noopener"
+            >Terms</a
+          ><a href="mailto:dhibi.ywsf@gmail.com">Support</a
+          ><a
+            href="https://github.com/youssefsz/Invoice-Maker-Mobile-App-Public"
+            target="_blank"
+            rel="noopener"
+            >Source</a
+          >
+        </nav>
+      </div>
+    </footer>
+  </body>
 </html>
