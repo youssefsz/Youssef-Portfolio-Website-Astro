@@ -1,5 +1,6 @@
 ---
 const currentYear = new Date().getFullYear();
+import { profileLinks } from "../../data/profile";
 import type { Locale } from "../../i18n/content";
 import { siteContent } from "../../i18n/content";
 
@@ -12,21 +13,21 @@ const t = siteContent[locale];
     <div class="container-main">
         <!-- Centered Large Name with Hover Effect -->
         <div class="text-center mb-12">
-            <h2 class="display-xl inline-block footer-name">
+            <p class="display-xl inline-block footer-name">
                 <!-- First name with smooth transition using global hover class -->
                 <span class="text-outline-hover">
                     <span class="outline-text">Youssef</span>
-                    <span class="filled-text" aria-hidden="true">Youssef</span>
+                    <span class="filled-text" aria-hidden="true" data-text="Youssef"></span>
                 </span>
                 <span class="block">Dhibi</span>
-            </h2>
+            </p>
         </div>
 
         <!-- Social Icons Row -->
         <div class="flex flex-wrap items-center justify-center gap-4 mb-12">
             <!-- GitHub -->
             <a
-                href="https://github.com/youssefsz"
+                href={profileLinks.github}
                 target="_blank"
                 rel="noopener"
                 class="btn-icon"
@@ -41,7 +42,7 @@ const t = siteContent[locale];
 
             <!-- LinkedIn -->
             <a
-                href="https://linkedin.com/in/youssefsz"
+                href={profileLinks.linkedin}
                 target="_blank"
                 rel="noopener"
                 class="btn-icon"
@@ -56,7 +57,7 @@ const t = siteContent[locale];
 
             <!-- Facebook -->
             <a
-                href="https://www.facebook.com/youssefszz"
+                href={profileLinks.facebook}
                 target="_blank"
                 rel="noopener"
                 class="btn-icon"
@@ -71,7 +72,7 @@ const t = siteContent[locale];
 
             <!-- Apple Developer -->
             <a
-                href="https://apps.apple.com/us/developer/youssef-dhibi/id1855868676"
+                href={profileLinks.appStore}
                 target="_blank"
                 rel="noopener"
                 class="btn-icon"
@@ -86,7 +87,7 @@ const t = siteContent[locale];
 
             <!-- Pub.dev -->
             <a
-                href="https://pub.dev/publishers/youssef.tn/packages"
+                href={profileLinks.pubDev}
                 target="_blank"
                 rel="noopener"
                 class="btn-icon"

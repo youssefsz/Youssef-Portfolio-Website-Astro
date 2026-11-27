@@ -21,13 +21,13 @@ const { experience, education } = getExperience(locale);
       </div>
 
       <h2 class="display-lg mb-6">
-        <div>
-          <span class="block">{t.sections.experienceTop}</span>
+        <span class="block">
+          <span class="block">{t.sections.experienceTop}</span>{" "}
           <span class="text-outline-hover">
             <span class="outline-text">{t.sections.experienceBottom}</span>
-            <span class="filled-text" aria-hidden="true">{t.sections.experienceBottom}</span>
+            <span class="filled-text" aria-hidden="true" data-text={t.sections.experienceBottom}></span>
           </span>
-        </div>
+        </span>
       </h2>
 
       <div>

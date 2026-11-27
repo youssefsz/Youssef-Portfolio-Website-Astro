@@ -3,31 +3,81 @@ import "../styles/global.css";
 import interFont from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 import displayFont from "@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2?url";
 import { ClientRouter } from "astro:transitions";
+import { getImage } from "astro:assets";
+import profileImage from "../assets/profile/ysf.jpg";
+import { profileLinks } from "../data/profile";
+import type { Locale } from "../i18n/content";
+import { siteContent } from "../i18n/content";
 import NavigationProgress from "../components/layout/NavigationProgress.astro";
 import ImageSkeletons from "../components/layout/ImageSkeletons.astro";
 import ScrollRestoration from "../components/layout/ScrollRestoration.astro";
 
-interface Props {
-    title?: string;
-    description?: string;
-    image?: string;
-    lang?: "en" | "fr";
-    alternatePath?: string;
-    jobTitle?: string;
-}
+type Props =
+    | { page: "home" | "projects"; locale: Locale }
+    | { page: "error"; title: string; description: string };
 
-const {
-    title = "Youssef Dhibi | Full-Stack Developer",
-    description = "Youssef Dhibi is a full-stack developer in Tunisia building web, mobile, desktop, and CLI applications. Top Rated Plus on Upwork with 100% Job Success.",
-    image = "/og-img.png",
-    lang = "en",
-    alternatePath,
-    jobTitle = "Full-Stack Developer",
-} = Astro.props;
+const props = Astro.props;
+const lang = props.page === "error" ? "en" : props.locale;
+const t = siteContent[lang];
+const metadata = props.page === "error" ? props : props.page === "projects" ? t.allProjects : t;
+const { title, description } = metadata;
+const socialTitle = props.page === "home" ? t.socialTitle : title;
+const socialDescription = props.page === "home" ? t.socialDescription : description;
 
-const siteUrl = "https://youssef.tn";
-const canonicalUrl = new URL(Astro.url.pathname, siteUrl).href;
+const siteUrl = new URL("/", Astro.site);
+const route = props.page === "home" ? "homePath" : "projectsPath";
+const localizedUrls = props.page === "error" ? null : {
+    en: new URL(siteContent.en[route], siteUrl).href,
+    fr: new URL(siteContent.fr[route], siteUrl).href,
+};
+const canonicalUrl = localizedUrls?.[lang];
+const socialImage = new URL(lang === "fr" ? "/og-img-fr.png" : "/og-img.png", siteUrl).href;
+const socialLocales = { en: "en_US", fr: "fr_FR" };
 const alternateLang = lang === "en" ? "fr" : "en";
+
+const personId = new URL("#person", siteUrl).href;
+const websiteId = new URL("#website", siteUrl).href;
+const portrait = canonicalUrl && await getImage({ src: profileImage, width: 500, height: 600 });
+const structuredData = canonicalUrl && portrait && {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "@id": websiteId,
+            name: "Youssef Dhibi",
+            url: siteUrl.href,
+            inLanguage: ["en", "fr"],
+            publisher: { "@id": personId },
+        },
+        {
+            "@type": "Person",
+            "@id": personId,
+            name: "Youssef Dhibi",
+            url: siteUrl.href,
+            description: t.heroIntro,
+            jobTitle: t.jobTitle,
+            knowsLanguage: ["en", "fr", "ar"],
+            address: {
+                "@type": "PostalAddress",
+                addressCountry: "TN",
+            },
+            image: new URL(portrait.src, siteUrl).href,
+            sameAs: Object.values(profileLinks),
+        },
+        {
+            "@type": props.page === "home" ? "ProfilePage" : "CollectionPage",
+            "@id": `${canonicalUrl}#webpage`,
+            url: canonicalUrl,
+            name: title,
+            description,
+            inLanguage: lang,
+            isPartOf: { "@id": websiteId },
+            ...(props.page === "home"
+                ? { mainEntity: { "@id": personId } }
+                : { about: { "@id": personId } }),
+        },
+    ],
+};
 ---
 
 <!doctype html>
@@ -57,35 +107,41 @@ const alternateLang = lang === "en" ? "fr" : "en";
         <link rel="manifest" href="/favicons/site.webmanifest" />
         <link rel="shortcut icon" href="/favicons/favicon.ico" />
 
-        <!-- Canonical URL -->
-        <link
-            rel="canonical"
-            href={canonicalUrl}
-        />
-        {alternatePath && <link rel="alternate" hreflang={lang} href={canonicalUrl} />}
-        {alternatePath && <link rel="alternate" hreflang={alternateLang} href={new URL(alternatePath, siteUrl).href} />}
-        {alternatePath && <link rel="alternate" hreflang="x-default" href={new URL(lang === "en" ? Astro.url.pathname : alternatePath, siteUrl).href} />}
+        {localizedUrls && (
+            <>
+                <link rel="canonical" href={canonicalUrl} />
+                <link rel="alternate" hreflang="en" href={localizedUrls.en} />
+                <link rel="alternate" hreflang="fr" href={localizedUrls.fr} />
+                <link rel="alternate" hreflang="x-default" href={localizedUrls.en} />
+            </>
+        )}
 
-        <!-- SEO Meta Tags -->
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="author" content="Youssef Dhibi" />
-        <meta name="robots" content="index, follow" />
+        <meta name="robots" content={canonicalUrl ? "max-image-preview:large" : "noindex"} />
 
-        <!-- Open Graph -->
-        <meta property="og:type" content="website" />
-        <meta
-            property="og:url"
-            content={canonicalUrl}
-        />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:site_name" content="Youssef Dhibi" />
-        <meta property="og:locale" content={lang === "fr" ? "fr_FR" : "en_US"} />
-        <meta property="og:image" content={new URL(image, siteUrl).href} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content={title} />
+        {canonicalUrl && (
+            <>
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:title" content={socialTitle} />
+                <meta property="og:description" content={socialDescription} />
+                <meta property="og:site_name" content="Youssef Dhibi" />
+                <meta property="og:locale" content={socialLocales[lang]} />
+                <meta property="og:locale:alternate" content={socialLocales[alternateLang]} />
+                <meta property="og:image" content={socialImage} />
+                <meta property="og:image:width" content="1566" />
+                <meta property="og:image:height" content="820" />
+                <meta property="og:image:alt" content={t.socialImageAlt} />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={socialTitle} />
+                <meta name="twitter:description" content={socialDescription} />
+                <meta name="twitter:image" content={socialImage} />
+                <meta name="twitter:image:alt" content={t.socialImageAlt} />
+            </>
+        )}
 
         <!-- Theme Color -->
         <meta name="theme-color" content="#000000" />
@@ -98,58 +154,13 @@ const alternateLang = lang === "en" ? "fr" : "en";
         <!-- Static pages with seamless client-side navigation and prefetching -->
         <ClientRouter />
 
-        <!-- JSON-LD Structured Data -->
-        <script
-            type="application/ld+json"
-            is:inline
-            set:html={JSON.stringify({
-                "@context": "https://schema.org",
-                "@graph": [
-                    {
-                        "@type": "WebSite",
-                        name: "Youssef Dhibi",
-                        url: siteUrl,
-                        description: description,
-                        image: new URL(image, siteUrl).href,
-                        inLanguage: lang,
-                    },
-                    {
-                        "@type": "Person",
-                        name: "Youssef Dhibi",
-                        url: siteUrl,
-                        jobTitle,
-                        knowsLanguage: ["English", "French", "Arabic"],
-                        address: {
-                            "@type": "PostalAddress",
-                            addressCountry: "TN",
-                        },
-                        knowsAbout: [
-                            "Full-stack development",
-                            "Web application development",
-                            "Mobile application development",
-                            "Desktop application development",
-                            "Command-line tools",
-                            "AI integrations",
-                            "Flutter",
-                            "SwiftUI",
-                            "React",
-                            "Astro",
-                            "Node.js",
-                            "Rust",
-                        ],
-                        image: new URL(image, siteUrl).href,
-                        sameAs: [
-                            "https://github.com/youssefsz",
-                            "https://www.linkedin.com/in/youssefsz",
-                            "https://www.facebook.com/youssefszz",
-                            "https://apps.apple.com/us/developer/youssef-dhibi/id1855868676",
-                            "https://pub.dev/publishers/youssef.tn/packages",
-                            "https://www.upwork.com/freelancers/youssefsz",
-                        ],
-                    },
-                ],
-            })}
-        />
+        {structuredData && (
+            <script
+                type="application/ld+json"
+                is:inline
+                set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")}
+            />
+        )}
 
     </head>
     <body class="min-h-screen">

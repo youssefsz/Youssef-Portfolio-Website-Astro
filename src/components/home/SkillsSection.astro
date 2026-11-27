@@ -19,14 +19,14 @@ const skills = getSkills(locale);
         <div class="number-display mb-4">// 02</div>
       </div>
 
-      <h2 class="display-lg mb-6">
-        <div>
-          <span class="block">{t.sections.skillsTop}</span>
+      <h2 class:list={["display-lg mb-6", locale === "fr" && "max-[24rem]:[font-size:min(3rem,13vw)]"]}>
+        <span class="block">
+          <span class="block">{t.sections.skillsTop}</span>{" "}
           <span class="text-outline-hover">
             <span class="outline-text">{t.sections.skillsBottom}</span>
-            <span class="filled-text" aria-hidden="true">{t.sections.skillsBottom}</span>
+            <span class="filled-text" aria-hidden="true" data-text={t.sections.skillsBottom}></span>
           </span>
-        </div>
+        </span>
       </h2>
 
       <div>

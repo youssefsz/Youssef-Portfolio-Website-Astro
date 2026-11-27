@@ -21,13 +21,13 @@ const testimonials = getTestimonials(locale);
       </div>
 
       <h2 id="testimonials-heading" tabindex="-1" class="display-lg mb-6">
-        <div>
-          <span class="block">{t.sections.testimonialsTop}</span>
+        <span class="block">
+          <span class="block">{t.sections.testimonialsTop}</span>{" "}
           <span class="text-outline-hover">
             <span class="outline-text">{t.sections.testimonialsBottom}</span>
-            <span class="filled-text" aria-hidden="true">{t.sections.testimonialsBottom}</span>
+            <span class="filled-text" aria-hidden="true" data-text={t.sections.testimonialsBottom}></span>
           </span>
-        </div>
+        </span>
       </h2>
 
       <div>

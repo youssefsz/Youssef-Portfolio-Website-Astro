@@ -16,7 +16,7 @@ const total = projects.length;
 const initialCount = (total === 1 ? copy.count.one : copy.count.other).replace("{count}", String(total));
 ---
 
-<Layout title={copy.title} description={copy.description} lang={locale} alternatePath={t.alternateProjectsPath} jobTitle={t.jobTitle}>
+<Layout page="projects" locale={locale}>
   <Navbar locale={locale} page="projects" />
   <main class="min-h-screen pb-16 md:pb-24">
     <header class="relative pt-28 pb-7 md:pt-32 md:pb-8">

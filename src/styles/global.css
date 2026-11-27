@@ -265,6 +265,10 @@ html {
     transition: opacity 0.4s ease;
   }
 
+  .text-outline-hover .filled-text::before {
+    content: attr(data-text);
+  }
+
   .text-outline-hover:hover .outline-text {
     opacity: 0;
   }

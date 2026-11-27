@@ -2,12 +2,13 @@
 // Contact Section - Simple CTA buttons
 import { Image } from "astro:assets";
 import upworkIcon from "../../assets/icons/upwork.svg";
+import { profileLinks } from "../../data/profile";
 import type { Locale } from "../../i18n/content";
 import { siteContent } from "../../i18n/content";
 
 const email = "dhibi.ywsf@gmail.com";
 const phone = "+216 27 084 318";
-const upworkUrl = "https://www.upwork.com/freelancers/youssefsz";
+const upworkUrl = profileLinks.upwork;
 interface Props { locale?: Locale }
 const { locale = "en" } = Astro.props;
 const t = siteContent[locale];
@@ -22,14 +23,13 @@ const t = siteContent[locale];
             </div>
 
             <h2 class="display-lg mb-6">
-                <div>
-                    <span class="block">{t.sections.contactTop}</span>
+                <span class="block">
+                    <span class="block">{t.sections.contactTop}</span>{" "}
                     <span class="text-outline-hover">
                         <span class="outline-text">{t.sections.contactBottom}</span>
-                        <span class="filled-text" aria-hidden="true">{t.sections.contactBottom}</span
-                        >
+                        <span class="filled-text" aria-hidden="true" data-text={t.sections.contactBottom}></span>
                     </span>
-                </div>
+                </span>
             </h2>
 
             <div>

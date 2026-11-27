@@ -1,4 +1,6 @@
 ---
+import { upworkBadge } from "../data/profile";
+
 interface Props {
   variant?: "inline" | "badge";
 }
@@ -27,7 +29,7 @@ const { variant = "inline" } = Astro.props;
   )}
 
   <span class="top-rated-plus__effect">
-    <span class="top-rated-plus__text">Top Rated Plus</span>
+    <span class="top-rated-plus__text">{upworkBadge}</span>
     <span class="top-rated-plus__sparkles" aria-hidden="true">
       <span class="top-rated-plus__sparkle top-rated-plus__sparkle--one"></span>
       <span class="top-rated-plus__sparkle top-rated-plus__sparkle--two"></span>

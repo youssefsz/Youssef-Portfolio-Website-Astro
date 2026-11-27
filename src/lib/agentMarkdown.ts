@@ -1,13 +1,11 @@
 import { MAX_HOMEPAGE_PROJECTS } from "../data/projects";
+import { profileLinks, upworkBadge } from "../data/profile";
 import type { Locale } from "../i18n/content";
 import { getExperience, getProjects, getSkills, getTestimonials, siteContent } from "../i18n/content";
 
 const contact = {
   email: "dhibi.ywsf@gmail.com",
   phone: "+216 27 084 318",
-  upwork: "https://www.upwork.com/freelancers/youssefsz",
-  github: "https://github.com/youssefsz",
-  linkedin: "https://www.linkedin.com/in/youssefsz",
 };
 
 export function buildHomeMarkdown(locale: Locale) {
@@ -28,15 +26,13 @@ author: "Youssef Dhibi"
 
 # Youssef Dhibi
 
-${t.description}
+${t.heroIntro}
 
-## ${fr ? "Services et profil" : "Services and profile"}
-
-- ${t.jobTitle} ${fr ? "basé en Tunisie" : "based in Tunisia"}
-- ${fr ? "Applications web, mobiles, de bureau et outils en ligne de commande" : "Web, mobile, desktop, and CLI applications"}
-- Top Rated Plus ${fr ? "sur Upwork avec 100 % de réussite" : "on Upwork with 100% Job Success"}
+${upworkBadge} ${t.heroUpwork} [Upwork](${profileLinks.upwork})${t.heroSuccessPrefix}${t.jobSuccess}.
 
 ## ${t.sections.projectsBottom}
+
+${t.sections.projectsIntro}
 
 ${projects.map((project) => `### [${project.title}](${project.link})\n\n${project.description}\n\n**${project.category}**`).join("\n\n")}
 
@@ -60,11 +56,11 @@ ${t.testimonialDialog.translation ? `${t.testimonialDialog.translation}\n\n` : "
 
 ## ${fr ? "Contact et profils vérifiables" : "Contact and verifiable profiles"}
 
-- Email: [${contact.email}](mailto:${contact.email})
-- Phone: [${contact.phone}](tel:+21627084318)
-- [Upwork](${contact.upwork})
-- [GitHub](${contact.github})
-- [LinkedIn](${contact.linkedin})
+- ${t.contact.email}: [${contact.email}](mailto:${contact.email})
+- ${t.contact.phone}: [${contact.phone}](tel:+21627084318)
+- [Upwork](${profileLinks.upwork})
+- [GitHub](${profileLinks.github})
+- [LinkedIn](${profileLinks.linkedin})
 `;
 }
 

@@ -47,15 +47,13 @@ const carouselProjects = await Promise.all(
             </div>
 
             <h2 class="display-lg mb-6">
-                <div>
-                    <span class="block">{t.sections.projectsTop}</span>
+                <span class="block">
+                    <span class="block">{t.sections.projectsTop}</span>{" "}
                     <span class="text-outline-hover">
                         <span class="outline-text">{t.sections.projectsBottom}</span>
-                        <span class="filled-text" aria-hidden="true"
-                            >{t.sections.projectsBottom}</span
-                        >
+                        <span class="filled-text" aria-hidden="true" data-text={t.sections.projectsBottom}></span>
                     </span>
-                </div>
+                </span>
             </h2>
 
             <div>

@@ -1,6 +1,5 @@
 ---
 import type { Locale } from "../i18n/content";
-import { siteContent } from "../i18n/content";
 import Layout from "../layouts/Layout.astro";
 import Navbar from "./layout/Navbar.astro";
 import HeroSection from "./home/HeroSection.astro";
@@ -14,10 +13,9 @@ import ScrollTop from "./layout/ScrollTop.astro";
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
-const content = siteContent[locale];
 ---
 
-<Layout title={content.title} description={content.description} lang={locale} alternatePath={content.alternateHomePath} jobTitle={content.jobTitle}>
+<Layout page="home" locale={locale}>
   <Navbar locale={locale} />
   <main>
     <HeroSection locale={locale} />

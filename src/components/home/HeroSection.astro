@@ -4,6 +4,7 @@ import { Image } from "astro:assets";
 import profileImage from "../../assets/profile/ysf.jpg";
 import ResumeButton from "../ResumeButton.astro";
 import TopRatedPlus from "../TopRatedPlus.astro";
+import { profileLinks } from "../../data/profile";
 import type { Locale } from "../../i18n/content";
 import { siteContent } from "../../i18n/content";
 
@@ -29,48 +30,47 @@ const t = siteContent[locale];
             >
                 <!-- Main Headline -->
                 <h1
-                    class="display-xl mb-6 flex flex-col items-center lg:items-start whitespace-nowrap"
+                    class="display-xl mb-6 flex flex-col items-center lg:items-start whitespace-nowrap lg:[font-size:min(10rem,12vw)]"
                 >
-                    <span class="block">Youssef</span>
+                    <span class="block">Youssef</span>{" "}
                     <span class="inline-block relative">
                         <span class="text-outline-hover">
                             <span class="outline-text">Dhibi</span>
-                            <span class="filled-text" aria-hidden="true"
-                                >Dhibi</span
-                            >
+                            <span class="filled-text" aria-hidden="true" data-text="Dhibi"></span>
                         </span>
                     </span>
                 </h1>
 
-                <div class="text-xl md:text-2xl text-muted max-w-xl mb-12 leading-relaxed mx-auto lg:mx-0 lg:justify-start justify-center text-center lg:text-left">
-                    {t.heroIntro}{" "}
-                    <TopRatedPlus />
-                    {" "}{t.heroUpwork}{" "}<a
-                        class="upwork-word"
-                        href="https://www.upwork.com/freelancers/youssefsz"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={locale === "fr" ? "Voir le profil Upwork de Youssef Dhibi" : "View Youssef Dhibi's Upwork profile"}
-                    >Upwork</a>{locale === "en" ? " with " : ", avec "}
-                    <span class="success-mark">
-                        {t.jobSuccess}
-                        <svg
-                            class="success-mark__underline"
-                            viewBox="0 0 240 18"
-                            preserveAspectRatio="none"
-                            aria-hidden="true"
-                            focusable="false"
-                        >
-                            <path
-                                class="success-mark__stroke success-mark__stroke--one"
-                                d="M3 5 C42 0 76 9 116 4 S195 1 237 6"
-                            ></path>
-                            <path
-                                class="success-mark__stroke success-mark__stroke--two"
-                                d="M6 13 C47 8 86 16 127 11 S200 9 233 12"
-                            ></path>
-                        </svg>
-                    </span>.
+                <div class="text-xl md:text-2xl text-muted max-w-xl mb-12 leading-relaxed mx-auto lg:mx-0 text-center lg:text-left">
+                    <p class="text-pretty">{t.heroIntro}</p>
+                    <p class="mt-4">
+                        <TopRatedPlus />
+                        {" "}{t.heroUpwork}{" "}<a
+                            class="upwork-word"
+                            href={profileLinks.upwork}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={t.upworkProfileLabel}
+                        >Upwork</a>{t.heroSuccessPrefix}<span class="success-mark">
+                            {t.jobSuccess}
+                            <svg
+                                class="success-mark__underline"
+                                viewBox="0 0 240 18"
+                                preserveAspectRatio="none"
+                                aria-hidden="true"
+                                focusable="false"
+                            >
+                                <path
+                                    class="success-mark__stroke success-mark__stroke--one"
+                                    d="M3 5 C42 0 76 9 116 4 S195 1 237 6"
+                                ></path>
+                                <path
+                                    class="success-mark__stroke success-mark__stroke--two"
+                                    d="M6 13 C47 8 86 16 127 11 S200 9 233 12"
+                                ></path>
+                            </svg>
+                        </span>.
+                    </p>
                 </div>
 
                 <!-- CTA Button -->
@@ -136,7 +136,7 @@ const t = siteContent[locale];
                         >
                             <Image
                                 src={profileImage}
-                                alt="Youssef Dhibi"
+                                alt={t.portraitAlt}
                                 width={500}
                                 height={600}
                                 class="w-full h-full object-cover object-top transition-all duration-500"
@@ -171,7 +171,7 @@ const t = siteContent[locale];
                                 </svg>
                                 <span
                                     class="text-[0.65rem] sm:text-xs uppercase tracking-[0.18em] sm:tracking-[0.22em] text-muted whitespace-nowrap"
-                                    >{locale === "fr" ? "Basé en Tunisie" : "Based in Tunisia"}</span
+                                    >{t.location}</span
                                 >
                             </div>
                         </div>

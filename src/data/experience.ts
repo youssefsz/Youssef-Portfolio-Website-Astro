@@ -1,3 +1,5 @@
+import { profileLinks, upworkBadge } from "./profile";
+
 export interface StatItem {
   value: string;
   label: string;
@@ -27,8 +29,8 @@ export const experience: ExperienceItem[] = [
     title: "Upwork Freelancer",
     company: "Full-Stack & AI Development",
     description: "Built and shipped web, mobile, desktop, CLI, and AI products for clients worldwide.",
-    badge: "Top Rated Plus",
-    link: "https://www.upwork.com/freelancers/youssefsz",
+    badge: upworkBadge,
+    link: profileLinks.upwork,
     stats: [
       { value: "19", label: "Jobs Completed" },
       { value: "100%", label: "Job Success" },

@@ -1,11 +1,12 @@
 import type { APIRoute } from "astro";
 import { projects } from "../data/projects";
+import { siteContent } from "../i18n/content";
 
 export const prerender = true;
 
 export const GET: APIRoute = () => new Response(`# Youssef Dhibi
 
-> Portfolio of Youssef Dhibi, a full-stack developer in Tunisia who builds web, mobile, desktop, and CLI applications for clients worldwide.
+> ${siteContent.en.description}
 
 ## English
 
